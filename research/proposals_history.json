@@ -1,0 +1,508 @@
+{
+ "_note": "Per-entity governance proposal history, newest first. Every url is a real forum.arbitrum.foundation thread. Attribution audited Jul 8 2026: proposals authored by Entropy Advisors before OpCo was operational are credited to Entropy (by the forum-account that posted them), not OpCo. For Security Council these are its decisions/emergency actions.",
+ "foundation": [
+  {
+   "title": "Continued Funding for the Arbitrum Foundation",
+   "url": "https://forum.arbitrum.foundation/t/continued-funding-for-the-arbitrum-foundation/30908",
+   "date": "May 2026",
+   "status": "passed",
+   "one_line": "$16M in RWAs/stables, 1,740 ETH and 230M ARB to fund the Foundation through 2027."
+  },
+  {
+   "title": "2025 Transparency Report: The Year of Institutional Adoption",
+   "url": "https://forum.arbitrum.foundation/t/the-arbitrum-foundation-2025-transparency-report-the-year-of-institutional-adoption/30660",
+   "date": "Mar 2026",
+   "status": "report",
+   "one_line": "Sixth transparency report: 2025 spend, milestones and institutional adoption."
+  },
+  {
+   "title": "A Vision for the Future of Arbitrum",
+   "url": "https://forum.arbitrum.foundation/t/a-vision-for-the-future-of-arbitrum/28962",
+   "date": "Apr 2025",
+   "status": "draft",
+   "one_line": "Foundation plan introducing the Arbitrum Aligned Entities (AAE) framework."
+  },
+  {
+   "title": "2024 Transparency Report",
+   "url": "https://forum.arbitrum.foundation/t/the-arbitrum-foundation-2024-transparency-report-a-year-of-key-milestones-and-progress/28832",
+   "date": "Mar 2025",
+   "status": "report",
+   "one_line": "2024 Foundation spend and 276 funded projects disclosed."
+  },
+  {
+   "title": "Funds to Bolster the Foundation's Strategic Partnerships Budget",
+   "url": "https://forum.arbitrum.foundation/t/non-constitutional-funds-to-bolster-foundation-s-strategic-partnerships-budget/26775",
+   "date": "Oct 2024",
+   "status": "passed",
+   "one_line": "250M ARB for large strategic ecosystem and RWA/TradFi partnerships."
+  },
+  {
+   "title": "Transparency Report 2023",
+   "url": "https://forum.arbitrum.foundation/t/arbitrum-foundation-transparency-report-2023/21135",
+   "date": "Feb 2024",
+   "status": "report",
+   "one_line": "Inaugural report: over $23M spent, 50+ projects funded in 10 months."
+  },
+  {
+   "title": "Licensing the Arbitrum tech stack to strategic partners (RFC)",
+   "url": "https://forum.arbitrum.foundation/t/request-for-feedback-when-and-how-should-the-arbitrum-foundation-issue-a-licence-for-the-arbitrum-technology-stack-to-a-new-strategic-partner/15758",
+   "date": "Aug 2023",
+   "status": "draft",
+   "one_line": "Foundation feedback thread on licensing the Arbitrum stack (AEP) to new partners."
+  },
+  {
+   "title": "AIP-1.2: Foundation and DAO Governance",
+   "url": "https://forum.arbitrum.foundation/t/proposal-aip-1-2-foundation-and-dao-governance/13362",
+   "date": "Apr 2023",
+   "status": "passed",
+   "one_line": "Amends the Constitution and lowers the proposal threshold to 1M ARB."
+  },
+  {
+   "title": "AIP-1.1: Lockup, Budget, Transparency",
+   "url": "https://forum.arbitrum.foundation/t/proposal-aip-1-1-lockup-budget-transparency/13360",
+   "date": "Apr 2023",
+   "status": "passed",
+   "one_line": "Locks the Foundation's 700M ARB over 4 years and sets its budget + reporting."
+  },
+  {
+   "title": "AIP-1: Arbitrum Improvement Proposal Framework",
+   "url": "https://forum.arbitrum.foundation/t/aip-1-arbitrum-improvement-proposal-framework/30",
+   "date": "Mar 2023",
+   "status": "failed",
+   "one_line": "The first DAO proposal; rejected and split into AIP-1.1 and AIP-1.2."
+  }
+ ],
+ "offchain": [
+  {
+   "title": "AIP Fast Feed",
+   "url": "https://forum.arbitrum.foundation/t/constitutional-aip-fast-feed/31003",
+   "date": "Jun 2026",
+   "status": "live vote",
+   "one_line": "Paid transaction-ordering data feed, 97% of revenue to the DAO treasury."
+  },
+  {
+   "title": "Transition Arbitrum One ordering to Priority Gas Auctions (PGA)",
+   "url": "https://forum.arbitrum.foundation/t/constitutional-aip-transition-arbitrum-one-ordering-policy-to-priority-gas-auctions-pga/30942",
+   "date": "Jun 2026",
+   "status": "active",
+   "one_line": "Proposes replacing Timeboost with fee-based priority gas auction ordering."
+  },
+  {
+   "title": "ArbOS 61 Elara",
+   "url": "https://forum.arbitrum.foundation/t/constitutional-aip-arbos-61-elara/30601",
+   "date": "Mar 2026",
+   "status": "active",
+   "one_line": "ArbOS upgrade raising the Stylus size limit and OCL base-fee delegation."
+  },
+  {
+   "title": "ArbOS 31 Bianca: Stylus, RIP-7212, Nova Fee Router",
+   "url": "https://forum.arbitrum.foundation/t/aip-arbos-31-bianca-activation-of-arbitrum-stylus-rip-7212-support-nova-fee-router-proposal/25904",
+   "date": "Jul 2024",
+   "status": "passed",
+   "one_line": "Activates Stylus, secp256r1 support and Nova fee router changes."
+  },
+  {
+   "title": "Adopt Timeboost transaction ordering",
+   "url": "https://forum.arbitrum.foundation/t/constitutional-aip-proposal-to-adopt-timeboost-a-new-transaction-ordering-policy/25167",
+   "date": "Jun 2024",
+   "status": "passed",
+   "one_line": "Adopts the express-lane MEV auction for transaction ordering."
+  },
+  {
+   "title": "BOLD: permissionless validation",
+   "url": "https://forum.arbitrum.foundation/t/aip-bold-permissionless-validation-for-arbitrum/23232",
+   "date": "Apr 2024",
+   "status": "passed",
+   "one_line": "Upgrades to the BOLD dispute protocol enabling permissionless validation."
+  },
+  {
+   "title": "Activate Stylus (ArbOS 30)",
+   "url": "https://forum.arbitrum.foundation/t/aip-activate-stylus-and-enable-next-gen-webassembly-smart-contracts-arbos-30/22970",
+   "date": "Apr 2024",
+   "status": "passed",
+   "one_line": "Activates the Stylus VM enabling Rust/C++ contracts alongside the EVM."
+  },
+  {
+   "title": "ArbOS 20 Atlas",
+   "url": "https://forum.arbitrum.foundation/t/aip-arbos-version-20-atlas/20957",
+   "date": "Jan 2024",
+   "status": "passed",
+   "one_line": "Adds EIP-4844 blob support and Dencun features."
+  }
+ ],
+ "opco": [
+  {
+   "title": "Code of Conduct: AI-participation amendment",
+   "url": "https://forum.arbitrum.foundation/t/31038",
+   "date": "2026",
+   "status": "starting",
+   "one_line": "Proposed forum rules for responsible AI-generated governance participation."
+  },
+  {
+   "title": "Watchdog program operations",
+   "url": "https://forum.arbitrum.foundation/t/30968",
+   "date": "2026",
+   "status": "active",
+   "one_line": "Runs the bounty program that rewards reports of grant misuse."
+  },
+  {
+   "title": "OAT June 2026 Elections Overview",
+   "url": "https://forum.arbitrum.foundation/t/oversight-and-transparency-committee-oat-june-2026-elections-overview/30872",
+   "date": "May 2026",
+   "status": "active",
+   "one_line": "Second annual re-election of OpCo's 5-member oversight committee, run by OpCo."
+  },
+  {
+   "title": "Firestarters research grants",
+   "url": "https://forum.arbitrum.foundation/t/30797",
+   "date": "2026",
+   "status": "active",
+   "one_line": "Funds small research projects that test ideas before full DAO proposals."
+  },
+  {
+   "title": "Rewarding Active Delegates (RAD) program",
+   "url": "https://forum.arbitrum.foundation/t/rewarding-active-delegates-rad-program/30249",
+   "date": "2025",
+   "status": "active",
+   "one_line": "The program that pays active DAO voters each month; run by OpCo."
+  },
+  {
+   "title": "Updating the OpCo Foundation's Operational Capability",
+   "url": "https://forum.arbitrum.foundation/t/updating-the-opco-foundation-s-operational-capability/29388",
+   "date": "Jun 2025",
+   "status": "passed",
+   "one_line": "OAT council + Foundation loosen OpCo contracting, spending and comp limits."
+  }
+ ],
+ "entropy": [
+  {
+   "title": "Extending DRIP's Mandate",
+   "url": "https://forum.arbitrum.foundation/t/extending-drips-mandate/30985",
+   "date": "Jun 2026",
+   "status": "passed",
+   "one_line": "Extends DRIP incentive program end date to July 2027, no new funding."
+  },
+  {
+   "title": "Transfer 6,000 ETH + idle stablecoins to the Treasury Portfolio",
+   "url": "https://forum.arbitrum.foundation/t/transfer-6-000-eth-and-idle-stablecoins-from-the-treasury-to-the-treasury-management-portfolio/30691",
+   "date": "Mar 2026",
+   "status": "passed",
+   "one_line": "Entropy-authored move of idle 6K ETH plus USDC into ATMC strategies."
+  },
+  {
+   "title": "Code of Conduct & DAO Procedures as Living Documents",
+   "url": "https://forum.arbitrum.foundation/t/updating-the-code-of-conduct-dao-procedures-to-become-living-documents/30664",
+   "date": "Mar 2026",
+   "status": "passed",
+   "one_line": "Makes the Code of Conduct and Procedures permanent living documents maintained by OpCo."
+  },
+  {
+   "title": "Automate Consolidation of Idle Funds into the Portfolio",
+   "url": "https://forum.arbitrum.foundation/t/automate-the-consolidation-of-idle-funds-into-the-treasury-management-portfolio/30579",
+   "date": "Feb 2026",
+   "status": "passed",
+   "one_line": "Auto-routes idle non-ARB program funds to the ATMC treasury portfolio."
+  },
+  {
+   "title": "Data Dashboards Catalog",
+   "url": "https://forum.arbitrum.foundation/t/entropy-advisors-data-dashboards-catalog/30041",
+   "date": "Sep 2025",
+   "status": "active",
+   "one_line": "Index of Entropy's Dune dashboards for treasury, governance and protocols."
+  },
+  {
+   "title": "Transfer 8,500 ETH to ATMC's ETH Treasury Strategies",
+   "url": "https://forum.arbitrum.foundation/t/transfer-8-500-eth-from-the-treasury-to-atmc-s-eth-treasury-strategies/29983",
+   "date": "Sep 2025",
+   "status": "passed",
+   "one_line": "Entropy-proposed deployment of 8,500 ETH into ATMC yield strategies."
+  },
+  {
+   "title": "Consolidate Idle USDC to ATMC Stablecoin Balance",
+   "url": "https://forum.arbitrum.foundation/t/consolidate-idle-usdc-to-the-atmc-s-stablecoin-balance/29619",
+   "date": "Jul 2025",
+   "status": "passed",
+   "one_line": "Moves ~2.5M idle USDC (Events Budget, ARDC leftovers) to ATMC yield strategies."
+  },
+  {
+   "title": "Updating the Code of Conduct & DAO's Procedures",
+   "url": "https://forum.arbitrum.foundation/t/updating-the-code-of-conduct-daos-procedures/29594",
+   "date": "Jul 2025",
+   "status": "passed",
+   "one_line": "Second trial of the revised Code of Conduct and procedures through January 2026."
+  },
+  {
+   "title": "Entropy Advisors: Exclusively Working with the DAO, Y2-Y3",
+   "url": "https://forum.arbitrum.foundation/t/entropy-advisors-exclusively-working-with-the-arbitrum-dao-y2-y3/29458",
+   "date": "Jun 2025",
+   "status": "passed",
+   "one_line": "Two-year renewal: $3M/year plus up to 15M ARB in vesting + milestones."
+  },
+  {
+   "title": "Reallocate Redeemed USDM Funds to STEP 2 Budget",
+   "url": "https://forum.arbitrum.foundation/t/reallocate-redeemed-usdm-funds-to-step-2-budget/29335",
+   "date": "May 2025",
+   "status": "passed",
+   "one_line": "Redirects ~$3.5M redeemed USDM into approved STEP 2 RWA allocations."
+  },
+  {
+   "title": "ATMC: Consolidating Efforts",
+   "url": "https://forum.arbitrum.foundation/t/arbitrum-treasury-management-council-consolidating-efforts/29334",
+   "date": "May 2025",
+   "status": "passed",
+   "one_line": "Entropy-authored merge of the TMC, GMC and STEP committees into the unified ATMC."
+  },
+  {
+   "title": "Wind Down the MSS",
+   "url": "https://forum.arbitrum.foundation/t/wind-down-the-mss-transfer-payment-responsibilities-to-the-arbitrum-foundation/29279",
+   "date": "May 2025",
+   "status": "passed",
+   "one_line": "Sunsets the Multisig Support Service, moves payment processing to the Arbitrum Foundation."
+  },
+  {
+   "title": "STEP 2 Committee Preferred Allocations",
+   "url": "https://forum.arbitrum.foundation/t/step-2-committee-preferred-allocations/29086",
+   "date": "Apr 2025",
+   "status": "passed",
+   "one_line": "Ratifies the committee's 35M ARB allocation across BENJI, WTGXX and USTBL RWA products."
+  },
+  {
+   "title": "DeFi Renaissance Incentive Program (DRIP)",
+   "url": "https://forum.arbitrum.foundation/t/defi-renaissance-incentive-program-drip/29049",
+   "date": "Apr 2025",
+   "status": "passed",
+   "one_line": "Entropy-designed 80M ARB DeFi incentive program; Entropy runs the execution."
+  },
+  {
+   "title": "Strategic Objectives (SOS submission)",
+   "url": "https://forum.arbitrum.foundation/t/sos-submission-entropy-advisors-strategic-objectives/28976",
+   "date": "Apr 2025",
+   "status": "draft",
+   "one_line": "Entropy's proposed DAO strategic objectives on efficiency, finance and growth."
+  },
+  {
+   "title": "OAT Elections (first term)",
+   "url": "https://forum.arbitrum.foundation/t/opco-oversight-and-transparency-committee-oat-elections/28867",
+   "date": "Mar 2025",
+   "status": "passed",
+   "one_line": "Entropy ran the first OAT council election, before OpCo had its own staff."
+  },
+  {
+   "title": "OAT Applications & Nominations",
+   "url": "https://forum.arbitrum.foundation/t/opco-oat-applications-nominations/28555",
+   "date": "Feb 2025",
+   "status": "passed",
+   "one_line": "Entropy opened the OAT candidate application and nomination process, pre-OpCo."
+  },
+  {
+   "title": "Arbitrum Strategic Objective Setting (SOS)",
+   "url": "https://forum.arbitrum.foundation/t/arbitrum-strategic-objective-setting-sos-defining-the-dao-s-interim-goals/28102",
+   "date": "Jan 2025",
+   "status": "passed",
+   "one_line": "Framework for the DAO to propose and vote on interim strategic objectives."
+  },
+  {
+   "title": "The Watchdog: Grant Misuse Bounty Program",
+   "url": "https://forum.arbitrum.foundation/t/the-watchdog-arbitrum-daos-grant-misuse-bounty-program/27978",
+   "date": "Dec 2024",
+   "status": "passed",
+   "one_line": "400K ARB bounty program rewarding whistleblowers who report grant misuse."
+  },
+  {
+   "title": "OpCo: A DAO-adjacent Entity for Strategy Execution",
+   "url": "https://forum.arbitrum.foundation/t/opco-a-dao-adjacent-entity-for-strategy-execution/27361",
+   "date": "Oct 2024",
+   "status": "passed",
+   "one_line": "Entropy-designed structural proposal that created OpCo, the DAO's execution arm."
+  },
+  {
+   "title": "Unifying Arbitrum's Mission, Vision, Purpose (MVP)",
+   "url": "https://forum.arbitrum.foundation/t/unifying-arbitrum-s-mission-vision-purpose-mvp/27275",
+   "date": "Oct 2024",
+   "status": "passed",
+   "one_line": "Ratifies DAO-wide mission, vision and purpose statements."
+  },
+  {
+   "title": "Delegate Code of Conduct + Formalizing DAO Operations",
+   "url": "https://forum.arbitrum.foundation/t/non-constitutional-arbitrum-dao-delegate-code-of-conduct-formalizing-the-daos-operations/27188",
+   "date": "Oct 2024",
+   "status": "passed",
+   "one_line": "Adopts a delegate Code of Conduct and operational standards for a 6.5-month trial."
+  },
+  {
+   "title": "DAO Events Budget for 2025",
+   "url": "https://forum.arbitrum.foundation/t/establishing-a-dao-events-budget-for-2025/26734",
+   "date": "Sep 2024",
+   "status": "passed",
+   "one_line": "Establishes a 2025 events budget with a 3-member evaluation group."
+  },
+  {
+   "title": "Fund The Stylus Sprint",
+   "url": "https://forum.arbitrum.foundation/t/rfc-fund-the-stylus-sprint/26437",
+   "date": "Aug 2024",
+   "status": "passed",
+   "one_line": "5M ARB grant program for building with Stylus (Rust/C/C++ contracts)."
+  },
+  {
+   "title": "COI & Self-Voting Policies",
+   "url": "https://forum.arbitrum.foundation/t/should-the-dao-create-coi-self-voting-policies/26062",
+   "date": "Aug 2024",
+   "status": "passed",
+   "one_line": "Temp check approving disclosure and responsible-voting policies for delegates."
+  },
+  {
+   "title": "Default Shielded Voting for Snapshot Votes?",
+   "url": "https://forum.arbitrum.foundation/t/should-the-dao-default-to-using-shielded-voting-for-snapshot-votes/25884",
+   "date": "Jul 2024",
+   "status": "failed",
+   "one_line": "Proposed defaulting Snapshot votes to shielded voting; the DAO voted against."
+  },
+  {
+   "title": "Entropy Advisors: Exclusively Working With Arbitrum DAO",
+   "url": "https://forum.arbitrum.foundation/t/entropy-advisors-exclusively-working-with-arbitrum-dao/25246",
+   "date": "Jul 2024",
+   "status": "passed",
+   "one_line": "Founding mandate: $2.47M/year plus 1.5M ARB, exclusive advisory role."
+  },
+  {
+   "title": "Improving Predictability in DAO Operations",
+   "url": "https://forum.arbitrum.foundation/t/improving-predictability-in-arbitrum-dao-s-operations/25136",
+   "date": "Jun 2024",
+   "status": "passed",
+   "one_line": "Sets a regular weekly cadence and guidelines for posting Snapshot/Tally votes."
+  },
+  {
+   "title": "Adjusting Arbitrum's Gas Fees",
+   "url": "https://forum.arbitrum.foundation/t/adjusting-arbitrum-s-gas-fees/25002",
+   "date": "Jun 2024",
+   "status": "draft",
+   "one_line": "Proposed raising the L2 minimum base fee from 0.01 to 0.03-0.05 gwei; never went to a vote."
+  },
+  {
+   "title": "Arbitrum Multi-sig Support Service (MSS)",
+   "url": "https://forum.arbitrum.foundation/t/rfc-arbitrum-multi-sig-support-service-mss/23737",
+   "date": "May 2024",
+   "status": "passed",
+   "one_line": "Creates a 600K ARB unified multisig signer service replacing fragmented program multisigs."
+  }
+ ],
+ "atmc": [
+  {
+   "title": "Automate Consolidation of Idle Funds into the Portfolio",
+   "url": "https://forum.arbitrum.foundation/t/automate-the-consolidation-of-idle-funds-into-the-treasury-management-portfolio/30579",
+   "date": "Feb 2026",
+   "status": "passed",
+   "one_line": "Auto-routes surplus non-ARB funds from finished programs into the portfolio."
+  },
+  {
+   "title": "Investment Policy Statement (Q4 2025)",
+   "url": "https://forum.arbitrum.foundation/t/arbitrum-treasury-management-investment-policy-statement-q4-2025/30117",
+   "date": "Oct 2025",
+   "status": "active",
+   "one_line": "Sets allocation targets and the risk framework for treasury investments."
+  },
+  {
+   "title": "Transfer 8,500 ETH to ATMC's ETH Treasury Strategies",
+   "url": "https://forum.arbitrum.foundation/t/transfer-8-500-eth-from-the-treasury-to-atmc-s-eth-treasury-strategies/29983",
+   "date": "Sep 2025",
+   "status": "passed",
+   "one_line": "Funds ATMC's ETH yield strategies from idle sequencer/Timeboost revenue."
+  },
+  {
+   "title": "ATM Council Details",
+   "url": "https://forum.arbitrum.foundation/t/arbitrum-treasury-management-atm-council-details/29626",
+   "date": "Jul 2025",
+   "status": "passed",
+   "one_line": "Defines ATMC: OAT votes, Entropy executes, OpCo comms, Foundation custody."
+  },
+  {
+   "title": "ATMC: Consolidating Efforts",
+   "url": "https://forum.arbitrum.foundation/t/arbitrum-treasury-management-council-consolidating-efforts/29334",
+   "date": "May 2025",
+   "status": "passed",
+   "one_line": "Merges the TMC, GMC and STEP committees into one unified ATMC."
+  },
+  {
+   "title": "RFP: Treasury Management Services",
+   "url": "https://forum.arbitrum.foundation/t/rfp-process-request-for-proposals-treasury-management-services-for-arbitrum-dao/28242",
+   "date": "Jan 2025",
+   "status": "active",
+   "one_line": "Solicits providers to manage the pre-ATMC treasury portfolio."
+  },
+  {
+   "title": "Treasury Management v1.2",
+   "url": "https://forum.arbitrum.foundation/t/non-constitutional-treasury-management-v1-2/26967",
+   "date": "Sep 2024",
+   "status": "passed",
+   "one_line": "Creates the original Treasury and Growth Management Committees."
+  },
+  {
+   "title": "Stable Treasury Endowment Program (STEP)",
+   "url": "https://forum.arbitrum.foundation/t/final-arbitrum-stable-treasury-endowment-program/20139",
+   "date": "Dec 2023",
+   "status": "passed",
+   "one_line": "Creates STEP, the RWA-investing program later merged into ATMC."
+  }
+ ],
+ "agv": [],
+ "oat": [
+  {
+   "title": "OAT June 2026 Elections Overview",
+   "url": "https://forum.arbitrum.foundation/t/oversight-and-transparency-committee-oat-june-2026-elections-overview/30872",
+   "date": "May 2026",
+   "status": "active",
+   "one_line": "OAT's second election: applications, eligibility review, pitch calls, vote."
+  },
+  {
+   "title": "OAT Term & Next Elections",
+   "url": "https://forum.arbitrum.foundation/t/oat-term-next-elections/30649",
+   "date": "Mar 2026",
+   "status": "passed",
+   "one_line": "Resolves the first-term end date and schedules the next election."
+  },
+  {
+   "title": "Updating the OpCo Foundation's Operational Capability",
+   "url": "https://forum.arbitrum.foundation/t/updating-the-opco-foundation-s-operational-capability/29388",
+   "date": "Jun 2025",
+   "status": "passed",
+   "one_line": "Expands OAT/OpCo powers: contracting, comp pool, conflict handling."
+  }
+ ],
+ "securitycouncil": [
+  {
+   "title": "Emergency fix: L1 Timelock renounceRole vulnerability",
+   "url": "https://forum.arbitrum.foundation/t/security-council-emergency-action-24-05-2026/30910",
+   "date": "May 2026",
+   "status": "emergency action",
+   "one_line": "Patched a Timelock access-control bug that could have halted constitutional proposals; no funds at risk."
+  },
+  {
+   "title": "KelpDAO exploit: froze 30,766 ETH (~$71M)",
+   "url": "https://forum.arbitrum.foundation/t/security-council-emergency-action-21-04-2026/30803",
+   "date": "Apr 2026",
+   "status": "emergency action",
+   "one_line": "First-ever use of its freeze power; the ETH was later released toward an Aave/KelpDAO-led rsETH recovery."
+  },
+  {
+   "title": "Emergency Stylus stack-depth fix",
+   "url": "https://forum.arbitrum.foundation/t/security-council-emergency-action-10-13-2025/30093",
+   "date": "Oct 2025",
+   "status": "emergency action",
+   "one_line": "11-of-12 in ~2 hours to fix a Stylus chain deviation on Sepolia; applied to One + Nova precautionarily."
+  },
+  {
+   "title": "Emergency Nitro/Stylus upgrade (ArbOS 32)",
+   "url": "https://forum.arbitrum.foundation/t/arbitrum-security-council-emergency-action-arbos-32/26942",
+   "date": "Sep 2024",
+   "status": "emergency action",
+   "one_line": "Patched Stylus vulnerabilities that could crash nodes; no user funds affected."
+  },
+  {
+   "title": "Emergency Action Transparency Report",
+   "url": "https://forum.arbitrum.foundation/t/security-council-emergency-action-transparency-report/26997",
+   "date": "2024",
+   "status": "disclosure",
+   "one_line": "Formal report documenting the reasoning behind the ArbOS 32 emergency upgrade."
+  }
+ ]
+}

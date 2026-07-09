@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Arbitrum // Ecosystem · the DAO, mapped</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{--bg:#080b12;--panel:#0d1424;--blue:#12aaff;--ice:#9dcced;--text:#eef2f8;--muted:#8494ab;
+--green:#2fe08c;--amber:#ffc554;--red:#ff5f58;--purple:#b78cff;
+--line:rgba(157,204,237,.14);
+--sans:'Segoe UI',system-ui,sans-serif;--mono:'Cascadia Code',ui-monospace,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font:400 14px/1.5 var(--sans);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(52% 46% at 50% 40%,rgba(18,170,255,.11),transparent 68%),
+    radial-gradient(38% 34% at 82% 78%,rgba(183,140,255,.07),transparent 70%),
+    radial-gradient(40% 34% at 16% 80%,rgba(47,224,140,.06),transparent 70%)}
+
+/* top nav */
+.topnav{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:12px;padding:11px 24px;
+  background:rgba(8,11,18,.82);backdrop-filter:blur(12px);border-bottom:1px solid rgba(18,170,255,.16)}
+.topnav img{width:28px;height:28px}
+.ntitle{font:800 13.5px var(--sans);letter-spacing:.11em;text-transform:uppercase}
+.ntitle .slash{color:var(--blue)}
+.back{margin-left:auto;font:600 12px var(--sans);color:var(--ice);text-decoration:none;border:1px solid rgba(18,170,255,.32);
+  padding:6px 15px;border-radius:2px;transition:background .15s,color .15s}
+.back:hover{color:#fff;background:rgba(18,170,255,.16)}
+.viewtog{margin-left:auto;margin-right:10px;font:600 12px var(--sans);color:var(--ice);cursor:pointer;border:1px solid rgba(18,170,255,.32);background:transparent;padding:6px 15px;border-radius:2px;transition:background .15s,color .15s}
+.viewtog:hover{color:#fff;background:rgba(18,170,255,.16)}
+.viewtog.on{color:#fff;background:rgba(18,170,255,.22);border-color:rgba(18,170,255,.6)}
+.back{margin-left:0}
+
+/* hero */
+.hero{max-width:960px;margin:0 auto;text-align:center;padding:16px 20px 6px;position:relative;z-index:2}
+.hero .brand{display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+.hero .brand img{width:34px;height:auto;filter:drop-shadow(0 0 18px rgba(18,170,255,.55))}
+.hero h1{font-size:clamp(24px,4.4vw,40px);font-weight:900;letter-spacing:-.01em;line-height:.98;text-transform:uppercase}
+.hero h1 .slash{color:var(--blue)}
+.hero h1 .thin{display:block;font-size:.34em;font-weight:600;letter-spacing:.34em;color:var(--ice);margin-top:6px}
+.hero p{color:var(--muted);font-size:13px;margin:7px auto 0;max-width:660px}
+
+/* legend / encoding key */
+.key{width:fit-content;max-width:92vw;margin:10px auto 2px;padding:7px 18px;display:flex;flex-wrap:wrap;gap:14px 24px;
+  align-items:center;justify-content:center;position:relative;z-index:2;
+  background:linear-gradient(180deg,rgba(17,25,42,.66),rgba(11,17,31,.5));
+  border:1px solid rgba(157,204,237,.1);border-radius:999px;
+  box-shadow:0 8px 30px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.045)}
+.kgroup{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.kh{font:800 9.5px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--ice);opacity:.75}
+.kdiv{width:1px;height:26px;background:rgba(157,204,237,.16)}
+.kchip{display:inline-flex;align-items:center;gap:7px;font:600 11px var(--sans);color:#cdd8e6;letter-spacing:.01em}
+.kchip .d{width:9px;height:9px;border-radius:50%;background:var(--k);box-shadow:0 0 8px color-mix(in srgb,var(--k) 70%,transparent)}
+.kchip.pulse .d{animation:pulse 1.6s ease-in-out infinite}
+.kc{display:inline-block;flex:none}
+.kc-oat{width:13px;height:13px;border-radius:50%;border:2px solid var(--blue);background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.5),rgba(18,170,255,.25));box-shadow:0 0 8px rgba(18,170,255,.5)}
+.kc-ent{width:12px;height:12px;border-radius:50%;border:2px solid var(--ice);background:rgba(157,204,237,.12)}
+.kc-bub{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--green);background:rgba(47,224,140,.14)}
+.kc-line{width:22px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--ice))}
+.knote{font:500 10.5px var(--sans);color:var(--muted);letter-spacing:.02em}
+
+/* map surface */
+#mapwrap{overflow:hidden;position:relative;z-index:1;cursor:grab;touch-action:none}
+#mapwrap.grabbing{cursor:grabbing}
+#map{transform-origin:0 0}
+.zoomui{position:absolute;right:16px;bottom:16px;z-index:20;display:flex;flex-direction:column;gap:6px}
+.zoomui button{width:34px;height:34px;border-radius:9px;background:rgba(13,19,29,.86);backdrop-filter:blur(6px);border:1px solid rgba(180,196,215,.18);color:#c6d3e2;font:600 17px var(--sans);cursor:pointer;
+  box-shadow:0 4px 14px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.04);transition:border-color .15s,color .15s,box-shadow .15s}
+.zoomui button:hover{border-color:#12aaff;color:#12aaff;box-shadow:0 0 0 1px rgba(18,170,255,.35),0 4px 14px rgba(0,0,0,.4)}
+#map{position:relative;width:2040px;height:2000px;margin:0 auto;transform-origin:top left}
+#map svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
+.guide{display:none}
+.ovl{fill:rgba(157,204,237,.6);font:600 11px 'Segoe UI',system-ui,sans-serif;letter-spacing:.04em}
+/* mission label riding along a report line: dark halo keeps it legible over the colored line */
+.edgelbl{font:700 10.5px 'Segoe UI',system-ui,sans-serif;letter-spacing:.16em;fill:#cdd8e6;
+  paint-order:stroke;stroke:#080b12;stroke-width:3.2px;stroke-linejoin:round}
+.link{fill:none;stroke:rgba(180,196,215,.16);stroke-width:1;stroke-linecap:round;transition:opacity .25s ease}
+.glow{display:none}
+
+/* nodes: flat, quiet, one accent */
+.node{position:absolute;transform:translate(-50%,-50%);cursor:pointer;text-align:center;z-index:4;display:block;color:inherit;text-decoration:none;transition:opacity .25s ease}
+.node .disc{position:relative;width:70px;height:70px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;
+  background:radial-gradient(120% 120% at 50% 22%,#141c2b,#0b111c);border:1px solid rgba(180,196,215,.18);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 4px 14px rgba(0,0,0,.45);
+  transition:border-color .18s ease,box-shadow .18s ease}
+.node:hover .disc{border-color:var(--edge,#12aaff);
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--edge,#12aaff) 42%,transparent),0 0 18px color-mix(in srgb,var(--edge,#12aaff) 22%,transparent),inset 0 1px 0 rgba(255,255,255,.05)}
+.node .disc img{width:52%;height:52%;object-fit:contain;opacity:.95}
+.node.owner .disc,.node.center .disc{width:104px;height:104px;border:1.5px solid rgba(18,170,255,.55);
+  background:radial-gradient(120% 120% at 50% 20%,#122238,#091019);
+  box-shadow:0 0 0 1px rgba(18,170,255,.16),0 0 32px rgba(18,170,255,.26),inset 0 1px 0 rgba(255,255,255,.06)}
+.node.owner .disc span,.node.center .disc span{font:700 17px var(--sans);letter-spacing:.04em;color:#eaf5ff}
+.node .cnt{display:none}
+.node .nm{font:600 12.5px var(--sans);margin-top:8px;letter-spacing:.01em;color:#c6d3e2;text-shadow:0 1px 4px #000}
+.node.center .nm,.node.owner .nm{font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+/* owner label sits ABOVE the disc (top), out of the fanning lines */
+.node.owner .nm{position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);margin:0;white-space:nowrap;font-size:13px;background:rgba(8,15,28,.82);padding:2px 9px;border-radius:6px}
+/* mission now rides ON the report line (see .edgelbl), so the under-node sub is hidden for a cleaner node */
+.node .sub{display:none}
+
+/* bubbles: small, flat, tiny label, status as one small dot */
+.bub{position:absolute;transform:translate(-50%,-50%);cursor:pointer;z-index:3;text-align:center;width:100px;transition:opacity .25s ease}
+.bub .dot{position:relative;width:40px;height:40px;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;overflow:hidden;
+  background:radial-gradient(120% 120% at 50% 25%,#131b29,#0a1017);border:1px solid rgba(180,196,215,.16);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 2px 8px rgba(0,0,0,.4);transition:border-color .16s ease,box-shadow .16s ease}
+.bub .dot img{width:56%;height:56%;object-fit:contain;opacity:.82}
+.bub:hover .dot{border-color:var(--c);box-shadow:0 0 0 1px color-mix(in srgb,var(--c) 45%,transparent),0 0 14px color-mix(in srgb,var(--c) 24%,transparent)}
+.bub .lb{font:500 11px/1.24 var(--sans);margin-top:6px;color:#a7b6c7;letter-spacing:.005em;text-shadow:0 1px 4px #000;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-height:25px}
+.bub .stdot{position:absolute;top:2px;right:2px;width:7px;height:7px;border-radius:50%;background:var(--c);
+  box-shadow:0 0 6px color-mix(in srgb,var(--c) 70%,transparent),0 0 0 1.5px rgba(8,11,18,.92)}
+.bub.live .stdot{animation:pulse 1.7s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* focus / subtree highlight (kept: click/hover an entity fades the rest) */
+#map.focusing .node.entity:not(.hot),
+#map.focusing .bub:not(.hot){opacity:.1}
+#map.focusing .link:not(.hot){opacity:.03}
+#map.focusing .link.hot{opacity:1;stroke:var(--edge,#12aaff);stroke-opacity:.5}
+.bub.hot .lb{background:rgba(13,20,36,.85);box-shadow:0 4px 14px rgba(0,0,0,.5),inset 0 0 0 1px color-mix(in srgb,var(--c) 40%,transparent)}
+.node.hot .disc{transform:scale(1.05)}
+
+/* people layer (toggle): hidden until #map.people is set */
+.person{position:absolute;transform:translate(-50%,-50%);cursor:grab;z-index:5;text-align:center;width:96px;display:none}
+#map.people .person{display:block}
+#map.people .bub{display:none}
+.person .pdot{width:40px;height:40px;border-radius:50%;margin:0 auto;overflow:hidden;background:#0e1726;border:1.5px solid rgba(120,150,180,.42);display:flex;align-items:center;justify-content:center;font:700 12px var(--sans);color:#c6d3e2}
+.person .pdot img{width:100%;height:100%;object-fit:cover}
+.person.multi .pdot{border-color:#12aaff;box-shadow:0 0 0 1px rgba(18,170,255,.5),0 0 12px rgba(18,170,255,.3)}
+.person .plb{font:500 10px/1.2 var(--sans);margin-top:5px;color:#a3b4c6;text-shadow:0 1px 4px #000,0 0 3px #000}
+.person:hover{z-index:22}
+.person:hover .pdot{border-color:#12aaff}
+.ppl-line{display:none}
+#map.people .ppl-line{display:inline;stroke-opacity:.22}
+#map.people .wtd-line{display:none}
+
+/* detail card */
+#card{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:99;width:min(540px,94vw);
+  background:linear-gradient(180deg,rgba(16,24,42,.98),rgba(11,17,32,.98));border:1px solid var(--cc,#12aaff);
+  border-radius:12px;padding:18px 20px 16px;
+  box-shadow:0 0 0 1px rgba(0,0,0,.4),0 22px 70px rgba(0,0,0,.7),0 0 40px color-mix(in srgb,var(--cc,#12aaff) 20%,transparent)}
+#card::before{content:'';position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:3px;background:var(--cc,#12aaff);box-shadow:0 0 14px var(--cc,#12aaff)}
+#card h3{font:800 16px var(--sans);padding-left:6px}
+#card .st2{display:inline-block;font:800 8.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;margin-left:9px;border-radius:20px;vertical-align:2px}
+#card p{color:#cbd8e6;font-size:12.5px;margin-top:8px;padding-left:6px}
+#card .own{color:var(--muted);font-size:11px;margin-top:10px;padding-left:6px}
+#card a{color:var(--blue);text-decoration:none;font-size:11.5px}
+#card .x{position:absolute;top:10px;right:14px;color:var(--muted);cursor:pointer;font-size:18px;line-height:1}
+#card .x:hover{color:#fff}
+
+.foot{max-width:900px;margin:12px auto 40px;text-align:center;color:var(--muted);font-size:11px;padding:0 20px;position:relative;z-index:2}
+.foot a{color:var(--blue);text-decoration:none}
+</style></head><body>
+<nav class="topnav">
+  <img src="assets/arbitrum.svg" alt="">
+  <span class="ntitle">Arbitrum <span class="slash">//</span> Ecosystem</span>
+  <button class="viewtog" id="viewtog" type="button">Show people</button>
+  <a class="back" href="history.html">Full data ↗</a>
+</nav>
+<div class="hero">
+  <div class="brand"><img src="assets/arbitrum.svg" alt="Arbitrum"></div>
+  <h1>Arbitrum <span class="slash">//</span> Ecosystem
+    <span class="thin">The DAO, mapped</span>
+  </h1>
+  <p>The whole ArbitrumDAO world in one page.</p>
+</div>
+<div id="mapwrap"><div id="map"><svg id="wires"></svg></div><div class="zoomui"><button id="zin" title="Zoom in">+</button><button id="zout" title="Zoom out">−</button><button id="zfit" title="Reset view" style="font-size:12px">⤢</button></div></div>
+<div id="card"><span class="x" onclick="this.parentElement.style.display='none'">×</span>
+  <h3 id="cN"></h3><p id="cO"></p><div class="own" id="cW"></div><a id="cL" target="_blank">source thread ↗</a></div>
+<div class="foot">Method: 720 indexed forum topics + a 12-transfer funding ledger; every figure sourced from its proposal and checked against Snapshot + Tally (as of Jul 6, 2026). Estimates labeled est.; anything unverifiable left off. *"Allocated" = ARB allocations passed by vote, gross (returns not netted) · genesis 750M excluded · USD contracts counted separately.<br>Made by <b>zeptimus</b> · <a href="https://forum.arbitrum.foundation/t/zeptimus-delegate-communication-thread/28328" target="_blank">delegate thread ↗</a></div>
+<script>
+const STATUS={active:'var(--green)','winding-down':'var(--amber)','live vote':'var(--red)',starting:'var(--blue)',closed:'#6b7a8d'};
+function eff(d){ if(d.close && new Date() > new Date(d.close+'T23:59:59Z')) return 'closed'; return d.status; }
+const STATUS_HEX={active:'#2fe08c','winding-down':'#ffc554','live vote':'#ff5f58',starting:'#12aaff'};
+const ENTITIES={
+  Foundation:{logo:'assets/forum_foundation.png',edge:'#12aaff',sub:'steward'},
+  OpCo:{logo:'assets/forum_opco.png',edge:'#2fe08c',sub:'operations'},
+  Entropy:{logo:'assets/forum_entropy.png',edge:'#b78cff',sub:'strategy'},
+  Offchain:{logo:'assets/forum_offchain.png',edge:'#ffc554',sub:'core dev'},
+  AGV:{logo:'assets/forum_agv.png',edge:'#ff9d54',sub:'winding down'},
+  ATMC:{logo:'assets/arbitrum.png',edge:'#9dcced',sub:'treasury council'},
+  SecurityCouncil:{logo:'assets/arbitrum.svg',edge:'#ff5f58',sub:'emergency'},
+  DAO:{logo:'assets/arbitrum.svg',edge:'#12aaff',sub:''}
+};
+Promise.all([fetch('research/active_initiatives.json').then(r=>r.json()),fetch('research/what_they_do.json').then(r=>r.json()),fetch('research/people.json').then(r=>r.json()),fetch('research/layout.json').then(r=>r.ok?r.json():null).catch(()=>null)]).then(([DATA,WTD,PEOPLE,SAVED_LAYOUT])=>{
+  const map=document.getElementById('map'),svg=document.getElementById('wires');
+  const NS=t=>document.createElementNS('http://www.w3.org/2000/svg',t);
+  const W=2040,H=2000,cx=W/2,cy=H*0.5;   // ArbitrumDAO sits dead center; entities ring around it
+  const vw=document.documentElement.clientWidth;
+  const vh=window.innerHeight; const viewH=Math.max(560,Math.round(vh*0.82));
+  const names=Object.keys(ENTITIES).filter(n=>n!=='DAO'&&n!=='SecurityCouncil');
+  const eR=Math.min(W,H)*.29;   // DAO -> entity radius
+  const rxE=eR, ryE=eR;  // circular ring: compact, entities close to the hub (Zep prefers this to the wide/spread one)
+  const pos={};
+  const NKEY={Foundation:'foundation',OpCo:'opco',Entropy:'entropy',Offchain:'offchain',AGV:'agv',ATMC:'atmc',SecurityCouncil:'securitycouncil',DAO:'dao',OAT:'oat'};
+
+  // count live workstreams per entity -> drives node size + badge
+  const counts={}; DATA.forEach(d=>counts[d.owner]=(counts[d.owner]||0)+1);
+
+  // svg scaffolding: defs (glow filter) + guide ring group + link groups
+  const defs=NS('defs');
+  const gl=NS('filter'); gl.id='glow';
+  gl.setAttribute('x','-40%');gl.setAttribute('y','-40%');gl.setAttribute('width','180%');gl.setAttribute('height','180%');
+  const fb=NS('feGaussianBlur'); fb.setAttribute('stdDeviation','4'); fb.setAttribute('in','SourceGraphic'); gl.appendChild(fb);
+  defs.appendChild(gl); svg.appendChild(defs);
+  // faint elliptical guide the entities sit on
+  const guide=NS('ellipse'); guide.setAttribute('class','guide');
+  guide.setAttribute('cx',cx);guide.setAttribute('cy',cy);guide.setAttribute('rx',rxE);guide.setAttribute('ry',ryE);
+  svg.appendChild(guide);
+  const gGlow=NS('g'); gGlow.setAttribute('filter','url(#glow)'); svg.appendChild(gGlow);
+  const gLink=NS('g'); svg.appendChild(gLink);
+
+  // ── draggable graph: every node/bubble is a DOM element; every line is an edge between two elements ──
+  const NODE_EL={}, EDGES=[];
+  const elXY=el=>[parseFloat(el.style.left),parseFloat(el.style.top)];
+  function edge(p,a,b,label,bow){ if(p&&a&&b) EDGES.push({p,a,b,label,bow:(bow==null?0.09:bow)}); }
+  function placeLabel(el,x1,y1,x2,y2){ const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy)||1,ux=dx/len,uy=dy/len;
+    let ang=Math.atan2(dy,dx)*180/Math.PI; if(ang>90)ang-=180; else if(ang<-90)ang+=180;
+    const off=9,lx=x1+dx*.5+(-uy)*off,ly=y1+dy*.5+(ux)*off;
+    el.setAttribute('x',lx); el.setAttribute('y',ly); el.setAttribute('transform','rotate('+ang+' '+lx+' '+ly+')'); }
+  function redrawEdge(e){ const [ax,ay]=elXY(e.a),[bx,by]=elXY(e.b);   // straight lines (Zep prefers clean/straight)
+    e.p.setAttribute('d','M'+ax+' '+ay+' Q'+((ax+bx)/2)+' '+((ay+by)/2)+' '+bx+' '+by);
+    if(e.label) placeLabel(e.label,ax,ay,bx,by); }
+  function redrawConnected(el){ for(const e of EDGES) if(e.a===el||e.b===el) redrawEdge(e); }
+
+  let gid=0;
+  function grad(x1,y1,x2,y2,c1,o1,c2,o2){
+    const id='g'+(gid++); const g=NS('linearGradient'); g.id=id;
+    g.setAttribute('gradientUnits','userSpaceOnUse');
+    g.setAttribute('x1',x1);g.setAttribute('y1',y1);g.setAttribute('x2',x2);g.setAttribute('y2',y2);
+    const s1=NS('stop'); s1.setAttribute('offset','0'); s1.setAttribute('stop-color',c1); s1.setAttribute('stop-opacity',o1);
+    const s2=NS('stop'); s2.setAttribute('offset','1'); s2.setAttribute('stop-color',c2); s2.setAttribute('stop-opacity',o2);
+    g.appendChild(s1); g.appendChild(s2); defs.appendChild(g); return id;
+  }
+  // curved link. cp = explicit control point. owner tags it for subtree focus.
+  function link(x1,y1,cpx,cpy,x2,y2,gradId,w,glowC,owner,dashed){
+    const d='M'+x1+' '+y1+' Q'+cpx+' '+cpy+' '+x2+' '+y2;
+    const p=NS('path'); p.setAttribute('d',d); p.setAttribute('class','link'); if(owner)p.dataset.e=owner;
+    if(gradId) p.style.stroke='url(#'+gradId+')';
+    if(w) p.style.strokeWidth=w;
+    if(dashed) p.style.strokeDasharray='5 7';
+    p.style.strokeOpacity=dashed?0.6:0.82;
+    if(glowC) p.style.setProperty('--edge',glowC);
+    gLink.appendChild(p);
+    return p;
+  }
+  // each entity's core mission, ridden ALONG its report line (rotated to the line, lifted just off it)
+  const MISSION={Foundation:'STEWARD',OpCo:'OPERATIONS',Entropy:'STRATEGY',Offchain:'CORE DEV',AGV:'WINDING DOWN',ATMC:'TREASURY',OAT:'DAO OVERSIGHT',SecurityCouncil:'EMERGENCY'};
+  function edgeLabel(x1,y1,x2,y2,txt){
+    const el=NS('text'); el.setAttribute('text-anchor','middle'); el.setAttribute('dominant-baseline','middle');
+    el.setAttribute('class','edgelbl'); el.textContent=txt; gLink.appendChild(el);
+    placeLabel(el,x1,y1,x2,y2); return el;
+  }
+
+  // ── RADIAL: ArbitrumDAO is the CENTER hub; everyone rings around it 360°, bubbles fan outward ──
+  const daoX=cx, daoY=cy;
+  pos['DAO']={x:daoX,y:daoY,a:-Math.PI/2};
+  mk('owner','DAO','',daoX,daoY,ENTITIES.DAO,0,0);
+
+  // ring members (OAT + AGV excluded: OAT tucks by the DAO, AGV hangs off OpCo). Each ring node gets an
+  // angular slice sized by how much it's doing, so busy entities get room and quiet ones stay tight.
+  // Order places OpCo upper-right + ATMC lower-right so OAT (right, near the hub) sits between them.
+  const ring=['SecurityCouncil','OpCo','ATMC','Entropy','Foundation','Offchain'];
+  const wt=n=>(((WTD[NKEY[n]]||[]).length||1)+1.5);   // slice sized by how many "what they do" bubbles the entity has
+  const wTot=ring.reduce((s,n)=>s+wt(n),0);
+  let acc=-Math.PI/2;                                   // sweep clockwise from the top
+  ring.forEach(n=>{
+    const sec=2*Math.PI*wt(n)/wTot, a=acc+sec/2; acc+=sec;
+    const x=daoX+Math.cos(a)*rxE, y=daoY+Math.sin(a)*ryE;
+    const outA=Math.atan2(y-daoY,x-daoX);               // true outward angle (ellipse) so bubbles fan away from center
+    pos[n]={x,y,a:outA,cone:sec*0.8};                   // cone = most of the node's slice -> bubbles stay in-lane
+    mk('entity',n,ENTITIES[n].sub,x,y,ENTITIES[n],0,0);
+  });
+
+  // report lines: everyone reports to the DAO at the center (solid colored)
+  ring.forEach(n=>{
+    const {x,y}=pos[n], p=pos['DAO'];
+    const ec=ENTITIES[n].edge;
+    const gi=grad(p.x,p.y,x,y,'#12aaff',.6,ec,.92);
+    const lp=link(p.x,p.y,(p.x+x)/2,(p.y+y)/2,x,y,gi,2,ec,n);
+    const ll=edgeLabel(p.x,p.y,x,y,MISSION[n]);
+    edge(lp,NODE_EL['DAO'],NODE_EL[n],ll);
+  });
+
+  // OAT is the DAO's oversight arm: sits right BESIDE the DAO (short line in), dashed oversight out to OpCo + ATMC
+  {const oatX=daoX+rxE*0.5, oatY=daoY-ryE*0.06;
+   pos['OAT']={x:oatX,y:oatY,a:0,cone:0.85};
+   mk('center','OAT','oversight',oatX,oatY,null,0,0);
+   const gi=grad(daoX,daoY,oatX,oatY,'#12aaff',.6,'#12aaff',.92);
+   const lp=link(daoX,daoY,(daoX+oatX)/2,(daoY+oatY)/2,oatX,oatY,gi,2,'#12aaff','OAT');
+   const ll=edgeLabel(daoX,daoY,oatX,oatY,MISSION.OAT);
+   edge(lp,NODE_EL['DAO'],NODE_EL['OAT'],ll);
+   ['OpCo','ATMC'].forEach(t=>{const q=pos[t];
+     const g2=grad(oatX,oatY,q.x,q.y,'#12aaff',.8,'#12aaff',.4);
+     const l2=link(oatX,oatY,(oatX+q.x)/2,(oatY+q.y)/2,q.x,q.y,g2,1.5,'#12aaff',null,true);
+     edge(l2,NODE_EL['OAT'],NODE_EL[t]);});}
+
+  // AGV is winding down and reports to OpCo: park it just OUTSIDE OpCo's bubble fan
+  {const op=pos['OpCo']; const half=(op.cone||0.6)/2;
+   const agvA=op.a-half-0.16, rOp=Math.hypot(op.x-daoX,op.y-daoY);
+   const ax=daoX+Math.cos(agvA)*(rOp+120), ay=daoY+Math.sin(agvA)*(rOp+120);
+   pos['AGV']={x:ax,y:ay,a:agvA};
+   mk('entity','AGV',ENTITIES.AGV.sub,ax,ay,ENTITIES.AGV,0,0);
+   const gi=grad(op.x,op.y,ax,ay,ENTITIES.OpCo.edge,.7,ENTITIES.AGV.edge,.9);
+   const lp=link(op.x,op.y,(op.x+ax)/2,(op.y+ay)/2,ax,ay,gi,2,ENTITIES.AGV.edge,'AGV');
+   const ll=edgeLabel(op.x,op.y,ax,ay,MISSION.AGV);
+   edge(lp,NODE_EL['OpCo'],NODE_EL['AGV'],ll);}
+
+  // relationship line (dashed, not ownership): the Foundation pays Offchain for protocol dev
+  {const f=pos['Foundation'], o=pos['Offchain'];
+   const gi=grad(f.x,f.y,o.x,o.y,ENTITIES.Foundation.edge,.7,ENTITIES.Offchain.edge,.7);
+   const lp=link(f.x,f.y,(f.x+o.x)/2,(f.y+o.y)/2,o.x,o.y,gi,1.5,'#12aaff',null,true);
+   const ll=edgeLabel(f.x,f.y,o.x,o.y,'pays for dev');
+   edge(lp,NODE_EL['Foundation'],NODE_EL['Offchain'],ll);}
+
+  // bubbles fan outward from each entity; heavier entities get a WIDER cone so they spread into the gaps
+  const STEP=110, RINGS=[168,280,392];              // min arc px, ring radii (tighter so all "what they do" bubbles fit)
+  names.concat(['SecurityCouncil','OAT']).forEach(n=>{
+    // bubbles = the entity's "what they do" (same shared source the entity pages read, so they never drift)
+    const items=(WTD[NKEY[n]]||[]).map(([t,o])=>({name:t,oneliner:o,owner:n,wtd:true}));
+    const {x,y,a}=pos[n];
+    const cone=pos[n].cone||Math.min(2.5, 1.15+items.length*0.18);  // use the node's allocated slice; fan bubbles within it
+    let placed=0;
+    for(let ri=0; ri<RINGS.length && placed<items.length; ri++){
+      const rr=RINGS[ri];
+      const cap=Math.max(1,Math.floor(cone*rr/STEP));
+      const take=Math.min(cap,items.length-placed);
+      for(let j=0;j<take;j++){
+        const t=take===1?0:(j/(take-1)-.5);          // -0.5..0.5 across the cone
+        const aa=a+t*cone*(take/Math.max(cap,take));  // use only as much cone as needed
+        const bx=x+Math.cos(aa)*rr, by=y+Math.sin(aa)*rr;
+        const d=items[placed+j];
+        // petal control point: leaves entity along its outward axis, then splays to the bubble
+        const cpx=x+Math.cos(a)*rr*.46, cpy=y+Math.sin(a)*rr*.46;
+        const ec=(ENTITIES[n]?ENTITIES[n].edge:'#12aaff'), sc=ec;   // bubbles carry their entity's color (not status)
+        const lp=link(x,y,cpx,cpy,bx,by,grad(x,y,bx,by,ec,.5,sc,.92),1.7,sc,n);
+        lp.classList.add('wtd-line');
+        const bel=bub(d,bx,by); edge(lp,NODE_EL[n],bel,null,0.16);
+      }
+      placed+=take;
+    }
+  });
+
+  // ===== PEOPLE LAYER (toggle): every person once, a line to each role they hold =====
+  const ini=s=>s.replace(/[^A-Za-z0-9 ]/g,'').split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase()||'?';
+  const KEY2NAME={foundation:'Foundation',opco:'OpCo',entropy:'Entropy',offchain:'Offchain',agv:'AGV',atmc:'ATMC',securitycouncil:'SecurityCouncil',oat:'OAT',dao:'DAO'};
+  function person(p,x,y){
+    const el=document.createElement('div'); el.className='person'+(p.roles.length>1?' multi':'');
+    el.style.left=x+'px'; el.style.top=y+'px';
+    const inl=ini(p.n);
+    const av=p.h?`<img src="assets/delegates/${p.h}.jpg" alt="${inl}" loading="lazy" onerror="this.remove();this.parentNode.textContent='${inl}'">`:inl;
+    el.innerHTML=`<div class="pdot">${av}</div><div class="plb">${p.n}</div>`;
+    el.title=p.n+(p.vp?' · '+p.vp:''); el.dataset.lid='p:'+p.n;
+    map.appendChild(el); return el;
+  }
+  {
+    const groups={}; PEOPLE.people.forEach(p=>{const r0=p.roles[0]; (groups[r0]=groups[r0]||[]).push(p);});
+    const place=(p,px,py)=>{ const el=person(p,px,py);
+      p.roles.forEach(r=>{const nn=KEY2NAME[r], nel=NODE_EL[nn]; if(!nel) return;
+        const src=pos[nn], col=(r==='dao')?'#12aaff':(ENTITIES[nn]?ENTITIES[nn].edge:'#12aaff');
+        const lp=link(src.x,src.y,(src.x+px)/2,(src.y+py)/2,px,py,grad(src.x,src.y,px,py,col,.45,col,.82),1.1,col,null,true);
+        lp.classList.add('ppl-line'); edge(lp,nel,el,null,0.12);
+      });
+    };
+    Object.keys(groups).forEach(rk=>{
+      const anc=pos[KEY2NAME[rk]]; if(!anc) return;
+      const list=groups[rk];
+      if(rk==='dao'){  // delegates: clean, evenly-spaced concentric rings around the hub (sorted by voting power)
+        let idx=0, ri=0; const per=[9,11,13];
+        while(idx<list.length){ const n=Math.min(per[ri]||13,list.length-idx), rr=250+ri*130, off=(ri%2)?Math.PI/n:0;
+          for(let k=0;k<n;k++){ const aa=-Math.PI/2+off+k*2*Math.PI/n; place(list[idx+k],anc.x+Math.cos(aa)*rr,anc.y+Math.sin(aa)*rr); }
+          idx+=n; ri++; }
+      } else {         // staff fan outward from their entity in a neat cone
+        const baseA=anc.a!==undefined?anc.a:-Math.PI/2, cone=Math.min(2.4,0.7+list.length*0.22), PR=[140,225,315];
+        let idx=0, ri=0;
+        while(idx<list.length){ const rr=PR[ri]||PR[PR.length-1], cap=Math.max(1,Math.floor(cone*rr/120)), n=Math.min(cap,list.length-idx);
+          for(let k=0;k<n;k++){ const t=n===1?0:(k/(n-1)-.5), aa=baseA+t*cone*(n/Math.max(cap,n)); place(list[idx+k],anc.x+Math.cos(aa)*rr,anc.y+Math.sin(aa)*rr); }
+          idx+=n; ri++; }
+      }
+    });
+    // de-overlap the whole people layer so it reads clean (pure math on stored positions -> works while hidden, no reflow)
+    {const P=[...document.querySelectorAll('.person')].map(el=>({el,x:parseFloat(el.style.left),y:parseFloat(el.style.top)})), MIN=122;
+     for(let it=0; it<300; it++){ let moved=false;
+       for(let i=0;i<P.length;i++)for(let jj=i+1;jj<P.length;jj++){
+         let dx=P[i].x-P[jj].x, dy=P[i].y-P[jj].y, d=Math.hypot(dx,dy)||1;
+         if(d<MIN){ moved=true; const pu=(MIN-d)/2; dx/=d; dy/=d; P[i].x+=dx*pu; P[i].y+=dy*pu; P[jj].x-=dx*pu; P[jj].y-=dy*pu; }
+       }
+       if(!moved) break;
+     }
+     P.forEach(pt=>{ pt.el.style.left=pt.x+'px'; pt.el.style.top=pt.y+'px'; redrawConnected(pt.el); });
+    }
+  }
+
+  // relaxation: spread whole bubbles (disc + label) apart, using the empty INTERIOR.
+  // clamped to the initial content extent so the frame never grows -> zoom/size stays put.
+  requestAnimationFrame(()=>{
+    const S=scale||1;                                  // map-space push = screen overlap / scale
+    const P=[...document.querySelectorAll('.bub')].map(el=>({el,x:parseFloat(el.style.left),y:parseFloat(el.style.top)}));
+    const fixed=[...document.querySelectorAll('.node .disc, .node .nm')];  // node discs + labels: obstacles, never move
+    // clamp box = current extent of every node+bubble; keeps the relaxation inside the frame Zep likes
+    let bx0=1e9,by0=1e9,bx1=-1e9,by1=-1e9;
+    document.querySelectorAll('#map .node,#map .bub').forEach(el=>{const ex=parseFloat(el.style.left),ey=parseFloat(el.style.top);bx0=Math.min(bx0,ex);by0=Math.min(by0,ey);bx1=Math.max(bx1,ex);by1=Math.max(by1,ey);});
+    const clampP=pt=>{pt.x=Math.max(bx0,Math.min(bx1,pt.x)); pt.y=Math.max(by0,Math.min(by1,pt.y)); pt.el.style.left=pt.x+'px'; pt.el.style.top=pt.y+'px';};
+    const R=el=>el.getBoundingClientRect();
+    const GAP=6;                                        // desired screen px breathing room
+    const olap=(a,b)=>{ const ox=Math.min(a.right,b.right)-Math.max(a.left,b.left)+GAP; const oy=Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)+GAP; return (ox>0&&oy>0)?Math.min(ox,oy):0; };
+    for(let iter=0;iter<800;iter++){ let moved=false;
+      // whole bubble vs whole bubble
+      for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){
+        const ov=olap(R(P[i].el),R(P[j].el));
+        if(ov>0){ moved=true;
+          let dx=P[i].x-P[j].x, dy=P[i].y-P[j].y; const d=Math.hypot(dx,dy)||1; dx/=d; dy/=d;
+          const p=(ov/S)/2+.5;
+          P[i].x+=dx*p; P[i].y+=dy*p; P[j].x-=dx*p; P[j].y-=dy*p;
+          clampP(P[i]); clampP(P[j]); }
+      }
+      // bubble vs fixed node disc/label
+      for(let i=0;i<P.length;i++)for(const f of fixed){
+        const ra=R(P[i].el), rf=R(f); const ov=olap(ra,rf);
+        if(ov>0){ moved=true;
+          const acx=(ra.left+ra.right)/2, acy=(ra.top+ra.bottom)/2, fcx=(rf.left+rf.right)/2, fcy=(rf.top+rf.bottom)/2;
+          let dx=acx-fcx, dy=acy-fcy; const d=Math.hypot(dx,dy)||1; dx/=d; dy/=d;
+          const p=(ov/S)+.5; P[i].x+=dx*p; P[i].y+=dy*p; clampP(P[i]); }
+      }
+      if(!moved) break;
+    }
+    // redraw EVERY edge (report lines + bubble connectors) so all get the curved bow, none left straight
+    EDGES.forEach(redrawEdge);
+  });
+
+  // ---- zoom + pan ----
+  const wrap=map.parentElement;
+  // fill the real space left below the header so the centered radial graph never spills under the fold
+  const availH=Math.max(320, window.innerHeight - wrap.getBoundingClientRect().top - 16);
+  wrap.style.height=availH+'px';
+  // measure the actual content bounding box (nodes + bubbles incl. their labels) and fit it centered
+  let minX=1e9,minY=1e9,maxX=-1e9,maxY=-1e9;
+  document.querySelectorAll('#map .node, #map .bub').forEach(el=>{
+    const ex=parseFloat(el.style.left), ey=parseFloat(el.style.top), ew=el.offsetWidth, eh=el.offsetHeight;
+    minX=Math.min(minX,ex-ew/2); maxX=Math.max(maxX,ex+ew/2); minY=Math.min(minY,ey-eh/2); maxY=Math.max(maxY,ey+eh/2);
+  });
+  const cW=maxX-minX, cH=maxY-minY, pad=26;
+  const fitScale=Math.min((vw-pad)/cW,(availH-pad)/cH);
+  // default zoom IN past the full fit so the graph fills the frame (outer bubbles run off the edges; Zep wants this, users pan/zoom out to see them)
+  const initScale=fitScale*1.4;
+  let scale=initScale;
+  let tx=(vw-cW*scale)/2 - minX*scale, ty=(availH-cH*scale)/2 - minY*scale;   // centered on the content
+  const tx0=tx, ty0=ty;                                        // remember the centered home view for the reset button
+  const minS=fitScale*0.85, maxS=initScale*3.4;                // can zoom OUT below the fit to see every edge bubble
+  function applyT(){ map.style.transform='translate('+tx+'px,'+ty+'px) scale('+scale+')'; }
+  applyT();
+  wrap.addEventListener('wheel',ev=>{ ev.preventDefault();
+    const r=wrap.getBoundingClientRect(), px=ev.clientX-r.left, py=ev.clientY-r.top;
+    const f=ev.deltaY<0?1.12:1/1.12; const ns=Math.min(maxS,Math.max(minS,scale*f));
+    const k=ns/scale; tx=px-(px-tx)*k; ty=py-(py-ty)*k; scale=ns; applyT();
+  },{passive:false});
+  let dragging=false, moved=false, captured=false, sx=0, sy=0, stx=0, sty=0, pid=0;
+  wrap.addEventListener('pointerdown',ev=>{ if(ev.button!==0||ev.target.closest('.zoomui'))return; dragging=true; moved=false; captured=false; pid=ev.pointerId; sx=ev.clientX; sy=ev.clientY; stx=tx; sty=ty; });
+  wrap.addEventListener('pointermove',ev=>{ if(!dragging)return; const dx=ev.clientX-sx, dy=ev.clientY-sy; if(!moved&&Math.abs(dx)+Math.abs(dy)>4){ moved=true; wrap.classList.add('grabbing'); try{wrap.setPointerCapture(pid);captured=true;}catch(e){} } if(moved){ tx=stx+dx; ty=sty+dy; applyT(); } });
+  function endDrag(){ dragging=false; wrap.classList.remove('grabbing'); if(captured){try{wrap.releasePointerCapture(pid);}catch(e){}captured=false;} }
+  wrap.addEventListener('pointerup',endDrag); wrap.addEventListener('pointercancel',endDrag);
+  wrap.addEventListener('click',ev=>{ if(moved){ ev.preventDefault(); ev.stopPropagation(); moved=false; return; } if(!ev.target.closest('.node')&&!ev.target.closest('.bub')){ document.querySelectorAll('.node.tapped').forEach(x=>x.classList.remove('tapped')); clearFocus(); } },true);
+  function zoomAt(ns){ const r=wrap.getBoundingClientRect(),px=r.width/2,py=r.height/2,k=ns/scale; tx=px-(px-tx)*k; ty=py-(py-ty)*k; scale=ns; applyT(); }
+  document.getElementById('zin').onclick=()=>zoomAt(Math.min(maxS,scale*1.25));
+  document.getElementById('zout').onclick=()=>zoomAt(Math.max(minS,scale/1.25));
+  document.getElementById('zfit').onclick=()=>{ scale=initScale; tx=tx0; ty=ty0; applyT(); };
+
+  // people / what-they-do view toggle (each mode has its OWN saved layout + zoom)
+  {const tb=document.getElementById('viewtog');
+   tb.onclick=()=>{ const on=map.classList.toggle('people'); tb.classList.toggle('on',on); tb.textContent=on?'Show tasks':'Show people'; applyMode(on?'people':'tasks'); };}
+
+  // ── draggable graph (Arkham-style): grab ANY node or bubble; an entity drags its whole cluster with it ──
+  {let drag=null;
+   // child bubbles of an entity node = the bubble ends of edges that start at this node
+   const kidsOf=el=>EDGES.filter(e=>e.a===el && e.b.classList && e.b.classList.contains('bub')).map(e=>e.b);
+   document.querySelectorAll('.bub, .node, .person').forEach(el=>{
+     el.style.cursor='grab';
+     el.setAttribute('draggable','false');         // kill native HTML5 drag on the <a>/<img> (was hijacking the gesture)
+     el.addEventListener('dragstart',ev=>ev.preventDefault());
+     el.addEventListener('pointerdown',ev=>{
+       if(ev.button!==0) return;
+       ev.stopPropagation(); ev.preventDefault();  // don't pan the map, don't start a native drag
+       try{el.setPointerCapture(ev.pointerId);}catch(e){}
+       el.style.cursor='grabbing'; el.style.zIndex=30;
+       // grab this element's child bubbles + their start positions so the cluster moves together
+       const kids=el.classList.contains('node')?kidsOf(el).map(k=>({el:k,bx:parseFloat(k.style.left),by:parseFloat(k.style.top)})):[];
+       drag={el, sx:ev.clientX, sy:ev.clientY, bx:parseFloat(el.style.left), by:parseFloat(el.style.top), moved:false, kids};
+     });
+     el.addEventListener('pointermove',ev=>{
+       if(!drag||drag.el!==el) return;
+       const rdx=ev.clientX-drag.sx, rdy=ev.clientY-drag.sy;
+       if(Math.abs(rdx)+Math.abs(rdy)>3) drag.moved=true;
+       const dx=rdx/scale, dy=rdy/scale;
+       el.style.left=(drag.bx+dx)+'px'; el.style.top=(drag.by+dy)+'px';
+       for(const k of drag.kids){ k.el.style.left=(k.bx+dx)+'px'; k.el.style.top=(k.by+dy)+'px'; }
+       redrawConnected(el);                        // node<->bubble + report/dashed lines all rubber-band
+     });
+     // after a drag, swallow the click so a moved node doesn't navigate + a moved bubble doesn't open its card
+     el.addEventListener('click',ev=>{ if(el._justDragged){ ev.preventDefault(); ev.stopImmediatePropagation(); el._justDragged=false; } },true);
+     const end=ev=>{ if(!drag||drag.el!==el) return;
+       try{el.releasePointerCapture(ev.pointerId);}catch(e){}
+       el.style.cursor='grab';
+       if(drag.moved){ el._justDragged=true; saveLayout(); }   // suppress the click + persist the new position
+       drag=null; };
+     el.addEventListener('pointerup',end); el.addEventListener('pointercancel',end);
+   });}
+
+  // ---- layout persistence (PER MODE): tasks and people each have their own saved arrangement + zoom ----
+  const LKEY='aae-layout-v3';
+  const curMode=()=>map.classList.contains('people')?'people':'tasks';
+  function collectSnap(){ const p={}; document.querySelectorAll('#map [data-lid]').forEach(el=>{ p[el.dataset.lid]=[Math.round(parseFloat(el.style.left)),Math.round(parseFloat(el.style.top))]; });
+    return {pos:p, view:{s:+scale.toFixed(4),tx:Math.round(tx),ty:Math.round(ty)}}; }
+  function applySnap(L){ if(!L||!L.pos) return; document.querySelectorAll('#map [data-lid]').forEach(el=>{ const q=L.pos[el.dataset.lid]; if(q){ el.style.left=q[0]+'px'; el.style.top=q[1]+'px'; } });
+    EDGES.forEach(redrawEdge); if(L.view){ scale=L.view.s; tx=L.view.tx; ty=L.view.ty; applyT(); } }
+  function localLayout(){ try{ return JSON.parse(localStorage.getItem(LKEY))||{}; }catch(e){ return {}; } }
+  function layoutFor(m){ const loc=localLayout(); return loc[m] || (SAVED_LAYOUT&&SAVED_LAYOUT[m]) || null; }   // this browser's tweaks override the shared default
+  function applyMode(m){ const L=layoutFor(m); if(L) applySnap(L); }
+  function saveLayout(){ try{ const loc=localLayout(); loc[curMode()]=collectSnap(); localStorage.setItem(LKEY, JSON.stringify(loc)); }catch(e){} }
+  requestAnimationFrame(()=>applyMode('tasks'));   // default view = tasks, applied after the relaxation frame
+
+  // subtree focus: hovering an entity or bubble isolates that entity's whole tree
+  function focusOn(name){
+    map.classList.add('focusing');
+    document.querySelectorAll('[data-e="'+name+'"]').forEach(el=>el.classList.add('hot'));
+  }
+  function clearFocus(){
+    map.classList.remove('focusing');
+    document.querySelectorAll('.hot').forEach(el=>el.classList.remove('hot'));
+  }
+
+  function mk(cls,name,sub,x,y,ent,size,count){
+    const d=document.createElement('a');d.href='entity.html?e='+(NKEY[name]||'foundation');d.className='node '+cls;
+    d.style.left=x+'px';d.style.top=y+'px';if(ent){d.style.setProperty('--edge',ent.edge);d.dataset.e=name;}
+    d.innerHTML=`<div class="disc">${ent?`<img src="${ent.logo}" alt="">`:'<span>OAT</span>'}</div><div class="nm">${name==='SecurityCouncil'?'Security Council':name==='DAO'?'ArbitrumDAO':name}</div>${cls==='owner'?'':`<div class="sub">${sub}</div>`}`;
+    if(cls==='entity'){d.addEventListener('mouseenter',()=>focusOn(name));d.addEventListener('mouseleave',clearFocus);if(matchMedia('(hover:none)').matches){d.addEventListener('click',ev=>{ if(!d.classList.contains('tapped')){ ev.preventDefault(); document.querySelectorAll('.node.tapped').forEach(x=>x.classList.remove('tapped')); d.classList.add('tapped'); focusOn(name); } }); }}
+    NODE_EL[name]=d; d.dataset.lid='n:'+name;
+    map.appendChild(d);return d;
+  }
+  function bub(d,x,y){const es=d.wtd?null:eff(d);const el=document.createElement('div');el.className='bub'+(es==='live vote'?' live':'');
+    const bc=d.wtd?((ENTITIES[d.owner]&&ENTITIES[d.owner].edge)||'#12aaff'):STATUS[es];
+    el.style.left=x+'px';el.style.top=y+'px';el.style.setProperty('--c',bc);
+    el.style.setProperty('--sz',(es==='live vote'?58:es==='starting'?52:50)+'px');
+    el.dataset.e=d.owner; el.dataset.lid='b:'+d.owner+':'+d.name;
+    const ent=ENTITIES[d.owner]; const lg=ent?ent.logo:'assets/arbitrum.svg';
+    el.innerHTML=`<div class="dot"><span class="stdot"></span><img src="${lg}" alt=""></div><div class="lb">${d.name}</div>`;
+    el.onclick=()=>{ if(el._justDragged){el._justDragged=false;return;} show(d); };
+    el.addEventListener('mouseenter',()=>focusOn(d.owner));
+    el.addEventListener('mouseleave',clearFocus);
+    map.appendChild(el);return el;}
+  function show(d){const c=document.getElementById('card');
+    const K={Foundation:'foundation',OpCo:'opco',Entropy:'entropy',Offchain:'offchain',AGV:'agv',ATMC:'atmc',SecurityCouncil:'securitycouncil',DAO:'dao',OAT:'oat'};
+    if(d.wtd){const col=(ENTITIES[d.owner]&&ENTITIES[d.owner].edge)||'#12aaff';
+      c.style.setProperty('--cc',col);
+      document.getElementById('cN').innerHTML=d.name;
+      document.getElementById('cO').textContent=d.oneliner;
+      document.getElementById('cW').innerHTML='Part of: <a href="entity.html?e='+(K[d.owner]||'foundation')+'" style="color:var(--blue)">'+(d.owner==='SecurityCouncil'?'Security Council':d.owner==='DAO'?'ArbitrumDAO':d.owner)+' ↗</a>';
+      document.getElementById('cL').style.display='none';
+      c.style.display='block'; return;}
+    const es=eff(d);const lab=es==='closed'?(d.close?'closed '+d.close:'closed'):es;
+    c.style.setProperty('--cc',STATUS[es]||'#12aaff');
+    document.getElementById('cN').innerHTML=d.name+`<span class="st2" style="background:color-mix(in srgb,${STATUS[es]} 18%,transparent);color:${STATUS[es]}">${lab}</span>`;
+    document.getElementById('cO').textContent=d.oneliner;
+    {const K={Foundation:'foundation',OpCo:'opco',Entropy:'entropy',Offchain:'offchain',AGV:'agv',ATMC:'atmc',SecurityCouncil:'securitycouncil',DAO:'dao',OAT:'oat'};
+    document.getElementById('cW').innerHTML='Run by: <a href="entity.html?e='+(K[d.owner]||'foundation')+'" style="color:var(--blue)">'+d.owner+' ↗</a>';}
+    const l=document.getElementById('cL');
+    l.href='https://forum.arbitrum.foundation/t/'+d.evidence; l.style.display=/^\d+$/.test(d.evidence)?'inline':'none';
+    c.style.display='block';}
+});
+</script>
+</body></html>

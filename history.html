@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ARBITRUM // ECOSYSTEM · how we got here · who does what, who got what</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+  --bg:#07090d; --bg2:#0b1017; --panel:#0e1520; --panel2:#131c2a;
+  --navy:#213147; --blue:#12aaff; --ice:#9dcced; --white:#fff;
+  --text:#e8eef5; --muted:#7d8fa3; --soft:#c2cfdc;
+  --green:#2fe08c; --amber:#ffc554; --red:#ff5f58; --purple:#b78cff;
+  --sans:'Segoe UI',Inter,system-ui,sans-serif;
+  --mono:'Cascadia Code',ui-monospace,Consolas,monospace;
+  --chamfer:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font:400 15px/1.55 var(--sans);overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background:
+   repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.006) 3px 4px),
+   radial-gradient(60% 40% at 50% -5%,rgba(18,170,255,.14),transparent 70%)}
+a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
+
+/* ── top nav ── */
+html{scroll-behavior:smooth}
+.topnav{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:18px;padding:10px 22px;
+  background:rgba(7,9,13,.82);backdrop-filter:blur(12px);border-bottom:1px solid rgba(18,170,255,.22)}
+.topnav .nlogo{width:26px;height:auto;filter:drop-shadow(0 0 8px rgba(18,170,255,.5))}
+.topnav .ntitle{font:800 13px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--white)}
+.topnav .ntitle .slash{color:var(--blue)}
+.ndrop{position:relative;margin-left:auto}
+.ndrop>button{background:linear-gradient(160deg,var(--panel2),var(--panel));color:var(--ice);border:1px solid rgba(18,170,255,.35);
+  font:700 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;padding:8px 16px;cursor:pointer;
+  border-radius:7px}
+.ndrop>button:hover{color:var(--white);border-color:var(--blue)}
+.nmenu{display:none;position:absolute;right:0;top:calc(100% + 8px);min-width:290px;max-height:70vh;overflow:auto;background:rgba(11,16,23,.97);
+  border:1px solid rgba(18,170,255,.3);box-shadow:0 14px 40px rgba(0,0,0,.6);padding:8px;
+  border-radius:12px}
+.ndrop.open .nmenu{display:block}
+.nmenu a{display:flex;align-items:center;gap:10px;padding:8px 10px;color:var(--soft);font-size:12.5px;font-weight:600}
+.nmenu a:hover{background:rgba(18,170,255,.12);color:var(--white);text-decoration:none;transform:translateX(4px)}
+.nmenu a img{width:22px;height:22px;border-radius:6px;object-fit:cover}
+.nmenu a .dot{width:6px;height:6px;background:var(--edgecol,var(--blue));clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+.nlive{display:inline-flex;align-items:center;margin-left:10px;text-decoration:none;white-space:nowrap;
+  background:linear-gradient(160deg,var(--panel2),var(--panel));color:var(--green);border:1px solid rgba(47,224,140,.42);
+  font:700 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;padding:8px 16px;border-radius:7px;
+  transition:border-color .15s,color .15s,box-shadow .15s}
+.nlive:hover{border-color:var(--green);color:#eafff4;box-shadow:0 0 0 1px rgba(47,224,140,.3)}
+.nlive::before{content:'●';margin-right:8px;font-size:9px;animation:pulse 1.6s infinite}
+
+/* ── hero ── */
+.hero{position:relative;padding:54px 22px 30px;text-align:center;z-index:1}
+.hero .brand{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:14px}
+.hero .brand img{width:54px;height:auto;filter:drop-shadow(0 0 18px rgba(18,170,255,.55))}
+.hero h1{font-size:clamp(30px,6vw,58px);font-weight:900;letter-spacing:-.01em;line-height:.98;text-transform:uppercase}
+.hero h1 .slash{color:var(--blue)}
+.hero h1 .thin{display:block;font-size:.34em;font-weight:600;letter-spacing:.34em;color:var(--ice);margin-top:10px}
+.hero .sub{color:var(--muted);max-width:660px;margin:16px auto 0;font-size:14.5px}
+.hero .sub b{color:var(--soft);font-weight:600}
+.scrolldown{margin:26px auto 0;width:26px;height:42px;border:2px solid rgba(157,204,237,.5);border-radius:14px;position:relative}
+.scrolldown::after{content:'';position:absolute;left:50%;top:8px;width:4px;height:8px;margin-left:-2px;border-radius:2px;
+  background:var(--blue);animation:drop 1.8s ease-in-out infinite}
+@keyframes drop{0%{transform:translateY(0);opacity:1}70%{transform:translateY(14px);opacity:0}100%{opacity:0}}
+
+.statbar{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:26px auto 0;max-width:1020px;position:relative;z-index:1;padding:0 18px}
+@media(max-width:900px){.statbar{grid-template-columns:repeat(2,1fr)}}
+.stat{background:radial-gradient(130% 130% at 50% 0%,var(--panel2),var(--panel));border-radius:14px;
+  padding:16px 22px;border:1px solid rgba(180,196,215,.16);border-top:2px solid var(--blue);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 4px 14px rgba(0,0,0,.45);
+  transition:border-color .15s,box-shadow .15s}
+.stat:hover{border-color:rgba(18,170,255,.4);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 4px 14px rgba(0,0,0,.45),0 0 0 1px rgba(18,170,255,.3),0 0 18px rgba(18,170,255,.15)}
+.stat .v{font:800 25px/1.1 var(--sans);color:var(--white)}
+.stat .v em{font-style:normal;color:var(--blue)}
+.stat .k{font:600 10.5px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+
+/* ── section dividers ── */
+.divider{max-width:1160px;margin:44px auto 8px;padding:0 20px;display:flex;align-items:center;gap:14px;position:relative;z-index:1}
+.divider .tag{font:800 13px var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--blue);white-space:nowrap;transform:skewX(-10deg)}
+.divider .line{flex:1;height:1px;background:linear-gradient(90deg,rgba(18,170,255,.55),transparent)}
+.divider .note{color:var(--muted);font-size:11.5px;white-space:nowrap}
+.secsub{max-width:1160px;margin:0 auto 16px;padding:0 20px;color:var(--muted);font-size:12.5px;position:relative;z-index:1}
+.secsub a{font-weight:600}
+
+/* ── entity rows ── */
+.roster{max-width:1160px;margin:0 auto;padding:0 20px;display:flex;flex-direction:column;gap:12px;position:relative;z-index:1}
+.ent{background:radial-gradient(130% 130% at 50% 0%,var(--panel2),var(--panel));border-radius:14px;
+  border:1px solid rgba(180,196,215,.16);border-left:3px solid var(--edge,var(--blue));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 4px 14px rgba(0,0,0,.45);
+  transition:transform .16s,box-shadow .16s,border-color .16s;cursor:pointer;position:relative}
+.ent:hover{transform:translateX(6px);border-color:color-mix(in srgb,var(--edge,#12aaff) 45%,rgba(180,196,215,.16));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 4px 14px rgba(0,0,0,.45),0 0 0 1px color-mix(in srgb,var(--edge,#12aaff) 38%,transparent),0 0 22px color-mix(in srgb,var(--edge,#12aaff) 20%,transparent)}
+.ent .head{display:grid;grid-template-columns:64px 1fr auto auto;gap:16px;align-items:center;padding:16px 22px 16px 18px}
+.ent .logo{width:56px;height:56px;border-radius:12px;object-fit:cover;background:var(--navy);
+  box-shadow:0 0 0 2px rgba(18,170,255,.35),0 0 22px rgba(18,170,255,.22)}
+.ent .who h2{font-size:18px;font-weight:800;text-transform:uppercase;letter-spacing:.03em}
+.ent .who h2 small{color:var(--muted);font-weight:600;font-size:12px;text-transform:none;letter-spacing:0}
+.ent .who .role{color:var(--muted);font-size:12.5px;margin-top:2px}
+.ent .who .role b{color:var(--ice);font-weight:600}
+.ent .got{text-align:right}
+.ent .got .amt{font:800 21px var(--sans);color:var(--white);white-space:nowrap;text-shadow:0 0 22px rgba(18,170,255,.35)}
+.ent .got .amt em{font-style:normal;color:var(--blue)}
+.ent .got .lbl{font:600 9.5px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.ent .arrow{color:var(--blue);font-size:20px;transition:transform .18s;padding-left:4px}
+.ent.open .arrow{transform:rotate(180deg)}
+.badge{position:absolute;top:0;right:26px;font:800 9px var(--sans);letter-spacing:.18em;text-transform:uppercase;
+  padding:4px 12px;color:#06111c;background:var(--edge,var(--blue));border-radius:999px}
+
+/* program chips */
+.progs{display:flex;gap:8px;flex-wrap:wrap;padding:0 22px 14px}
+.prog{font:700 10.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ice);
+  background:rgba(18,170,255,.10);border:1px solid rgba(18,170,255,.28);padding:4px 10px;
+  border-radius:999px}
+.prog.out{color:var(--amber);background:rgba(255,197,84,.08);border-color:rgba(255,197,84,.3)}
+.prog.in{color:var(--green);background:rgba(47,224,140,.08);border-color:rgba(47,224,140,.3)}
+
+/* drawer */
+.drawer{display:none;padding:4px 24px 22px;border-top:1px solid rgba(255,255,255,.06)}
+.ent.open .drawer{display:block;cursor:default}
+.cols{display:grid;grid-template-columns:1fr;gap:20px;margin-top:14px}
+@media(min-width:860px){.cols{grid-template-columns:1.1fr .9fr}}
+.cols>div{min-width:0}
+.colh{font:800 11px var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--blue);margin:14px 0 10px;
+  display:flex;align-items:center;gap:8px}
+.colh:first-child{margin-top:0}
+.colh::after{content:'';flex:1;height:1px;background:rgba(18,170,255,.25)}
+.frow{display:grid;grid-template-columns:52px 1fr;gap:12px;align-items:center;padding:7px 0}
+.frow .yr{font:800 13px var(--mono);color:var(--ice);transform:skewX(-8deg)}
+.frow .bar{position:relative;height:30px;background:rgba(255,255,255,.045);border-radius:7px}
+.frow .fill{position:absolute;inset:0;width:var(--w);background:linear-gradient(90deg,rgba(18,170,255,.85),rgba(18,170,255,.25));
+  border-radius:7px}
+.frow .bar span{position:relative;z-index:1;display:flex;align-items:center;height:100%;padding:0 12px;
+  font:700 12.5px var(--sans);color:var(--white);white-space:nowrap}
+.frow .bar span a{color:inherit;font-weight:400;font-size:10.5px;opacity:.75;margin-left:8px}
+.fnote{color:var(--muted);font-size:11.5px;margin-top:8px;font-style:italic}
+.plist{list-style:none}
+.allprops{max-height:225px;overflow:auto;padding-right:6px}
+.plist li{padding:7px 0 7px 20px;position:relative;font-size:13.5px;color:var(--soft);border-bottom:1px dashed rgba(255,255,255,.05)}
+.plist li:last-child{border-bottom:none}
+.plist li::before{content:'❯';position:absolute;left:2px;top:8px;font-size:10px;color:var(--blue)}
+.plist li.live::before{content:'●';color:var(--green);animation:pulse 1.6s infinite}
+.plist li.dead::before{content:'✕';color:var(--red)}
+@keyframes pulse{50%{opacity:.35}}
+.st{font:700 9.5px var(--sans);letter-spacing:.1em;text-transform:uppercase;padding:1.5px 7px;margin-left:6px;
+  border-radius:999px}
+.st.pass{background:rgba(47,224,140,.15);color:var(--green)}
+.st.live{background:rgba(47,224,140,.9);color:#06210f}
+.st.exec{background:rgba(18,170,255,.18);color:var(--blue)}
+.st.wind{background:rgba(255,197,84,.16);color:var(--amber)}
+.st.fail{background:rgba(255,95,88,.16);color:var(--red)}
+.xfer{color:var(--amber);font-weight:700}
+
+.lb{width:100%;border-collapse:collapse;font-size:13px}
+.lb th{font:700 10px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 10px;border-bottom:1px solid rgba(18,170,255,.25)}
+.lb td{padding:7px 10px;border-bottom:1px dashed rgba(255,255,255,.05);color:var(--soft)}
+.lb td.n{font:700 12px var(--mono);color:var(--ice)}
+.lb td.amt{font:700 13px var(--mono);color:var(--white);text-align:right}
+.lb tr:hover td{background:rgba(18,170,255,.06)}
+.lb .rank1 td{color:var(--white)} .lb .rank1 td.n{color:var(--blue)}
+.lbwrap{max-height:420px;overflow:auto;margin-top:8px}
+.lb{min-width:560px}
+footer{max-width:1160px;margin:44px auto 46px;padding:18px 20px 0;color:var(--muted);font-size:12px;
+  border-top:1px solid rgba(255,255,255,.07);position:relative;z-index:1}
+footer b{color:var(--soft)}
+
+.js .ent{opacity:0;transform:translateY(26px);transition:opacity .5s ease,transform .5s ease}
+.js .ent.in{opacity:1;transform:none}
+.js .ent:hover{transform:translateX(6px)}
+@media (prefers-reduced-motion:reduce){.js .ent{opacity:1;transform:none;transition:none}}
+@media(max-width:640px){
+  .ent .head{grid-template-columns:44px 1fr auto}
+  .ent .logo{width:40px;height:40px}
+  .ent .got{display:none}
+  .badge{display:none}
+  .hero h1 .thin{letter-spacing:.14em;font-size:.3em}
+  .stat{min-width:140px;padding:12px 16px}
+  .frow{grid-template-columns:40px 1fr}
+  .frow .bar{height:auto;min-height:30px}
+  .frow .bar span{white-space:normal;font-size:11px;line-height:1.25;padding:6px 8px}
+  .drawer{padding:4px 14px 18px}
+  .plist li{font-size:12.5px}
+  .nlive{display:none}
+  .divider .note{display:none}
+  .divider .tag{white-space:normal}
+}
+
+/* P&L: treasury-first + ledger table (Zep pick, Jul 6) */
+.pnlsec{max-width:1160px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
+.tre{display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr;gap:12px;margin:0 0 18px}
+@media(max-width:960px){.tre{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.tre{grid-template-columns:1fr}}
+.tcard{background:radial-gradient(130% 130% at 50% 0%,rgba(18,170,255,.10),rgba(18,170,255,.04));
+  border:1px solid rgba(180,196,215,.16);padding:14px 16px;
+  border-radius:12px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 4px 14px rgba(0,0,0,.45)}
+.tcard .tk{font:700 9.5px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.tcard .tv{font:800 24px var(--mono);margin-top:4px}
+.tcard .tv em{font-style:normal;color:#12aaff;font-size:15px}
+.tcard .td{font:400 11px var(--sans);color:var(--muted);margin-top:3px}
+.pnlwrap{overflow-x:auto;border:1px solid rgba(255,255,255,.1)}
+.pnltbl{border-collapse:collapse;width:100%;min-width:820px;font:400 13px var(--sans)}
+.pnltbl th{font:700 10px var(--sans);letter-spacing:.13em;text-transform:uppercase;color:var(--muted);text-align:right;
+  padding:10px 14px;border-bottom:2px solid rgba(18,170,255,.4)}
+.pnltbl th:first-child{text-align:left}
+.pnltbl td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:top;text-align:right}
+.pnltbl td:first-child{text-align:left}
+.pnltbl .yr2{font:800 15px var(--mono);white-space:nowrap}
+.pnltbl .num{font:700 13.5px var(--mono);white-space:nowrap}
+.pnltbl .num small{font:400 10.5px var(--mono);color:var(--muted);display:block;margin-top:1px;white-space:normal}
+.pnltbl .o{color:#ffb3af}.pnltbl .g{color:#9af0c6}.pnltbl .mu{color:var(--muted)}
+.pnltbl .yrrow{cursor:pointer}
+.pnltbl .yrrow:hover td{background:rgba(18,170,255,.06)}
+.pnltbl .yrrow.on td{background:rgba(18,170,255,.09);border-bottom-color:transparent}
+.pnltbl .chev{color:var(--muted);font-size:11px;transition:transform .18s;display:inline-block}
+.pnltbl .yrrow.on .chev{transform:rotate(90deg);color:#12aaff}
+.pnltbl .exprow{display:none}
+.pnltbl .exprow td{background:rgba(255,255,255,.025);text-align:left;padding:6px 18px 16px}
+.pnlx{display:grid;grid-template-columns:1fr 1fr;gap:8px 26px}
+@media(max-width:760px){.pnlx{grid-template-columns:1fr}}
+.pnlx .xh{font:700 9.5px var(--sans);letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin:8px 0 3px}
+.pnlx ul{list-style:none;margin:0;padding:0}
+.pnlx li{font:400 12.5px var(--sans);color:#c9d6e4;padding:3px 0;border-bottom:1px dashed rgba(255,255,255,.06)}
+.pnlx li b{font-family:var(--mono)}
+.pnltbl .totrow td{border-top:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.03);border-bottom:none}
+
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <img class="nlogo" src="assets/arbitrum.svg" alt="">
+  <span class="ntitle">Arbitrum <span class="slash">//</span> Ecosystem</span>
+  <div class="ndrop" id="ndrop">
+    <button type="button" onclick="document.getElementById('ndrop').classList.toggle('open');event.stopPropagation()">Entities ▾</button>
+    <div class="nmenu" id="nmenu"></div>
+  </div>
+  <a class="nlive" style="cursor:pointer" href="index.html">What's running now</a>
+</nav>
+
+<div class="hero">
+  <div class="brand"><img src="assets/arbitrum.svg" alt="Arbitrum"></div>
+  <h1>Arbitrum <span class="slash">//</span> Ecosystem
+    <span class="thin">How we got here</span>
+  </h1>
+  <div class="sub">The full record of how ArbitrumDAO got to today: the <b>five AAEs</b>, every program under whoever runs it, the money <b>year by year</b>, and what comes back. Built from public sources; every number links to its proposal.</div>
+</div>
+
+<div class="statbar">
+  <div class="stat"><div class="v">1B+ <em>ARB</em></div><div class="k">allocated by the DAO since 2023*</div></div>
+  <div class="stat"><div class="v">2.43B <em>ARB</em></div><div class="k">live in the treasury · <span id="treasuryUsd">≈$189M</span></div></div>
+  <div class="stat"><div class="v">$23.5M</div><div class="k">2025 gross profit</div></div>
+  <div class="stat"><div class="v">96 <em>delegates</em></div><div class="k">paid $1.57M + ARB since 2024</div></div>
+</div>
+
+<!-- ═══════════ THE OWNER ═══════════ -->
+<div class="divider"><span class="tag">// ArbitrumDAO</span><span class="line"></span><span class="note"></span></div>
+
+<div class="roster">
+
+  <!-- DAO / COMMUNITY -->
+  <div class="ent" style="--edge:#12aaff" onclick="tog(event,this)">
+    <span class="badge">Governance</span>
+    <div class="head">
+      <img class="logo" src="assets/arbitrum.svg" alt="ArbitrumDAO" style="object-fit:contain;padding:6px">
+      <div class="who"><h2>ArbitrumDAO</h2>
+        <div class="role">ARB holders + delegates. <b>Everything on this page answers to this layer.</b> 356 of the 720 forum topics since 2023 came from the community, though the share has shifted (71% in 2023 → 38% in 2026).</div></div>
+      <div class="got"><div class="amt">10B <em>ARB</em></div><div class="lbl">total ARB supply</div></div>
+      <div class="arrow" title="click to expand">▾</div>
+    </div>
+    <div class="progs"><span class="prog">356 community proposals</span><span class="prog">delegate pay: DIP (SEEDGov) → RAD (OpCo)</span></div>
+    <div class="drawer">
+      <div class="cols">
+        <div>
+          <div class="colh">Live right now</div>
+          <ul class="plist">
+            <li class="live">Voting on <b>Offchain's</b> Fast Feed AIP · closes <b>Jul 9</b> <span class="st live" data-close="2026-07-09">voting</span> · <a href="https://snapshot.box/#/s:arbitrumfoundation.eth/proposal/0xe98ec21fc4212d98ef86d513b69e24c7d082359d735632bb4e4d9df3e857fde9" target="_blank">vote ↗</a></li>
+            <li>Ideas surface here first · e.g. BLAZE builder-loans (Dec 2025): well received on the forum, but hasn't gone to a vote · same for q/acc builder investment (May 2025, 57 posts): discussed at length, never reached Snapshot <a href="https://forum.arbitrum.foundation/t/29215" target="_blank">↗</a> · <a href="https://forum.arbitrum.foundation/t/blaze-bootstrapping-loans-for-the-arbitrum-ecosystem/30300" target="_blank">↗</a></li>
+            <li>Heading onchain next: Timeboost proceeds split (temp-check Jul 2) + PGA ordering (Jun 25), both constitutional <a href="https://forum.arbitrum.foundation/t/30920" target="_blank">↗</a> <a href="https://forum.arbitrum.foundation/t/30942" target="_blank">↗</a></li>
+            <li>Hot thread: "From Governance Token to Utility Token" · active this week <a href="https://forum.arbitrum.foundation/t/30192" target="_blank">↗</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="colh">Recent calls (2026) &amp; events</div>
+          <ul class="plist">
+            <li>AGV wind-down <span class="st pass">for · jul 2</span> + Timeboost split <span class="st" style="background:rgba(255,197,84,.14);color:#ffc554">temp-check jul 2</span> · DRIP ext <span class="st pass">for · jun 25</span> + PGA <span class="st" style="background:rgba(255,197,84,.14);color:#ffc554">temp-check jun 25</span></li>
+            <li>Foundation renewal <span class="st exec">executed jun 28</span> · Nova minimized <span class="st pass">for · jun 4</span></li>
+            <li>Events: $1.5M Events Budget <a href="https://forum.arbitrum.foundation/t/establishing-a-dao-events-budget-for-2025/26734" target="_blank">↗</a> · GovHack Bangkok $156k <a href="https://forum.arbitrum.foundation/t/govhack-devcon-in-bangkok-hack-humanity/26634" target="_blank">↗</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="colh" style="margin-top:18px">Delegates · what each one got paid · DIP + RAD, 26 result threads + June on-chain</div>
+      <div class="cols">
+        <div>
+          <div class="colh">Funding by year</div>
+          <div class="frow"><span class="yr">2024</span><div class="bar"><div class="fill" style="--w:30%"></div><span>1.58M ARB · DIP 1.0 pilot <a href="https://forum.arbitrum.foundation/t/proposal-experimental-incentive-system-for-active-arbitrumdao-delegates/19467" target="_blank">↗</a></span></div></div>
+          <div class="frow"><span class="yr">2024</span><div class="bar"><div class="fill" style="--w:80%"></div><span>$4.2M/yr · DIP v1.5 renewal <a href="https://forum.arbitrum.foundation/t/proposal-delegate-incentive-program-dip/26496" target="_blank">↗</a></span></div></div>
+          <div class="frow"><span class="yr">2025</span><div class="bar"><div class="fill" style="--w:100%"></div><span>RAD · draws the ~7M ARB DIP pool, quarterly budgets <a href="https://forum.arbitrum.foundation/t/rewarding-active-delegates-rad-program/30249" target="_blank">↗</a></span></div></div>
+          <div class="fnote">RAD (Snapshot passed Dec 2025): pays per proposal · e.g. $15k per constitutional vote ($700/delegate cap) · needs 200k ARB VP, public rationale, 75% participation. Last 3 months averaged ~$54k/mo vs ~$67k under DIP (RAD Update #3). Pool live balance: 4,882,489 ARB (Jul 6) ≈ $381k at $0.078.</div>
+        </div>
+        <div>
+          <div class="colh">Status</div>
+          <ul class="plist">
+            <li class="live">RAD active · 1-year run, retroactive to Nov 1 2025 <span class="st live">active</span></li>
+            <li>RAD 2Q2026 quarterly budget review · <a href="https://forum.arbitrum.foundation/t/rad-budget-quarterly-review-2q2026/31031" target="_blank">↗</a> · 6-month transparency report · <a href="https://forum.arbitrum.foundation/t/rad-bi-annual-transparency-report-june-2026/30964" target="_blank">↗</a></li>
+            <li>Major votes draw <b>130–230M ARB VP</b> · typical turnout fell from ~4,700–7,500 in 2024 (farming-era spikes to 123k) to ~2,500–3,300 in 2025 and ~1,300–1,600 in 2026 (Snapshot tallies)</li>
+          </ul>
+
+          <div class="colh">Per-delegate totals · all 26 DIP + RAD result threads + June on-chain</div>
+          <input id="lbFilter" placeholder="find a delegate…" style="width:100%;margin:4px 0 6px;background:rgba(255,255,255,.05);border:1px solid rgba(18,170,255,.25);color:var(--text);font:600 12.5px var(--sans);padding:7px 12px;border-radius:7px" oninput="(function(v){document.querySelectorAll('.lb tbody tr').forEach(function(r){r.style.display=r.children[1].textContent.toLowerCase().includes(v)?'':'none'})})(this.value.toLowerCase())">
+          <div class="lbwrap"><table class="lb">
+            <thead><tr><th>#</th><th>Delegate</th><th style="text-align:right">DIP (USD)</th><th style="text-align:right">RAD (USD)</th><th style="text-align:right">Total USD</th><th style="text-align:right">Jun'26 ARB ⛓</th><th style="text-align:right">v1.0 ARB</th><th style="text-align:right">Mo</th></tr></thead>
+            <tbody><tr class="rank1"><td class="n">1</td><td>L2BEAT</td><td class="amt">$70,779</td><td class="amt">$9,453</td><td class="amt">$80,232</td><td class="amt" style="color:var(--green)">25,036</td><td class="amt">37,747</td><td class="amt">26</td></tr><tr class=""><td class="n">2</td><td>Jojo</td><td class="amt">$53,644</td><td class="amt">$6,598</td><td class="amt">$60,241</td><td class="amt" style="color:var(--green)">19,542</td><td class="amt">30,352</td><td class="amt">25</td></tr><tr class=""><td class="n">3</td><td>Gauntlet</td><td class="amt">$44,840</td><td class="amt">$5,818</td><td class="amt">$50,658</td><td class="amt" style="color:var(--green)">22,894</td><td class="amt">23,328</td><td class="amt">22</td></tr><tr class=""><td class="n">4</td><td>Tekr0x.eth</td><td class="amt">$48,279</td><td class="amt">·</td><td class="amt">$48,279</td><td class="amt" style="color:var(--green)">·</td><td class="amt">11,951</td><td class="amt">15</td></tr><tr class=""><td class="n">5</td><td>GFXLabs</td><td class="amt">$43,579</td><td class="amt">$4,440</td><td class="amt">$48,019</td><td class="amt" style="color:var(--green)">·</td><td class="amt">31,185</td><td class="amt">24</td></tr><tr class=""><td class="n">6</td><td>TempeTechie</td><td class="amt">$47,484</td><td class="amt">·</td><td class="amt">$47,484</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">12</td></tr><tr class=""><td class="n">7</td><td>MaxLomu</td><td class="amt">$37,494</td><td class="amt">$7,042</td><td class="amt">$44,536</td><td class="amt" style="color:var(--green)">24,161</td><td class="amt">32,408</td><td class="amt">24</td></tr><tr class=""><td class="n">8</td><td>paulofonseca</td><td class="amt">$43,506</td><td class="amt">$757</td><td class="amt">$44,262</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">12</td></tr><tr class=""><td class="n">9</td><td>Griff</td><td class="amt">$34,045</td><td class="amt">$9,605</td><td class="amt">$43,649</td><td class="amt" style="color:var(--green)">20,752</td><td class="amt">27,290</td><td class="amt">25</td></tr><tr class=""><td class="n">10</td><td>Blockworks Research</td><td class="amt">$38,328</td><td class="amt">$5,150</td><td class="amt">$43,478</td><td class="amt" style="color:var(--green)">·</td><td class="amt">34,510</td><td class="amt">21</td></tr><tr class=""><td class="n">11</td><td>Areta</td><td class="amt">$34,178</td><td class="amt">$8,413</td><td class="amt">$42,591</td><td class="amt" style="color:var(--green)">25,438</td><td class="amt">3,319</td><td class="amt">18</td></tr><tr class=""><td class="n">12</td><td>Bob-Rossi</td><td class="amt">$39,878</td><td class="amt">$2,287</td><td class="amt">$42,165</td><td class="amt" style="color:var(--green)">·</td><td class="amt">36,136</td><td class="amt">22</td></tr><tr class=""><td class="n">13</td><td>Lampros DAO</td><td class="amt">$40,749</td><td class="amt">$163</td><td class="amt">$40,912</td><td class="amt" style="color:var(--green)">·</td><td class="amt">8,038</td><td class="amt">13</td></tr><tr class=""><td class="n">14</td><td>Olimpio</td><td class="amt">$35,823</td><td class="amt">$4,331</td><td class="amt">$40,155</td><td class="amt" style="color:var(--green)">22,894</td><td class="amt">28,184</td><td class="amt">22</td></tr><tr class=""><td class="n">15</td><td>Arana Digital</td><td class="amt">$31,511</td><td class="amt">$6,876</td><td class="amt">$38,387</td><td class="amt" style="color:var(--green)">24,635</td><td class="amt">4,175</td><td class="amt">17</td></tr><tr class=""><td class="n">16</td><td>404DAO</td><td class="amt">$38,236</td><td class="amt">$12</td><td class="amt">$38,248</td><td class="amt" style="color:var(--green)">·</td><td class="amt">35,984</td><td class="amt">18</td></tr><tr class=""><td class="n">17</td><td>jameskbh</td><td class="amt">$37,508</td><td class="amt">·</td><td class="amt">$37,508</td><td class="amt" style="color:var(--green)">·</td><td class="amt">24,035</td><td class="amt">17</td></tr><tr class=""><td class="n">18</td><td>Karpatkey</td><td class="amt">$35,287</td><td class="amt">$1,913</td><td class="amt">$37,200</td><td class="amt" style="color:var(--green)">·</td><td class="amt">18,399</td><td class="amt">18</td></tr><tr class=""><td class="n">19</td><td>Tane</td><td class="amt">$36,383</td><td class="amt">·</td><td class="amt">$36,383</td><td class="amt" style="color:var(--green)">·</td><td class="amt">24,457</td><td class="amt">15</td></tr><tr class=""><td class="n">20</td><td>Reverie</td><td class="amt">$32,056</td><td class="amt">$3,625</td><td class="amt">$35,681</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">14</td></tr><tr class=""><td class="n">21</td><td>CastleCapital</td><td class="amt">$35,470</td><td class="amt">·</td><td class="amt">$35,470</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">8</td></tr><tr class=""><td class="n">22</td><td>0xDonPepe</td><td class="amt">$30,406</td><td class="amt">$342</td><td class="amt">$30,747</td><td class="amt" style="color:var(--green)">·</td><td class="amt">6,879</td><td class="amt">12</td></tr><tr class=""><td class="n">23</td><td>cp0x</td><td class="amt">$27,699</td><td class="amt">$2,985</td><td class="amt">$30,685</td><td class="amt" style="color:var(--green)">4,515</td><td class="amt">37,289</td><td class="amt">20</td></tr><tr class=""><td class="n">24</td><td>Camelot</td><td class="amt">$24,160</td><td class="amt">$6,438</td><td class="amt">$30,597</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">13</td></tr><tr class=""><td class="n">25</td><td>Uniswap Delegation (UADP)</td><td class="amt">$21,892</td><td class="amt">$5,917</td><td class="amt">$27,809</td><td class="amt" style="color:var(--green)">15,998</td><td class="amt">34,406</td><td class="amt">21</td></tr><tr class=""><td class="n">26</td><td>GMX</td><td class="amt">$19,534</td><td class="amt">$8,235</td><td class="amt">$27,768</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">13</td></tr><tr class=""><td class="n">27</td><td>pedrob</td><td class="amt">$27,590</td><td class="amt">·</td><td class="amt">$27,590</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">6</td></tr><tr class=""><td class="n">28</td><td>Curia</td><td class="amt">$25,673</td><td class="amt">·</td><td class="amt">$25,673</td><td class="amt" style="color:var(--green)">·</td><td class="amt">3,565</td><td class="amt">8</td></tr><tr class=""><td class="n">29</td><td>DAOplomats</td><td class="amt">$23,891</td><td class="amt">·</td><td class="amt">$23,891</td><td class="amt" style="color:var(--green)">·</td><td class="amt">30,364</td><td class="amt">13</td></tr><tr class=""><td class="n">30</td><td>0x_ultra</td><td class="amt">$21,844</td><td class="amt">·</td><td class="amt">$21,844</td><td class="amt" style="color:var(--green)">·</td><td class="amt">28,454</td><td class="amt">12</td></tr><tr class=""><td class="n">31</td><td>StableLab</td><td class="amt">$21,289</td><td class="amt">·</td><td class="amt">$21,289</td><td class="amt" style="color:var(--green)">·</td><td class="amt">31,040</td><td class="amt">14</td></tr><tr class=""><td class="n">32</td><td>Vertex Protocol</td><td class="amt">$19,814</td><td class="amt">·</td><td class="amt">$19,814</td><td class="amt" style="color:var(--green)">·</td><td class="amt">18,331</td><td class="amt">10</td></tr><tr class=""><td class="n">33</td><td>TodayInDeFi</td><td class="amt">$15,957</td><td class="amt">$1,766</td><td class="amt">$17,723</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">10</td></tr><tr class=""><td class="n">34</td><td>Argonaut</td><td class="amt">$17,320</td><td class="amt">·</td><td class="amt">$17,320</td><td class="amt" style="color:var(--green)">·</td><td class="amt">7,535</td><td class="amt">5</td></tr><tr class=""><td class="n">35</td><td>GensDAO</td><td class="amt">$16,919</td><td class="amt">·</td><td class="amt">$16,919</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">3</td></tr><tr class=""><td class="n">36</td><td>Juanrah</td><td class="amt">$16,858</td><td class="amt">·</td><td class="amt">$16,858</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">3</td></tr><tr class=""><td class="n">37</td><td>Gabriel</td><td class="amt">$15,864</td><td class="amt">·</td><td class="amt">$15,864</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">4</td></tr><tr class=""><td class="n">38</td><td>Larva</td><td class="amt">$15,599</td><td class="amt">·</td><td class="amt">$15,599</td><td class="amt" style="color:var(--green)">·</td><td class="amt">18,825</td><td class="amt">8</td></tr><tr class=""><td class="n">39</td><td>Ezr3al</td><td class="amt">$15,082</td><td class="amt">·</td><td class="amt">$15,082</td><td class="amt" style="color:var(--green)">·</td><td class="amt">3,313</td><td class="amt">4</td></tr><tr class=""><td class="n">40</td><td>PGov</td><td class="amt">$14,686</td><td class="amt">·</td><td class="amt">$14,686</td><td class="amt" style="color:var(--green)">·</td><td class="amt">25,646</td><td class="amt">9</td></tr><tr class=""><td class="n">41</td><td>0xTALVO</td><td class="amt">$14,181</td><td class="amt">·</td><td class="amt">$14,181</td><td class="amt" style="color:var(--green)">·</td><td class="amt">3,300</td><td class="amt">4</td></tr><tr class=""><td class="n">42</td><td>DanielO</td><td class="amt">$13,798</td><td class="amt">·</td><td class="amt">$13,798</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">4</td></tr><tr class=""><td class="n">43</td><td>NathanVDH</td><td class="amt">$12,761</td><td class="amt">·</td><td class="amt">$12,761</td><td class="amt" style="color:var(--green)">·</td><td class="amt">14,360</td><td class="amt">7</td></tr><tr class=""><td class="n">44</td><td>Ignas</td><td class="amt">$11,182</td><td class="amt">·</td><td class="amt">$11,182</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">2</td></tr><tr class=""><td class="n">45</td><td>DisruptionJoe</td><td class="amt">$11,164</td><td class="amt">·</td><td class="amt">$11,164</td><td class="amt" style="color:var(--green)">·</td><td class="amt">3,069</td><td class="amt">3</td></tr><tr class=""><td class="n">46</td><td>Kuiqian.eth</td><td class="amt">$10,731</td><td class="amt">·</td><td class="amt">$10,731</td><td class="amt" style="color:var(--green)">·</td><td class="amt">25,585</td><td class="amt">10</td></tr><tr class=""><td class="n">47</td><td>MUX Protocol</td><td class="amt">$3,766</td><td class="amt">$5,855</td><td class="amt">$9,621</td><td class="amt" style="color:var(--green)">·</td><td class="amt">14,162</td><td class="amt">10</td></tr><tr class=""><td class="n">48</td><td>KuiClub</td><td class="amt">$9,397</td><td class="amt">·</td><td class="amt">$9,397</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">2</td></tr><tr class=""><td class="n">49</td><td>Dragonfly</td><td class="amt">$9,166</td><td class="amt">·</td><td class="amt">$9,166</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">2</td></tr><tr class=""><td class="n">50</td><td>Tamara</td><td class="amt">$8,122</td><td class="amt">·</td><td class="amt">$8,122</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">3</td></tr><tr class=""><td class="n">51</td><td>mcfly</td><td class="amt">$7,725</td><td class="amt">·</td><td class="amt">$7,725</td><td class="amt" style="color:var(--green)">·</td><td class="amt">28,939</td><td class="amt">9</td></tr><tr class=""><td class="n">52</td><td>BristolBlockchain</td><td class="amt">$7,359</td><td class="amt">·</td><td class="amt">$7,359</td><td class="amt" style="color:var(--green)">·</td><td class="amt">15,741</td><td class="amt">6</td></tr><tr class=""><td class="n">53</td><td>DZack23</td><td class="amt">·</td><td class="amt">$6,926</td><td class="amt">$6,926</td><td class="amt" style="color:var(--green)">25,438</td><td class="amt">·</td><td class="amt">6</td></tr><tr class=""><td class="n">54</td><td>web3citizenxyz</td><td class="amt">$6,334</td><td class="amt">·</td><td class="amt">$6,334</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">2</td></tr><tr class=""><td class="n">55</td><td>Alex Lumley</td><td class="amt">$6,203</td><td class="amt">·</td><td class="amt">$6,203</td><td class="amt" style="color:var(--green)">·</td><td class="amt">6,503</td><td class="amt">4</td></tr><tr class=""><td class="n">56</td><td>David Mihal</td><td class="amt">$1,156</td><td class="amt">$4,308</td><td class="amt">$5,464</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">4</td></tr><tr class=""><td class="n">57</td><td>Coinflip</td><td class="amt">·</td><td class="amt">$4,805</td><td class="amt">$4,805</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">3</td></tr><tr class=""><td class="n">58</td><td>Bruce</td><td class="amt">$4,447</td><td class="amt">·</td><td class="amt">$4,447</td><td class="amt" style="color:var(--green)">·</td><td class="amt">17,058</td><td class="amt">6</td></tr><tr class=""><td class="n">59</td><td>chamadao</td><td class="amt">$4,350</td><td class="amt">·</td><td class="amt">$4,350</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">1</td></tr><tr class=""><td class="n">60</td><td>Merlyn Labs</td><td class="amt">$1,333</td><td class="amt">$2,976</td><td class="amt">$4,310</td><td class="amt" style="color:var(--green)">22,837</td><td class="amt">·</td><td class="amt">4</td></tr><tr class=""><td class="n">61</td><td>Zeptimus</td><td class="amt">·</td><td class="amt">$4,176</td><td class="amt">$4,176</td><td class="amt" style="color:var(--green)">5,888</td><td class="amt">·</td><td class="amt">6</td></tr><tr class=""><td class="n">62</td><td>Layer3</td><td class="amt">·</td><td class="amt">$3,651</td><td class="amt">$3,651</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">6</td></tr><tr class=""><td class="n">63</td><td>Yoav</td><td class="amt">·</td><td class="amt">$3,536</td><td class="amt">$3,536</td><td class="amt" style="color:var(--green)">24,635</td><td class="amt">·</td><td class="amt">1</td></tr><tr class=""><td class="n">64</td><td>Sov</td><td class="amt">$3,165</td><td class="amt">$251</td><td class="amt">$3,416</td><td class="amt" style="color:var(--green)">3,899</td><td class="amt">·</td><td class="amt">4</td></tr><tr class=""><td class="n">65</td><td>newze</td><td class="amt">$3,206</td><td class="amt">·</td><td class="amt">$3,206</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">1</td></tr><tr class=""><td class="n">66</td><td>Frisson</td><td class="amt">$3,205</td><td class="amt">·</td><td class="amt">$3,205</td><td class="amt" style="color:var(--green)">·</td><td class="amt">33,387</td><td class="amt">9</td></tr><tr class=""><td class="n">67</td><td>Amira</td><td class="amt">$3,169</td><td class="amt">·</td><td class="amt">$3,169</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">1</td></tr><tr class=""><td class="n">68</td><td>Rawrau</td><td class="amt">$3,057</td><td class="amt">·</td><td class="amt">$3,057</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">1</td></tr><tr class=""><td class="n">69</td><td>danielM</td><td class="amt">$3,026</td><td class="amt">·</td><td class="amt">$3,026</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">1</td></tr><tr class=""><td class="n">70</td><td>Oni</td><td class="amt">$3,014</td><td class="amt">·</td><td class="amt">$3,014</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">1</td></tr><tr class=""><td class="n">71</td><td>Hawheik</td><td class="amt">$3,002</td><td class="amt">·</td><td class="amt">$3,002</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">1</td></tr><tr class=""><td class="n">72</td><td>SEEDGov</td><td class="amt">·</td><td class="amt">$2,994</td><td class="amt">$2,994</td><td class="amt" style="color:var(--green)">25,438</td><td class="amt">·</td><td class="amt">1</td></tr><tr class=""><td class="n">73</td><td>APE</td><td class="amt">$2,412</td><td class="amt">·</td><td class="amt">$2,412</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">2</td></tr><tr class=""><td class="n">74</td><td>Cornell Blockchain</td><td class="amt">·</td><td class="amt">$1,372</td><td class="amt">$1,372</td><td class="amt" style="color:var(--green)">20,157</td><td class="amt">·</td><td class="amt">2</td></tr><tr class=""><td class="n">75</td><td>Aave</td><td class="amt">·</td><td class="amt">$800</td><td class="amt">$800</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">1</td></tr><tr class=""><td class="n">76</td><td>whizwang</td><td class="amt">·</td><td class="amt">$241</td><td class="amt">$241</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">1</td></tr><tr class=""><td class="n">77</td><td>Axia Network</td><td class="amt">·</td><td class="amt">$224</td><td class="amt">$224</td><td class="amt" style="color:var(--green)">5,776</td><td class="amt">·</td><td class="amt">2</td></tr><tr class=""><td class="n">78</td><td>Mikael Bondum</td><td class="amt">·</td><td class="amt">$183</td><td class="amt">$183</td><td class="amt" style="color:var(--green)">·</td><td class="amt">·</td><td class="amt">2</td></tr><tr class=""><td class="n">79</td><td>Michigan Blockchain</td><td class="amt">·</td><td class="amt">$37</td><td class="amt">$37</td><td class="amt" style="color:var(--green)">·</td><td class="amt">16,925</td><td class="amt">6</td></tr><tr class=""><td class="n">80</td><td>TreasureDAO</td><td class="amt">·</td><td class="amt">·</td><td class="amt">·</td><td class="amt" style="color:var(--green)">·</td><td class="amt">29,333</td><td class="amt">7</td></tr><tr class=""><td class="n">81</td><td>Bobbay</td><td class="amt">·</td><td class="amt">·</td><td class="amt">·</td><td class="amt" style="color:var(--green)">·</td><td class="amt">21,720</td><td class="amt">6</td></tr><tr class=""><td class="n">82</td><td>Savvy DeFi</td><td class="amt">·</td><td class="amt">·</td><td class="amt">·</td><td class="amt" style="color:var(--green)">·</td><td class="amt">19,378</td><td class="amt">5</td></tr><tr class=""><td class="n">83</td><td>0xCasio</td><td class="amt">·</td><td class="amt">·</td><td class="amt">·</td><td class="amt" style="color:var(--green)">·</td><td class="amt">19,067</td><td class="amt">5</td></tr><tr class=""><td class="n">84</td><td>PrincetonBlockchain</td><td class="amt">·</td><td class="amt">·</td><td class="amt">·</td><td class="amt" style="color:var(--green)">·</td><td class="amt">16,227</td><td class="amt">4</td></tr><tr class=""><td class="n">85</td><td>Angela</td><td class="amt">·</td><td class="amt">·</td><td class="amt">·</td><td class="amt" style="color:var(--green)">·</td><td class="amt">16,210</td><td class="amt">4</td></tr><tr class=""><td class="n">86</td><td>HiringDevs.eth</td><td class="amt">·</td><td class="amt">·</td><td class="amt">·</td><td class="amt" style="color:var(--green)">·</td><td class="amt">14,523</td><td class="amt">4</td></tr><tr class=""><td class="n">87</td><td>Mehdi_eth</td><td class="amt">·</td><td class="amt">·</td><td class="amt">·</td><td class="amt" style="color:var(--green)">·</td><td class="amt">11,496</td><td class="amt">3</td></tr><tr class=""><td class="n">88</td><td>Premia (DK)</td><td class="amt">·</td><td class="amt">·</td><td class="amt">·</td><td class="amt" style="color:var(--green)">·</td><td class="amt">10,552</td><td class="amt">3</td></tr><tr class=""><td class="n">89</td><td>PennBlockchain</td><td class="amt">·</td><td class="amt">·</td><td class="amt">·</td><td class="amt" style="color:var(--green)">·</td><td class="amt">10,150</td><td class="amt">3</td></tr><tr class=""><td class="n">90</td><td>ITUblockchain</td><td class="amt">·</td><td class="amt">·</td><td class="amt">·</td><td class="amt" style="color:var(--green)">·</td><td class="amt">9,817</td><td class="amt">3</td></tr><tr class=""><td class="n">91</td><td>Djinn</td><td class="amt">·</td><td class="amt">·</td><td class="amt">·</td><td class="amt" style="color:var(--green)">·</td><td class="amt">9,697</td><td class="amt">3</td></tr><tr class=""><td class="n">92</td><td>Ruslan Klinkov</td><td class="amt">·</td><td class="amt">·</td><td class="amt">·</td><td class="amt" style="color:var(--green)">·</td><td class="amt">7,996</td><td class="amt">2</td></tr><tr class=""><td class="n">93</td><td>Blue Clarity</td><td class="amt">·</td><td class="amt">·</td><td class="amt">·</td><td class="amt" style="color:var(--green)">·</td><td class="amt">4,390</td><td class="amt">1</td></tr><tr class=""><td class="n">94</td><td>DAOstewards</td><td class="amt">·</td><td class="amt">·</td><td class="amt">·</td><td class="amt" style="color:var(--green)">·</td><td class="amt">4,183</td><td class="amt">1</td></tr><tr class=""><td class="n">95</td><td>Ermia</td><td class="amt">·</td><td class="amt">·</td><td class="amt">·</td><td class="amt" style="color:var(--green)">·</td><td class="amt">3,555</td><td class="amt">1</td></tr><tr class=""><td class="n">96</td><td>ocandocrypto.eth</td><td class="amt">·</td><td class="amt">·</td><td class="amt">·</td><td class="amt" style="color:var(--green)">·</td><td class="amt">3,523</td><td class="amt">1</td></tr></tbody>
+          </table></div>
+          <div class="fnote">96 delegates, Mar 2024 → Jun 2026. The green <b>Jun'26 ARB ⛓</b> column is straight from the chain (batch <a href="https://arbiscan.io/tx/0xbbd39baa0fa11ba216d8b8ce1f20661ae8128ad5687fcbd4f3d93f6c2063493c" target="_blank">tx ↗</a>, paid Jul 3; all 18 identities confirmed against prior published months + posted addresses). USD and ARB never converted. Cells rounded, totals exact (rows can differ by $1). Payments to delegates only, admin fees excluded. Quirks kept as-is: Apr 2026 uses corrected figures, Jan 2026 was a zero-reward month, two 2024 posts carry small internal inconsistencies. Totals through May: $1,566,062 + 1,047,986 ARB (v1.0); June adds 339,934 ARB.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════ THE FIVE AAEs ═══════════ -->
+<div class="divider"><span class="tag">// The entities</span><span class="line"></span><span class="note"><span id="arbPrice">ARB ≈ $0.078</span> (Jul 6, 2026) · click a row to open it</span></div>
+<div class="secsub">"Arbitrum Aligned Entities" is the DAO's own framework (<a href="https://forum.arbitrum.foundation/t/a-vision-for-the-future-of-arbitrum/28962" target="_blank">A Vision for the Future of Arbitrum, Apr 2025 ↗</a>): an entity counts if it's competent at its mandate, puts Arbitrum first, and needs Arbitrum to win. The five below are the center of it, with OpCo + OAT as the accountability bridge. ArbitrumDAO, up top, is the layer they all answer to.</div>
+
+<div class="roster">
+
+  <!-- FOUNDATION -->
+  <div class="ent" style="--edge:#12aaff" onclick="tog(event,this)">
+    <span class="badge">AAE · Steward</span>
+    <div class="head">
+      <img class="logo" src="assets/foundation.png" alt="Arbitrum Foundation">
+      <div class="who"><h2>Arbitrum Foundation</h2>
+        <div class="role">Day-to-day steward · ecosystem growth, partnerships, legal, gov infrastructure. Pays <b>Offchain</b> for core dev through Jan 2027.</div></div>
+      <div class="got"><div class="amt">480M <em>ARB</em> + $16M + 1,740 <em>ETH</em></div><div class="lbl">from DAO votes · 750M at genesis</div></div>
+      <div class="arrow" title="click to expand">▾</div>
+    </div>
+    <div class="progs"><span class="prog">Audit Program (AAP)</span><span class="prog in">MSS payments ← Entropy</span><span class="prog">grants</span><span class="prog">alt.gov portal</span><span class="prog">hosts Watchdog portal</span></div>
+    <div class="drawer">
+      <div class="cols">
+        <div>
+          <div class="colh">From the DAO · exact, on-chain-verified</div>
+          <div class="frow"><span class="yr">2024</span><div class="bar"><div class="fill" style="--w:100%"></div><span>250M ARB · Strategic Partnerships fund <a href="https://forum.arbitrum.foundation/t/26775" target="_blank">↗</a></span></div></div>
+          <div class="frow"><span class="yr">2026</span><div class="bar"><div class="fill" style="--w:92%"></div><span>230M ARB + $16M + 1,740 ETH · renewal <a href="https://forum.arbitrum.foundation/t/proposal-continued-funding-for-the-arbitrum-foundation/30908" target="_blank">↗</a></span></div></div>
+          <div class="fnote">Both Tally-executed and traced on-chain: the 250M moved treasury→AF Oct 20 2024; the renewal's 230M moved Jun 28 2026 ($16M + ETH drawn via the ATMC). Borderline: 5,134 ETH for BoLD validator bootstrap (2024) · purpose-bound bonds, AF as operator, not budget.</div>
+          <div class="colh">Genesis · NOT a DAO vote</div>
+          <div class="frow"><span class="yr">2023</span><div class="bar"><div class="fill" style="--w:100%;background:linear-gradient(90deg,rgba(125,143,163,.6),rgba(125,143,163,.15))"></div><span>750M ARB (7.5% of supply) at token generation <a href="https://forum.arbitrum.foundation/t/proposal-aip-1-1-lockup-budget-transparency/13360" target="_blank">AIP-1.1 ↗</a></span></div></div>
+          <div class="fnote">Allocated when the token was created, before any treasury vote (AIP-1's ratification was even rejected). AIP-1.1 then locked 700M in a 4-year vesting contract (175M/yr unlocks); ~50M was used early (0.4% of supply loaned, 0.1% sold · transparency report).</div>
+        </div>
+        <div>
+          <div class="fnote">137.7M of the 2024 250M tranche still sits unspent on-chain (Jul 2026).</div>
+          <div class="fnote">Governance itself was amended early: AIP-1.2 (Apr 2023, 46,269 voters) rewrote the founding documents and cut the proposal threshold 5M → 1M ARB <a href="https://forum.arbitrum.foundation/t/13362" target="_blank">↗</a></div>
+          <div class="colh">Runs / absorbed</div>
+          <ul class="plist">
+            <li>Audit Program (AAP, $10M) · chairs the committee with Offchain + a DAO-elected expert; improvements <span class="st pass">passed apr 2026 · 99.9%</span> · <a href="https://forum.arbitrum.foundation/t/arbitrum-audit-program/28368" target="_blank">↗</a></li>
+            <li><span class="xfer">←</span> MSS signer payments (from Entropy's MSS wind-down, Jun 2025, 87.4% For)</li>
+            <li><span class="xfer">←</span> ADPC's audit-subsidy scope folded into the AAP</li>
+          </ul>
+          <div class="colh">The quiet mandate · founding docs + budget thread</div>
+          <ul class="plist">
+            <li>Legal wrapper: a Cayman foundation that signs the contracts the DAO can't · $10M committed to a captive insurance product <a href="https://forum.arbitrum.foundation/t/proposal-continued-funding-for-the-arbitrum-foundation/30908" target="_blank">↗</a></li>
+            <li>Pays for the network to run: $5.8M/yr hosting ("server costs like AWS... RPCs, node infrastructure") + $4.6M security + $4.4M infra &amp; tooling · the sequencer itself is operated by Offchain Labs <a href="https://forum.arbitrum.foundation/t/proposal-continued-funding-for-the-arbitrum-foundation/30908" target="_blank">↗</a></li>
+            <li>AEP licensor: grants the Nitro license + ARBITRUM trademark to Orbit chains and collects 10% of their net revenue (8% → DAO treasury) <a href="https://docs.arbitrum.foundation/aep/ArbitrumExpansionProgramTerms.pdf" target="_blank">↗</a></li>
+            <li>Security Council election compliance (14-day review, can remove candidates) + Nova data-availability committee appointments · from the Constitution <a href="https://docs.arbitrum.foundation/dao-constitution" target="_blank">↗</a></li>
+            <li>Can make special grants without a DAO vote (AIP-1: "to prevent governance overload") · 31 FTEs across 4 departments, ~$32M/yr opex</li>
+          </ul>
+          
+          <div class="colh">Custodian (DAO's money, not the Foundation's)</div>
+          <ul class="plist">
+            <li>DRIP wallet (80M ARB cap · ~63.7M held, DAO-clawbackable) · Audit Program funds (30M ARB → $10M) · Events wallet · Entropy budget conversions · STEP legal holder</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OFFCHAIN -->
+  <div class="ent" style="--edge:#9dcced" onclick="tog(event,this)">
+    <span class="badge" style="--edge:#9dcced">AAE · Core Dev</span>
+    <div class="head">
+      <img class="logo" src="assets/offchain.png" alt="Offchain">
+      <div class="who"><h2>Offchain <small>formerly Offchain Labs</small></h2>
+        <div class="role">Built Arbitrum; still ships the protocol. <b>Not funded directly by DAO votes</b> · the Foundation pays it for technical services through Jan 2027, and the DAO votes the Foundation's budget. Authors the current wave of constitutional upgrade AIPs.</div></div>
+      <div class="got"><div class="amt">via <em>Foundation</em></div><div class="lbl">no direct DAO funding</div></div>
+      <div class="arrow" title="click to expand">▾</div>
+    </div>
+    <div class="progs"><span class="prog">ArbOS upgrades</span><span class="prog">Stylus</span><span class="prog">BOLD</span><span class="prog">Timeboost</span><span class="prog">Fast Feed</span></div>
+    <div class="drawer">
+      <div class="cols">
+        <div>
+          <div class="colh">How it's paid</div>
+          <div class="fnote" style="margin-top:4px">The Foundation's current payments to Offchain run through January 2027; after that, Offchain may come to the DAO on its own (the renewal thread says as much). So its budget line lives inside the Foundation's, not on Tally.</div>
+        </div>
+        <div>
+          <div class="colh">Constitutional AIPs (historic → live)</div>
+          <ul class="plist">
+            <li class="live">Fast Feed · paid early tx-data feed, 97% of revenue → DAO <span class="st live" data-close="2026-07-09">voting · closes jul 9</span> · <a href="https://forum.arbitrum.foundation/t/constitutional-aip-fast-feed/31003" target="_blank">↗</a></li>
+            <li class="live">PGA ordering · replace Timeboost with priority-fee ordering · temp-check passed Jun 25, onchain pending <a href="https://forum.arbitrum.foundation/t/30942" target="_blank">↗</a> <span class="st live">next up</span></li>
+            <li>ArbOS Elara bumped 60 → 61 (Jun 19) after two gas-refund bugs were caught on Sepolia · Dynamic Pricing stays off at activation <a href="https://forum.arbitrum.foundation/t/30601" target="_blank">↗</a></li>
+            <li>Timeboost adopted · Snapshot Sep 2024 ("collect bids in ETH to treasury" won with 140.4M of 151M VP), on-chain AIP Jan 2025 (with the Nova fee sweep), Tally vote Mar 2025, live Apr 2025 <a href="https://forum.arbitrum.foundation/t/25167" target="_blank">↗</a> <a href="https://forum.arbitrum.foundation/t/28247" target="_blank">↗</a></li>
+            <li>Plus routine maintenance AIPs over the years: registering token bridges (Sky, BORING, RARI), whitelisting validators, sequencer fixes, EIP-4788 support</li>
+            <li>Also operates the sequencer, the bridge UI, arbitrum.io and the bug bounty (Immunefi payouts handled by Offchain Labs) · often misattributed to the Foundation</li>
+            <li>People: Steven Goldfeder (CEO) · Ed Felten (Chief Scientist) · Harry Kalodner (CTO) · A.J. Warner (CSO)</li>
+            <li>Stylus Sprint closeout: final milestone payments pending + retrospective in review with OCL and the Foundation <a href="https://forum.arbitrum.foundation/t/30970" target="_blank">↗</a></li>
+            <li>Timeboost proceeds split automation <span class="st" style="background:rgba(255,197,84,.14);color:#ffc554">temp-check for · jul 2 · tally next</span></li>
+            <li>Minimize Arbitrum Nova <span class="st pass">for · jun 4 2026</span></li>
+            <li>ArbOS Elara <span class="st pass">passed apr 2 2026 as v60 · ships as 61</span> · ArbOS 40 · Stylus (AIP under ArbOS 30, live with 31) · BOLD</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPCO -->
+  <div class="ent" style="--edge:#2fe08c" onclick="tog(event,this)">
+    <span class="badge" style="--edge:#2fe08c">AAE · Operations</span>
+    <div class="head">
+      <img class="logo" src="assets/opco.png" alt="OpCo">
+      <div class="who"><h2>OpCo <small>+ OAT oversight</small></h2>
+        <div class="role">The DAO's operating company · staffs and executes what governance decides, and is becoming the <b>accountability bridge</b>: entities report to it, and it can recommend cancellation or clawback. Watched by the 5-member OAT.</div></div>
+      <div class="got"><div class="amt">30M <em>ARB</em></div><div class="lbl">30-month budget</div></div>
+      <div class="arrow" title="click to expand">▾</div>
+    </div>
+    <div class="progs"><span class="prog in">Watchdog ← Entropy</span><span class="prog in">RAD delegate pay</span><span class="prog in">AGV portfolio ← AGV</span><span class="prog">ATMC comms seat</span></div>
+    <div class="drawer">
+      <div class="cols">
+        <div>
+          <div class="colh">Funding by year</div>
+          <div class="frow"><span class="yr">2025</span><div class="bar"><div class="fill" style="--w:100%"></div><span>30M ARB / 30 months <a href="https://forum.arbitrum.foundation/t/opco-a-dao-adjacent-entity-for-strategy-execution/27361" target="_blank">proposal ↗</a></span></div></div>
+          <div class="fnote">Inside the 30M: 4M ARB bonus pool (3M staff / 1M OAT) and ~18M ARB (est.) liquidated to $12M cash equivalents. Leftover ARB returns to the treasury. Tally: executed.</div>
+          <div class="colh">What it has absorbed</div>
+          <ul class="plist">
+            <li><span class="xfer">←</span> Watchdog program (from Entropy, transition executed Apr 2026) · <a href="https://forum.arbitrum.foundation/t/watchdog-program-april-20th-update-scope-boundary-opco-transition-and-kyc-deadline/30800" target="_blank">↗</a></li>
+            <li><span class="xfer">←</span> RAD delegate incentives · OpCo manages · Ministro as PM since SEED stepped down (Apr 2026) · <a href="https://forum.arbitrum.foundation/t/rewarding-active-delegates-rad-program/30249" target="_blank">↗</a></li>
+            <li><span class="xfer">←</span> AGV's investment portfolio (wind-down, 95.9% For, Jul 2 2026) · <a href="https://forum.arbitrum.foundation/t/agv-wind-down-structured-transition-return-of-capital-to-the-dao-treasury/31012" target="_blank">↗</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="colh">Oversight · the OAT</div>
+          <ul class="plist">
+            <li>5 members: 3 elected by the DAO + 2 appointed by those 3 (the Foundation holds a non-voting observer seat). It ratifies OpCo's budget, reviews hires, and publishes the transparency reports</li>
+            <li>OAT today: Frisson, A.J. Warner, Patrick McCorry (elected) + Pedro Breuer, Gavin Wang (appointed) · OpCo staff: Tamara Benetti (Ops), Sinkas (Programs), Armin (Finance)</li>
+          </ul>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENTROPY -->
+  <div class="ent" style="--edge:#b78cff" onclick="tog(event,this)">
+    <span class="badge" style="--edge:#b78cff">AAE · Strategy</span>
+    <div class="head">
+      <img class="logo" src="assets/entropy.png" alt="Entropy Advisors">
+      <div class="who"><h2>Entropy Advisors</h2>
+        <div class="role">Exclusive strategy &amp; execution firm. Writes sunset and handoff clauses into its own programs, then actually hands them off (to OpCo, the Foundation, ATMC).</div></div>
+      <div class="got"><div class="amt">$8.47M + up to 16.5M <em>ARB</em></div><div class="lbl">contracts + vesting · 10M milestone-contingent</div></div>
+      <div class="arrow" title="click to expand">▾</div>
+    </div>
+    <div class="progs"><span class="prog">DRIP (runs it)</span><span class="prog">ATMC execution seat</span><span class="prog">Stylus Sprint</span><span class="prog">SOS (paused)</span><span class="prog out">Watchdog → OpCo</span><span class="prog out">MSS → Foundation</span><span class="prog out">Events funds → ATMC</span></div>
+    <div class="drawer">
+      <div class="cols">
+        <div>
+          <div class="colh">Funding by year</div>
+          <div class="frow"><span class="yr">2024</span><div class="bar"><div class="fill" style="--w:42%"></div><span>$2.47M / 12mo (+ up to 1.5M ARB bonus) <a href="https://forum.arbitrum.foundation/t/entropy-advisors-exclusively-working-with-arbitrum-dao/25246" target="_blank">↗</a></span></div></div>
+          <div class="frow"><span class="yr">2025</span><div class="bar"><div class="fill" style="--w:100%"></div><span>$3M/yr × 2 + 15M ARB vesting <a href="https://forum.arbitrum.foundation/t/entropy-advisors-exclusively-working-with-the-arbitrum-dao-y2-y3/29458" target="_blank">renewal ↗</a></span></div></div>
+          <div class="fnote">Renewal runs Sep 2025 → Aug 2027. Of the 15M ARB: 5M to Entropy (1-yr cliff, 3-yr vest), 10M reserved for OAT-negotiated milestones.</div>
+          <div class="colh">DRIP · its flagship program</div>
+          <div class="frow"><span class="yr">2025</span><div class="bar"><div class="fill" style="--w:100%"></div><span>80M ARB cap (20M max/season) <a href="https://forum.arbitrum.foundation/t/defi-renaissance-incentive-program-drip/29049" target="_blank">↗</a></span></div></div>
+          <div class="fnote">Entropy runs DRIP (explicit accountability clause); season committee = Foundation + Entropy + Offchain, rewards paid via Merkl. Extension passed Jun 25 2026 (no new money): ~63.7M ARB left to deploy by Jul 1 2027 (≈$5.0M at $0.078).</div>
+        </div>
+        <div>
+          <div class="colh">Created, then handed off</div>
+          <ul class="plist">
+            <li>Watchdog grant-misuse bounty (proposed Dec 2024 · 400k ARB · 94.2% For, Jan 2025) <span class="xfer">→ OpCo</span> Apr 2026 · clawed back <b>457,365 ARB</b> so far · <a href="https://forum.arbitrum.foundation/t/the-watchdog-arbitrum-daos-grant-misuse-bounty-program/27978" target="_blank">↗</a></li>
+            <li>MSS multisig service (2024) <span class="xfer">→ Foundation</span> Jun 2025</li>
+            <li>Events Budget custody <span class="xfer">→ ATMC</span> Jul 2025</li>
+            <li>TMC treasury committee (2024) · replaced by ATMC (its own Jun 2025 proposal)</li>
+          </ul>
+          <div class="colh">Also drives</div>
+          <ul class="plist">
+            <li>Stylus Sprint · 5M ARB budget (committee incl. Offchain, Foundation, SEEDGov, JoJo, OpenZeppelin; Entropy coordinates)</li>
+            <li>Sequencing-revenue analysis: the elasticity study that shaped ArbOS 61 pricing and the Dune data behind the Timeboost split · the AIPs themselves are Foundation / Offchain posts <a href="https://forum.arbitrum.foundation/t/30601" target="_blank">↗</a></li>
+            <li>SOS · Entropy created it (framework passed Jan 2025, 99.96% For · 3,559 voters), paused it May 2025 pending the Foundation's Vision · objectives never selected, L2BEAT hosts the calls, never handed to OpCo <span class="st" style="background:rgba(255,197,84,.14);color:#ffc554">dormant</span> · <a href="https://forum.arbitrum.foundation/t/28102" target="_blank">↗</a></li>
+          </ul>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AGV -->
+  <div class="ent" style="--edge:#ffc554" onclick="tog(event,this)">
+    <span class="badge" style="--edge:#ffc554">AAE · Wound Down</span>
+    <div class="head">
+      <img class="logo" src="assets/agv.png" alt="Arbitrum Gaming Ventures">
+      <div class="who"><h2>Gaming · GCP → AGV</h2>
+        <div class="role">The gaming bet: most of the capital was never deployed. The DAO voted the wind-down on <b>Jul 2, 2026</b> (95.9% For): capital comes home, the portfolio moves to OpCo.</div></div>
+      <div class="got"><div class="amt">225M <em>ARB</em> → 143.7M back</div><div class="lbl">+ $7M cash · ~$10M portfolio → OpCo</div></div>
+      <div class="arrow" title="click to expand">▾</div>
+    </div>
+    <div class="progs"><span class="prog out">portfolio → OpCo</span><span class="prog out">143.7M ARB → treasury</span></div>
+    <div class="drawer">
+      <div class="cols">
+        <div>
+          <div class="colh">Funding by year</div>
+          <div class="frow"><span class="yr">2024</span><div class="bar"><div class="fill" style="--w:100%"></div><span>225M ARB authorized on-chain <a href="https://forum.arbitrum.foundation/t/catalyze-gaming-ecosystem-growth-on-arbitrum/22368" target="_blank">GCP ↗</a></span></div></div>
+          <div class="frow"><span class="yr">2026</span><div class="bar"><div class="fill" style="--w:64%;background:linear-gradient(90deg,rgba(255,197,84,.8),rgba(255,197,84,.2))"></div><span>−143.7M ARB returns to treasury <a href="https://forum.arbitrum.foundation/t/arbitrum-gaming-ventures-wind-down/31012" target="_blank">wind-down ↗</a></span></div></div>
+          <div class="fnote">The plan was 160M ARB grants/investments + 40M infra + $25M ops cap in ARB. Only ~$10M was actually deployed (15 investments). What goes back: 86.18M held at Foundation + 57.5M in AGV.</div>
+        </div>
+        <div>
+          <div class="colh">Timeline</div>
+          <ul class="plist">
+            <li>GCP created (2024) <span class="st exec">executed</span> · <a href="https://forum.arbitrum.foundation/t/catalyze-gaming-ecosystem-growth-on-arbitrum/22368" target="_blank">↗</a></li>
+            <li>GCP → AGV rename &amp; venture repositioning (May 2025, not a new funding ask) · <a href="https://forum.arbitrum.foundation/t/24982" target="_blank">↗</a> · strategic update Mar 2025 <a href="https://forum.arbitrum.foundation/t/gcp-strategic-update-march-2025/28880" target="_blank">↗</a></li>
+            <li>Wind-down &amp; return of capital <span class="st pass">passed jul 2 2026 · 95.9%</span> · portfolio stewardship <span class="xfer">→ OpCo</span></li>
+          </ul>
+          <div class="colh">Active now · the wind-down</div>
+          <ul class="plist">
+            <li>Passed Jul 2 (191M For / 8.1M Abstain): ~143.7M ARB returns (86.18M from AF + 57.5M from AGV) · initial $7M USD to treasury programs <a href="https://forum.arbitrum.foundation/t/31012" target="_blank">↗</a></li>
+            <li>~$10M stays invested across 15 positions · portfolio management moves to OpCo</li>
+            <li>The entity lives on through end-2026, but only to wind down the portfolio</li>
+            <li>2026 Council: David Bolger, Greg Canessa, JoJo, Tim Chang, John Kennedy</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════ PROTOCOL & TREASURY ═══════════ -->
+<div class="divider"><span class="tag">// Protocol &amp; Treasury</span><span class="line"></span></div>
+
+<div class="roster">
+
+  <!-- SECURITY COUNCIL -->
+  <div class="ent" style="--edge:#ff5f58" onclick="tog(event,this)">
+    <span class="badge" style="--edge:#ff5f58">Constitutional Body</span>
+    <div class="head">
+      <img class="logo" src="assets/arbitrum.svg" alt="Security Council" style="object-fit:contain;padding:8px">
+      <div class="who"><h2>Security Council</h2>
+        <div class="role">12 elected signers with emergency powers · the break-glass layer. Acts in hours, discloses after. Not an AAE: a constitutional body.</div></div>
+      <div class="got"><div class="amt">$5k<em>/mo</em> each</div><div class="lbl">member comp (in ARB)</div></div>
+      <div class="arrow" title="click to expand">▾</div>
+    </div>
+    <div class="drawer">
+      <div class="cols">
+        <div>
+          <div class="colh">Compensation</div>
+          <div class="frow"><span class="yr">2023+</span><div class="bar"><div class="fill" style="--w:30%"></div><span>$5,000/mo × 12 members, in ARB <a href="https://docs.arbitrum.foundation/foundational-documents/transparency-report-initial-foundation-setup" target="_blank">source ↗</a></span></div></div>
+          <div class="fnote">Fixed at the initial governance setup (~$720k/yr total). Members rotate through biannual elections; emergency actions take 9-of-12.</div>
+        </div>
+        <div>
+          <div class="colh">Activity</div>
+          <ul class="plist">
+            <li>Emergency Action May 24, 2026: patched an L1 Timelock renounceRole() vulnerability (no funds at risk) · permanent fix slated for a future ArbOS upgrade <a href="https://forum.arbitrum.foundation/t/30910" target="_blank">↗</a></li>
+            <li>March 2026 cohort: Michael Lewellen, DZack23, yoav.eth, Certora, bartek.eth, Pablo Sabbatella (results executed on-chain via alt.gov) · next cycle ~Sept 2026 <a href="https://forum.arbitrum.foundation/t/30909" target="_blank">↗</a></li>
+            <li>Election-process improvements <span class="st pass">passed 2025</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ATMC / TREASURY -->
+  <div class="ent" style="--edge:#12aaff" onclick="tog(event,this)">
+    <span class="badge">Treasury</span>
+    <div class="head">
+      <img class="logo" src="assets/arbitrum.png" alt="ATMC">
+      <div class="who"><h2>ATMC <small>Arbitrum Treasury Mgmt Council</small></h2>
+        <div class="role"><b>A council, not a company</b> · Entropy proposed it and holds the execution seat, but the votes belong to the <b>OAT</b>; OpCo does comms, the Foundation holds custody, Offchain observes. Replaced the TMC, GMC and STEP committees (Jun 2025, 91.4% For).</div></div>
+      <div class="got"><div class="amt">70M <em>ARB</em> + 16K <em>ETH</em></div><div class="lbl">≈$47M into RWAs · STEP 1 ~$30M + STEP 2 ~$17M</div></div>
+      <div class="arrow" title="click to expand">▾</div>
+    </div>
+    <div class="progs"><span class="prog">STEP I + II</span><span class="prog">ETH strategies</span><span class="prog in">Events funds ← 2025 budget</span><span class="prog in">ARDC leftover ← ARDC</span></div>
+    <div class="drawer">
+      <div class="cols">
+        <div>
+          <div class="colh">What sits under it</div>
+          <div class="frow"><span class="yr">2024</span><div class="bar"><div class="fill" style="--w:100%"></div><span>STEP 1: 35M ARB + 200k impl <a href="https://forum.arbitrum.foundation/t/final-arbitrum-stable-treasury-endowment-program/20139" target="_blank">↗</a></span></div></div>
+          <div class="frow"><span class="yr">2025</span><div class="bar"><div class="fill" style="--w:100%"></div><span>STEP 2.0: 35M ARB + 125k impl <a href="https://forum.arbitrum.foundation/t/non-constitutional-stable-treasury-endowment-program-2-0/26819" target="_blank">↗</a></span></div></div>
+          <div class="frow"><span class="yr">2025</span><div class="bar"><div class="fill" style="--w:60%"></div><span>7,500 ETH · GMC preferred allocations (Snapshot Mar 2025, 187M VP)</span></div></div>
+          <div class="frow"><span class="yr">2025</span><div class="bar"><div class="fill" style="--w:68%"></div><span>8,500 ETH · treasury → ATMC ETH strategies (Snapshot Oct 2025) <a href="https://forum.arbitrum.foundation/t/29983" target="_blank">↗</a></span></div></div>
+          <div class="fnote">STEP 1 deployed across BUIDL, USDY, USTB, USDM, TBill, bIB01 (Steakhouse as PM); STEP 2.0: Franklin Templeton 35% / Spiko 35% / WisdomTree 30%. ATMC's separate ETH strategies: ~$623k cumulative interest since May 2025; 12,750 ETH approved for staking.</div>
+        </div>
+        <div>
+          <div class="colh">Live on-chain balances <small style="text-transform:none;letter-spacing:0">(Jul 6, 2026 ~10:52 UTC)</small></div>
+          <ul class="plist">
+            <li>DAO Treasury: <b>2,426,958,656 ARB</b> · <a href="https://arbiscan.io/address/0xF3FC178157fb3c87548bAA86F9d24BA38E649B58" target="_blank">arbiscan ↗</a> (the Foundation’s three-year report cited ~2.66B, Mar 2026; since then the 230M renewal left on Jun 28, and AGV’s 143.7M is still to arrive)</li>
+            <li>Treasury Timelock (ETH sink, where Timeboost lands): <b>78.94 ETH</b> · <a href="https://arbiscan.io/address/0xbFc1FECa8B09A5c5D3EFfE7429eBE24b9c09EF58" target="_blank">↗</a></li>
+            <li>DRIP wallet: <b>63,696,184 ARB</b> · matches the reported ~63.7M remaining ✓</li>
+            <li>DIP/RAD pool: <b>4,882,489 ARB</b> (down from ~7M as payouts run) · Watchdog wallet: <b>561,224 ARB</b> · AF 250M-tranche wallet: <b>137.7M ARB</b></li>
+            <li style="color:var(--muted)">AGV + MSS wallet addresses aren't public in the threads · those figures come from the proposals only</li>
+          </ul>
+          
+          <div class="colh">What the DAO earns 💰</div>
+          <ul class="plist">
+            <li><b>Treasury (reported):</b> $500M+ incl. $130M+ non-native (Foundation, Jun 2026, at a higher ARB price · ≈$319M at today’s $0.078)</li>
+            <li><b>Sequencer fees</b> flow to the treasury · 2025 gross profit <b>$23.49M</b> (fees + Timeboost + AEP)</li>
+            <li><b>Timeboost:</b> 2,517.46 WETH cumulative by May 2026 (97% DAO / 3% Dev Guild) · <a href="https://forum.arbitrum.foundation/t/constitutional-aip-automate-timeboost-proceeds-split/30920" target="_blank">↗</a></li>
+            <li><b>AEP license fees</b> · program expanded to Orbit chains on ANY blockchain (Jul 2024, 172M VP) <a href="https://forum.arbitrum.foundation/t/23280" target="_blank">↗</a></li>
+            <li><b>Clawbacks:</b> Watchdog recovered 457,365 ARB (Apr 2026)</li>
+            <li class="live">Fast Feed would add a new revenue line (vote closes Jul 9) <span class="st live" data-close="2026-07-09">voting</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════ FINANCIALS ═══════════ -->
+<div class="divider"><span class="tag">// P&L by year</span><span class="line"></span><span class="note">authorized ≠ spent · units never mixed</span></div>
+<div class="pnlsec"><div class="tre">
+  <div class="tcard"><div class="tk">DAO Treasury · live</div><div class="tv">2.43B <em>ARB</em></div><div class="td">≈ $189M at $0.078 · checked on-chain Jul 6 · 0.00% drift</div></div>
+  <div class="tcard"><div class="tk">Timelock ETH</div><div class="tv">78.9 <em>ETH</em></div><div class="td">treasury timelock balance</div></div>
+  <div class="tcard"><div class="tk">Managed by ATMC</div><div class="tv">70M <em>ARB</em> + 16K <em>ETH</em></div><div class="td">→ RWAs ≈$47M (STEP 1 ~$30M + 2 ~$17M) + $1.04M events leftover (of the $1.5M budget)</div></div>
+  <div class="tcard"><div class="tk">Coming back</div><div class="tv" style="color:var(--green)">143.7M <em>ARB</em></div><div class="td">AGV wind-down · voted Jul 2 · execution pending</div></div>
+</div>
+<div class="pnlwrap">
+<table class="pnltbl">
+  <thead><tr><th>Year</th><th>Allocated · ARB</th><th>Allocated · USD / ETH</th><th>Fees earned · ETH</th><th>Profit · USD official</th><th style="width:26px"></th></tr></thead>
+  <tbody>
+    <tr class="yrrow" onclick="pnlTog(this)"><td class="yr2">2023</td>
+      <td class="num o">71.5M</td><td class="num o">$1M</td><td class="num g">~9,400</td><td class="mu">·</td><td><span class="chev">❯</span></td></tr>
+    <tr class="exprow"><td colspan="6"><div class="pnlx">
+      <div><div class="xh">Out · ARB programs</div><ul>
+        <li><b>~50M</b> · STIP, ~30 protocols <a href="https://forum.arbitrum.foundation/t/16131" target="_blank">↗</a></li>
+        <li><b>21.4M</b> · STIP Backfund, +26 protocols <a href="https://forum.arbitrum.foundation/t/19046" target="_blank">↗</a></li>
+        <li><b>$1M</b> · Questbook pilot (USD-denominated)</li></ul></div>
+      <div><div class="xh">In · revenue</div><ul>
+        <li><b>~9,400 ETH</b> net sequencer fees · derived ±200, cross-checks within 44 ETH <a href="https://forum.arbitrum.foundation/t/23769" target="_blank">↗</a></li>
+        <li>Best fee year on record · pre-Atlas gas pricing</li></ul></div>
+    </div></td></tr>
+    <tr class="yrrow" onclick="pnlTog(this)"><td class="yr2">2024</td>
+      <td class="num o">601M</td><td class="num o">~$14.7M</td><td class="num g">~7,030</td><td class="mu">·</td><td><span class="chev">❯</span></td></tr>
+    <tr class="exprow"><td colspan="6"><div class="pnlx">
+      <div><div class="xh">Out · ARB programs</div><ul>
+        <li><b>250M</b> · Strategic Partnerships (held at an AF multisig, contract-bound · not for AF opex)</li>
+        <li><b>225M</b> · Gaming Catalyst Program</li>
+        <li><b>45.82M</b> · LTIPP <a href="https://forum.arbitrum.foundation/t/20223" target="_blank">↗</a> · <b>37.6M</b> · STIP Bridge <a href="https://forum.arbitrum.foundation/t/22353" target="_blank">↗</a></li>
+        <li><b>35.2M</b> · STEP + more · <b>~$14.7M</b> USD contracts</li></ul></div>
+      <div><div class="xh">In · revenue</div><ul>
+        <li><b>~7,030 ETH</b> net fees (derived from r3gen snapshots) <a href="https://forum.arbitrum.foundation/t/23769" target="_blank">↗</a> <a href="https://forum.arbitrum.foundation/t/24730" target="_blank">↗</a></li>
+        <li>The Atlas upgrade (Mar 2024) cut fees <b>−77%</b>, 3 months pre vs 3 months post <a href="https://forum.arbitrum.foundation/t/26434" target="_blank">↗</a></li></ul></div>
+    </div></td></tr>
+    <tr class="yrrow" onclick="pnlTog(this)"><td class="yr2">2025</td>
+      <td class="num o">191M+</td><td class="num o">$7.5M</td><td class="num g">3,303*</td><td class="num g">$23.49M</td><td><span class="chev">❯</span></td></tr>
+    <tr class="exprow"><td colspan="6"><div class="pnlx">
+      <div><div class="xh">Out · ARB programs</div><ul>
+        <li><b>80M</b> · DRIP · <b>35.1M</b> · STEP 2 · <b>30M</b> · OpCo · <b>30M</b> · Audit + more</li>
+        <li><b>$7.5M</b> · Questbook (USD)</li>
+        <li><b>16,000 ETH</b> moved under ATMC management (7,500 Mar + 8,500 Oct) · deployments, not spend <a href="https://forum.arbitrum.foundation/t/29983" target="_blank">↗</a></li></ul></div>
+      <div><div class="xh">In · revenue</div><ul>
+        <li><b>3,303 ETH</b> net fees Jan–Jul, exact · r3gen reporting ended Aug 2025</li>
+        <li style="font-family:var(--mono);font-size:11.5px;color:#8494ab">by month: Jan 415 · Feb 761 · Mar 509 · Apr 624 · May 386 · Jun 300 · Jul 308</li>
+        <li><b>$23.49M</b> gross profit (fees + Timeboost + AEP) · Foundation-reported, the one official annual figure <a href="https://forum.arbitrum.foundation/t/proposal-continued-funding-for-the-arbitrum-foundation/30908" target="_blank">↗</a></li></ul></div>
+    </div></td></tr>
+    <tr class="yrrow" onclick="pnlTog(this)"><td class="yr2">2026</td>
+      <td class="num o">230M</td><td class="num o">$16M + 1,740 ETH</td><td class="mu">·</td><td class="mu">·</td><td><span class="chev">❯</span></td></tr>
+    <tr class="exprow"><td colspan="6"><div class="pnlx">
+      <div><div class="xh">Out</div><ul>
+        <li><b>230M ARB + $16M + 1,740 ETH</b> · Foundation renewal <a href="https://forum.arbitrum.foundation/t/proposal-continued-funding-for-the-arbitrum-foundation/30908" target="_blank">↗</a></li>
+        <li style="color:var(--green)"><b>+143.7M ARB returning</b> · AGV wind-down, voted Jul 2 (95.9% For)</li></ul></div>
+      <div><div class="xh">In · anchors so far (no official total yet)</div><ul>
+        <li>Sequencer fees ≈<b>$127k/wk</b> ≈ $6.6M/yr pace (delegate research, not official) · a modeled stress scenario cuts that to ≈$4.7M/yr</li>
+        <li>Timeboost &gt;<b>$3M</b> annualized on YTD pace (recent months slower) · AEP license fees continue</li></ul></div>
+    </div></td></tr>
+    <tr class="totrow"><td class="yr2">Σ</td>
+      <td class="num o">1.09B+<small>gross authorizations</small></td>
+      <td class="num o">~$39M+<small>USD contracts</small></td>
+      <td class="num g">19,700+<small>2023 → Aug 2025, verified</small></td>
+      <td class="num g">$23.5M<small>the one official figure</small></td><td></td></tr>
+  </tbody>
+</table>
+</div>
+<div class="fnote" style="margin-top:12px">Click a year for the breakdown. Each unit keeps its own column; a · means no official number exists. ETH figures come from r3gen's monthly Token Flow reports, the DAO's accounting series; r3gen stopped publishing in Aug 2025, so the 2025 figure (*) covers Jan–Jul only. Totals are GROSS authorizations: AGV's 225M counts in 2024 and its 143.7M return is not netted; 137.7M of the AF tranche and 63.7M of DRIP sit unspent; STIP/LTIPP under-distributed. AEP has no published yearly totals; Timeboost lives in the USD stream.</div></div>
+<!-- ═══════════ GRANTS & DELEGATES ═══════════ -->
+<div class="divider"><span class="tag">// Grants, experiments &amp; the graveyard</span><span class="line"></span><span class="note">what the DAO funded, tried, paused or refused</span></div>
+
+<div class="roster">
+
+  <!-- INCENTIVE ERA -->
+  <div class="ent" style="--edge:#12aaff" onclick="tog(event,this)">
+    <span class="badge">Incentives Era</span>
+    <div class="head">
+      <img class="logo" src="assets/arbitrum.png" alt="Incentive programs">
+      <div class="who"><h2>The Incentive Era <small>STIP → LTIPP → DRIP</small></h2>
+        <div class="role">2023–24: the DAO authorized <b>~155M ARB</b> of liquidity incentives across four programs, then voted itself a detox · DRIP (under Entropy) is the successor, capped and supervised this time.</div></div>
+      <div class="got"><div class="amt">~155M <em>ARB</em></div><div class="lbl">authorized 2023–24</div></div>
+      <div class="arrow" title="click to expand">▾</div>
+    </div>
+    <div class="drawer">
+      <div class="cols">
+        <div>
+          <div class="colh">Funding by year</div>
+          <div class="frow"><span class="yr">2023</span><div class="bar"><div class="fill" style="--w:100%"></div><span>~50M ARB · STIP (~30 protocols) <a href="https://forum.arbitrum.foundation/t/16131" target="_blank">↗</a></span></div></div>
+          <div class="frow"><span class="yr">2023</span><div class="bar"><div class="fill" style="--w:43%"></div><span>21.4M ARB · STIP Backfund (+26 protocols) <a href="https://forum.arbitrum.foundation/t/19046" target="_blank">↗</a></span></div></div>
+          <div class="frow"><span class="yr">2024</span><div class="bar"><div class="fill" style="--w:75%"></div><span>37.6M ARB · STIP Bridge <a href="https://forum.arbitrum.foundation/t/22353" target="_blank">↗</a></span></div></div>
+          <div class="frow"><span class="yr">2024</span><div class="bar"><div class="fill" style="--w:91%"></div><span>45.82M ARB · LTIPP <a href="https://forum.arbitrum.foundation/t/20223" target="_blank">↗</a></span></div></div>
+          <div class="fnote">All four executed on Tally. Less went out than was authorized (returns and under-use). LTIPP council: GFX Labs, 404 DAO, Wintermute, GMX, Karel Vuong.</div>
+        </div>
+        <div>
+          <div class="colh">How the era ended</div>
+          <ul class="plist">
+            <li>Incentives Detox <span class="st pass">passed aug 2024 · 129.5M for</span> · the DAO stopped all incentives on purpose</li>
+            <li>LTIPP extensions (Aave, Pyth) <span class="st fail">rejected sep 2024</span></li>
+            <li>No successor until DRIP (2025, 80M ARB cap, run by Entropy · see the Entropy row)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUESTBOOK -->
+  <div class="ent" style="--edge:#9dcced" onclick="tog(event,this)">
+    <span class="badge" style="--edge:#9dcced">Builder Grants</span>
+    <div class="head">
+      <img class="logo" src="assets/questbook.png" alt="Questbook">
+      <div class="who"><h2>Questbook Grants (DDA)</h2>
+        <div class="role">Delegated Domain Allocation · small builder grants through domain allocators, season by season. Season 3 is in a reduced low-capacity phase until Sep 2026 ($2.69M of $5.26M disbursed, milestone reviews only) · no Season 4 proposed.</div></div>
+      <div class="got"><div class="amt">~$12.5M</div><div class="lbl">across 3 seasons</div></div>
+      <div class="arrow" title="click to expand">▾</div>
+    </div>
+    <div class="drawer">
+      <div class="cols">
+        <div>
+          <div class="colh">Funding by year</div>
+          <div class="frow"><span class="yr">2023</span><div class="bar"><div class="fill" style="--w:14%"></div><span>$1M · Season 1 <a href="https://forum.arbitrum.foundation/t/delegated-domain-allocation-by-questbook-arbitrum-dao-grants/14688" target="_blank">↗</a></span></div></div>
+          <div class="frow"><span class="yr">2024</span><div class="bar"><div class="fill" style="--w:54%"></div><span>~$4M · Season 2 <a href="https://forum.arbitrum.foundation/t/questbook-dda-program-phase-2-request-for-continuation/21326" target="_blank">↗</a></span></div></div>
+          <div class="frow"><span class="yr">2025</span><div class="bar"><div class="fill" style="--w:100%"></div><span>$7.48M · Season 3 (5 domains · voted Dec 2024) <a href="https://forum.arbitrum.foundation/t/arbitrum-d-a-o-grant-program-season-3-official-thread/28753" target="_blank">↗</a></span></div></div>
+          <div class="fnote">The forum list below covers program threads and grantee reports · the individual grants (hundreds per season) are approved and tracked on <a href="https://arbitrum.questbook.app" target="_blank">Questbook’s Arbitrum portal ↗</a>.</div>
+        </div>
+        <div>
+          <div class="colh">Shape</div>
+          <ul class="plist"><li>Domain allocators approve milestone-based builder grants</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADPC -->
+  <div class="ent" style="--edge:#7d8fa3" onclick="tog(event,this)">
+    <span class="badge" style="--edge:#7d8fa3">Sunset</span>
+    <div class="head">
+      <img class="logo" src="assets/arbitrum.png" alt="ADPC">
+      <div class="who"><h2>ADPC <small>procurement · 2023-25</small></h2>
+        <div class="role">Procurement committee · whitelisted security vendors, ran the audit-subsidy fund. Sunset; its audit scope lives on in the Foundation's Audit Program.</div></div>
+      <div class="got"><div class="amt">1.15M <em>ARB</em> + $2.5M</div><div class="lbl">phases + subsidy fund</div></div>
+      <div class="arrow" title="click to expand">▾</div>
+    </div>
+    <div class="progs"><span class="prog out">audit subsidies → AAP</span><span class="prog out">leftover cash → ATMC</span></div>
+    <div class="drawer">
+      <div class="cols">
+        <div>
+          <div class="colh">Funding by year</div>
+          <div class="frow"><span class="yr">2024</span><div class="bar"><div class="fill" style="--w:20%"></div><span>200k ARB · Phase 1 <a href="https://forum.arbitrum.foundation/t/proposal-non-constitutional-establish-the-arbitrumdao-procurement-committee/20064" target="_blank">↗</a></span></div></div>
+          <div class="frow"><span class="yr">2024</span><div class="bar"><div class="fill" style="--w:60%"></div><span>$2.5M-in-ARB audit subsidy fund <a href="https://forum.arbitrum.foundation/t/arbitrum-security-subsidy-fund-outcome-report/28479" target="_blank">outcome ↗</a></span></div></div>
+          <div class="frow"><span class="yr">2024</span><div class="bar"><div class="fill" style="--w:95%"></div><span>954,608 ARB · Phase 2 (Snapshot Sep 2024) <a href="https://forum.arbitrum.foundation/t/arbitrum-dao-procurement-committee-phase-ii-proposal/26441" target="_blank">↗</a></span></div></div>
+          <div class="fnote">Subsidy fund: the proposal asked for $10M; the DAO picked the $2.5M one-cohort option on Snapshot.</div>
+        </div>
+        <div>
+          <div class="colh">Legacy</div>
+          <ul class="plist"><li>Subsidy fund wrapped up and published its outcome report; the AAP absorbed the scope <span class="st pass">2025-26</span></li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- ARDC ARC -->
+  <div class="ent" style="--edge:#b78cff" onclick="tog(event,this)">
+    <span class="badge" style="--edge:#b78cff">Concluded</span>
+    <div class="head">
+      <img class="logo" src="assets/arbitrum.png" alt="ARDC">
+      <div class="who"><h2>Research · Coalition → ARDC</h2>
+        <div class="role">The DAO's research arm: a proposal that failed, then a fork that ran two terms before the DAO chose to end it.</div></div>
+      <div class="got"><div class="amt">1.72M <em>ARB</em> + $1.73M</div><div class="lbl">v1 + v2 budgets</div></div>
+      <div class="arrow" title="click to expand">▾</div>
+    </div>
+    <div class="drawer">
+      <div class="cols">
+        <div>
+          <div class="colh">The arc</div>
+          <ul class="plist">
+            <li class="dead">Arbitrum Coalition (Blockworks+Gauntlet+ToB, Oct 2023) <span class="st fail">failed · 45% don't fund</span> · <a href="https://forum.arbitrum.foundation/t/proposal-the-arbitrum-coalition/19145" target="_blank">↗</a></li>
+            <li>ARDC v1 · an explicit fork of the failed Coalition (1.715M ARB): Blockworks+Delphi, OpenZeppelin, Chaos Labs, L2BEAT. Full term Apr–Oct 2024, 42 deliverables · <a href="https://forum.arbitrum.foundation/t/ardc-final-report/27050" target="_blank">final report ↗</a></li>
+            <li>ARDC v2 (1.73M USDC, Entropy supervising) · extension vote <span class="st fail">don't extend · 79.8%</span> (Jul 2025); concluded on schedule · <a href="https://forum.arbitrum.foundation/t/ardc-v2-final-update-concluding-report/29652" target="_blank">↗</a></li>
+            <li>Leftover ~$1.5M USDC <span class="xfer">→ ATMC</span>; OZ's unused retainer credited to the audit subsidies</li>
+          </ul>
+        </div>
+        <div>
+          <div class="colh">Why it matters</div>
+          <div class="fnote" style="margin-top:4px">No formal handoff to OpCo · Entropy's retrospective looked at pulling research into OpCo, then chose the AAE model instead. Research is now a gap the AAEs are expected to cover.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPERIMENTS -->
+  <div class="ent" style="--edge:#7d8fa3" onclick="tog(event,this)">
+    <span class="badge" style="--edge:#7d8fa3">Experiments</span>
+    <div class="head">
+      <img class="logo" src="assets/arbitrum.png" alt="Experiments">
+      <div class="who"><h2>Experiments &amp; Rejections</h2>
+        <div class="role">Pilots the DAO tried, paused, or refused · the record most dashboards hide.</div></div>
+      <div class="got"><div class="amt">the full record</div><div class="lbl">tried · paused · rejected</div></div>
+      <div class="arrow" title="click to expand">▾</div>
+    </div>
+    <div class="drawer">
+      <div class="cols">
+        <div>
+          <div class="colh">Tried / paused</div>
+          <ul class="plist">
+            <li>Plurality Labs / Thank ARB · 3.36M ARB Milestone 1 (Jul 2023, narrow pass 53.1M vs 47.0M); M2 withdrawn · <a href="https://forum.arbitrum.foundation/t/14976" target="_blank">↗</a></li>
+            <li>Proposal-cancellation governor upgrade (Tally / ScopeLift, Nov 2024) · discussion paused, never voted; Tally pivoted to a proxy-upgrade approach Jul 2025 <a href="https://forum.arbitrum.foundation/t/27531" target="_blank">↗</a></li>
+            <li>Areta M&amp;A Working Group · pilot passed May 2024 (125.6M For), outcome report published · <a href="https://forum.arbitrum.foundation/t/22520" target="_blank">↗</a></li>
+            <li>Arbitrum Ventures Initiative · $87k research pilot (winning option 86.9% For, 2024); paused to make way for the OpCo/AAE model, Phase 2 never proposed. Not related to AGV · <a href="https://forum.arbitrum.foundation/t/24247" target="_blank">↗</a></li>
+            <li>Event Horizon · 5M ARB of voting power delegated to a public-access pool (Apr 2024, 132M For); cut to 100K ARB in Jun 2025 when the DAO ratified the agentic-governance pivot (199M VP) <a href="https://forum.arbitrum.foundation/t/21523" target="_blank">↗</a> <a href="https://forum.arbitrum.foundation/t/29280" target="_blank">↗</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="colh">Rejected by vote</div>
+          <ul class="plist">
+            <li class="dead">ArbitrumHub · funding rejected twice (156M Against Jun 2024; 98.4M Against Jan 2025) <span class="st fail">no ×2</span></li>
+            <li class="dead">Treasury Backed Vaults <span class="st fail">124.2M against</span></li>
+            <li class="dead">Token Swap Pilot (treasury diversification via token swaps) <span class="st fail">108M against · oct 2024</span> <a href="https://forum.arbitrum.foundation/t/27106" target="_blank">↗</a></li>
+            <li class="dead">Growth Circles events program · 2025's highest-turnout rejection (4,402 voters) <span class="st fail">feb 2025</span> <a href="https://forum.arbitrum.foundation/t/28375" target="_blank">↗</a></li>
+            <li class="dead">ARB User-Acquisition Incentives · the bridge attempt between Detox and DRIP <span class="st fail">apr 2025</span> <a href="https://forum.arbitrum.foundation/t/28291" target="_blank">↗</a></li>
+            <li class="dead">Arbitrum Coalition (see the ARDC row) <span class="st fail">2023</span></li>
+            <li class="dead">ARB staking · the saga: 2023 temp check picked 100M ARB, never shipped · the 2024 sequel PASSED Snapshot (145M For, 25,133 voters · the highest turnout of any vote since the farming era ended mid-2024) and also never shipped · 2025 native-staking thread (~8% APY) stalled too <a href="https://forum.arbitrum.foundation/t/25084" target="_blank">↗</a> <a href="https://forum.arbitrum.foundation/t/29399" target="_blank">↗</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<footer>
+  <b>Method:</b> 720 indexed forum topics + a 12-transfer funding ledger; every figure sourced from its proposal and checked against Snapshot + Tally (as of Jul 6, 2026). Estimates labeled est.; anything unverifiable left off. *"Allocated" = ARB allocations passed by vote, gross (returns not netted) · genesis 750M excluded · USD contracts counted separately.<br>
+  Made by <b>zeptimus</b> · <a href="https://forum.arbitrum.foundation/t/zeptimus-delegate-communication-thread/28328" target="_blank">delegate thread ↗</a>
+</footer>
+
+<script>
+function tog(e,el){ if(e.target.closest('a'))return; if(e.target.closest('.drawer'))return; el.classList.toggle('open'); }
+function pnlTog(tr){ const ex=tr.nextElementSibling; const open=ex.style.display==='table-row';
+  document.querySelectorAll('.pnltbl .exprow').forEach(r=>r.style.display='none');
+  document.querySelectorAll('.pnltbl .yrrow').forEach(r=>r.classList.remove('on'));
+  if(!open){ ex.style.display='table-row'; tr.classList.add('on'); } }
+document.documentElement.classList.add('js');
+(function(){
+  const ents=[...document.querySelectorAll('.ent')];
+  const topEnts=new Set(document.querySelector('.roster').querySelectorAll(':scope > .ent'));
+  const menu=document.getElementById('nmenu');
+  ents.forEach((el,i)=>{
+    const name=el.querySelector('h2').childNodes[0].textContent.trim();
+    const id='e'+i+'-'+name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+    el.id=id;
+    if(!topEnts.has(el)) return;                    // menu lists the six entities only
+    const logo=el.querySelector('.logo');
+    const edge=getComputedStyle(el).getPropertyValue('--edge')||'#12aaff';
+    const a=document.createElement('a');
+    a.href='#'+id;
+    a.innerHTML=`<img src="${logo.getAttribute('src')}" alt=""><span>${name}</span><span class="dot" style="--edgecol:${edge};margin-left:auto"></span>`;
+    a.onclick=()=>{ document.getElementById('ndrop').classList.remove('open'); el.classList.add('open'); };
+    menu.appendChild(a);
+  });
+  document.addEventListener('click',e=>{ if(!e.target.closest('.ndrop')) document.getElementById('ndrop').classList.remove('open'); });
+
+// ── All-proposals lists (from the 720-topic forum index, Jul 5 2026) ──
+const PLISTS={"community":{"total":356,"items":[{"id":30825,"y":"2026","t":"[Constitutional] AIP: Approve Release of Frozen ETH"},{"id":30963,"y":"2026","t":"Making the DAO exciting again (nominate my project for the upcoming Pgu..."},{"id":30768,"y":"2026","t":"Arbitrum Launchpad India - Final Report"},{"id":30461,"y":"2026","t":"[FINAL REPORT] Arbitrum Native Precompile & Tx-Type Support for Local T..."},{"id":30633,"y":"2026","t":"CASP Feasibility Report"},{"id":30788,"y":"2026","t":"Arbitrum DAO Contributor Program: Validation Research Report"},{"id":30820,"y":"2026","t":"[DDA 3.0 Dev Tooling] Post-audit commit-drift review harness on Arbitru..."},{"id":30911,"y":"2026","t":"[Final Report] Forkast Launch Campaign"},{"id":30393,"y":"2026","t":"Kurtosis Orbit: Final Report"},{"id":30406,"y":"2026","t":"Namaste Arbitrum 2.0 | Final Report"},{"id":30425,"y":"2026","t":"ArbiSight - Real-time CLI Telemetry & Alerting for Stylus Final Report"},{"id":30431,"y":"2026","t":"Wizard v2 (Online Stylus IDE) | Final Report"},{"id":30445,"y":"2026","t":"Final Report: Arbitrum DAO as official sponsor ETH HOUSE ARGENTINA"},{"id":30450,"y":"2026","t":"Etherspot [Final]"},{"id":30460,"y":"2026","t":"Ethereum Mexico 2025 | Arbitrum grant"}]},"foundation":{"total":26,"items":[{"id":30484,"y":"2026","t":"[Constitutional] DVP Quorum for ArbitrumDAO: Implementation & Parameters"},{"id":30908,"y":"2026","t":"Continued Funding for the Arbitrum Foundation"},{"id":30880,"y":"2026","t":"[Constitutional] AIP: Minimize Arbitrum Nova"},{"id":29145,"y":"2025","t":"[Constitutional] AIP: Constitutional Quorum Threshold Reduction"},{"id":30080,"y":"2025","t":"The DAO Incentive Program (DIP 2.0)"},{"id":30249,"y":"2025","t":"Rewarding Active Delegates (RAD) Program"},{"id":29332,"y":"2025","t":"[Constitutional] AIP: Remove Cost Cap on Arbitrum Nova"},{"id":29503,"y":"2025","t":"[Constitutional] AIP: Disable Legacy Tether Bridge"},{"id":29463,"y":"2025","t":"[Constitutional] AIP: Update the Upgrade Executors"},{"id":30053,"y":"2025","t":"[Constitutional] AIP: DVP Quorum"},{"id":29474,"y":"2025","t":"Audit Committee Technical Expert Elections"},{"id":28851,"y":"2025","t":"Update on OAT Elections’ Candidate Eligibility Evaluation phase"},{"id":23232,"y":"2024","t":"AIP: BOLD - permissionless validation for Arbitrum"},{"id":26775,"y":"2024","t":"[Non-Constitutional] Funds to Bolster Foundation’s Strategic Partnershi..."},{"id":26470,"y":"2024","t":"Constitutional - Extend Delay on L2Time Lock"}]},"questbook":{"total":19,"items":[{"id":28070,"y":"2025","t":"Final report: arbitrum builders initiative on questbook"},{"id":28425,"y":"2025","t":"Collabberry: Completion Report - Questbook Season 3"},{"id":21326,"y":"2024","t":"Questbook DDA Program Phase 2 Request for Continuation"},{"id":27859,"y":"2024","t":"Questbook DDA Program Report"},{"id":23672,"y":"2024","t":"Questbook DDA Program Update Thread"},{"id":27396,"y":"2024","t":"The plan for questbook 3rd?"},{"id":24862,"y":"2024","t":"Request for Additional Funding for the Arbitrum DDA Program"},{"id":21143,"y":"2024","t":"Call for action - review of Delegate Domain Allocation by Questbook Gra..."},{"id":27193,"y":"2024","t":"[REPORTS THREAD] New Protocols and Ideas Domain 2.0"},{"id":27028,"y":"2024","t":"Alphaday - Arbitrum Dashboard (Completion Report - Questbook Season 2)"},{"id":27032,"y":"2024","t":"Locale Network: Lending COMPLETION REPORT - QUESTBOOK SEASON 2"},{"id":27065,"y":"2024","t":"FairAI: Completion Report - Questbook Season 2"},{"id":27067,"y":"2024","t":"Gonana COMPLETION REPORT - QUESTBOOK SEASON 2"},{"id":27082,"y":"2024","t":"SONGS: Completion Report - Questbook Season 2"},{"id":27187,"y":"2024","t":"DexPal Completion Report - Questbook Season 2"},{"id":27337,"y":"2024","t":"Sonica: Completion Report - Questbook Season 2"},{"id":27347,"y":"2024","t":"Secuwa - Completion Report - Questbook Season 2"},{"id":14688,"y":"2023","t":"Delegated Domain Allocation by Questbook - Arbitrum DAO Grants"},{"id":14081,"y":"2023","t":"Delegated Domain Allocation by Questbook"}]},"security-council":{"total":8,"items":[{"id":30658,"y":"2026","t":"RAD Special Budget for the Security Council Elections"},{"id":29848,"y":"2025","t":"[Constitutional] AIP: Security Council Election Process Improvements"},{"id":29938,"y":"2025","t":"Security Council Elections – Candidates Referral Bounties"},{"id":20541,"y":"2024","t":"Constitutional AIP - Security Council Improvement Proposal"},{"id":20856,"y":"2024","t":"AIP: Changes to the Constitution and the Security Council Election Process"},{"id":22809,"y":"2024","t":"RFC - Security Council Member Test"},{"id":15425,"y":"2023","t":"AIP - 6 : Security Council Elections"},{"id":15426,"y":"2023","t":"Proposal: Update Security Council Election Start Date to Ensure Time fo..."}]},"seedgov":{"total":74,"items":[{"id":30587,"y":"2026","t":"Rewarding Active Delegates - February 2026 Results"},{"id":30410,"y":"2026","t":"Rewarding Active Delegates - November 2025 Results"},{"id":30411,"y":"2026","t":"Rewarding Active Delegates - December 2025 Results"},{"id":30457,"y":"2026","t":"Arbitrum Bridge Latam @ Devconnect 2025 - Final Report"},{"id":30734,"y":"2026","t":"Rewarding Active Delegates - March 2025 Results"},{"id":30815,"y":"2026","t":"SEED Gov Steps Down from Stylus Sprint Evaluation Committee"},{"id":30816,"y":"2026","t":"SEED Gov Steps Down as RAD Program Manager"},{"id":28331,"y":"2025","t":"Non-Constitutional: Amendment to the Delegate Incentives Program"},{"id":29867,"y":"2025","t":"Proposal: Revert the Delegate Incentive Program (DIP) to Version 1.5"},{"id":30054,"y":"2025","t":"Arbitrum Triple Dip (Delegate Incentive Program)"},{"id":29635,"y":"2025","t":"Proposal - Updates to the DIP, The Complete 1.7 Version"},{"id":28494,"y":"2025","t":"[DIP v1.51a] Delegate Incentive Program Results (January 2025)"},{"id":29218,"y":"2025","t":"[DIP v1.6] Delegate Incentive Program Results (April 2025)"},{"id":28140,"y":"2025","t":"[DIP v1.5] Delegate Incentive Program Results (December 2024)"},{"id":29063,"y":"2025","t":"[DIP v1.6] Delegate Incentive Program Results (March 2025)"}]},"entropy":{"total":92,"items":[{"id":30691,"y":"2026","t":"Transfer 6,000 ETH and Idle Stablecoins from the Treasury to the Treasu..."},{"id":30579,"y":"2026","t":"Automate the Consolidation of Idle Funds into the Treasury Management P..."},{"id":30985,"y":"2026","t":"Extending DRIP's Mandate"},{"id":30697,"y":"2026","t":"Improvements to the Arbitrum Audit Program"},{"id":30920,"y":"2026","t":"[Constitutional] AIP: Automate Timeboost Proceeds Split"},{"id":30664,"y":"2026","t":"Updating the Code of Conduct & DAO Procedures to Become Living Documents"},{"id":30392,"y":"2026","t":"Arbitrum Audit Program: Transparency Report #1"},{"id":30448,"y":"2026","t":"Stylus Sprint Demo Days"},{"id":30597,"y":"2026","t":"Arbitrum Audit Program: Transparency Report #2"},{"id":30667,"y":"2026","t":"KPK Treasury Management Updates"},{"id":30405,"y":"2026","t":"Entropy Advisors Monthly Update: December 2025"},{"id":30870,"y":"2026","t":"Entropy Advisors Monthly Update: April 2026"},{"id":30923,"y":"2026","t":"Final Report - Timeboost Auction Analytics Engine"},{"id":30970,"y":"2026","t":"Entropy Advisors Monthly Update: May 2026"},{"id":30382,"y":"2026","t":"DRIP December 2025 Update"}]},"ardc":{"total":16,"items":[{"id":30732,"y":"2026","t":"Watchdog Retrospective"},{"id":30404,"y":"2026","t":"Watchdog Program: January 14th Update"},{"id":30548,"y":"2026","t":"Watchdog Program: February 10th Update"},{"id":30565,"y":"2026","t":"Watchdog Program: February 18th Bounty Structure Update"},{"id":30638,"y":"2026","t":"Watchdog Program: March 10th Update"},{"id":30800,"y":"2026","t":"Watchdog Program April 20th Update: Scope Boundary, OpCo Transition, an..."},{"id":30814,"y":"2026","t":"SEED Gov Steps Down from Watchdog Program Reviewing Committee"},{"id":30856,"y":"2026","t":"Watchdog Program: April 2026 Update"},{"id":30968,"y":"2026","t":"Watchdog Program: May 2026 Update"},{"id":29476,"y":"2025","t":"Arbitrum Research and Development Collective V2 - Extension"},{"id":30094,"y":"2025","t":"Watchdog Program: October 14th Parameter Adjustments & Update"},{"id":27978,"y":"2024","t":"The Watchdog: Arbitrum DAO's Grant Misuse Bounty Program"},{"id":26922,"y":"2024","t":"[NON-CONSTITUTIONAL] - Arbitrum Research and Development Collective [Te..."},{"id":25676,"y":"2024","t":"Proposal [non-constitutional]: Injection of funding to the Arbitrum Res..."},{"id":19145,"y":"2023","t":"Proposal: The Arbitrum Coalition"}]},"adpc":{"total":4,"items":[{"id":26441,"y":"2024","t":"Arbitrum DAO Procurement Committee: Phase II Proposal"},{"id":20064,"y":"2023","t":"Proposal [Non-Constitutional]: Establish the ArbitrumDAO Procurement Co..."},{"id":19328,"y":"2023","t":"[PROPOSAL] - Procurement Framework | Security : Non-Constitutional Prop..."},{"id":19704,"y":"2023","t":"Proposal [Non-Constitutional]: **Procurement Framework [Security Servic..."}]},"offchain":{"total":12,"items":[{"id":30601,"y":"2026","t":"[Constitutional] AIP: ArbOS 61 Elara"},{"id":30942,"y":"2026","t":"[Constitutional] AIP: Transition Arbitrum One ordering policy to Priori..."},{"id":31003,"y":"2026","t":"[Constitutional] AIP Fast Feed"},{"id":28436,"y":"2025","t":"[CONSTITUTIONAL] AIP: ArbOS Version 40 Callisto"},{"id":29835,"y":"2025","t":"[CONSTITUTIONAL] AIP: ArbOS Version 50 Dia"},{"id":30182,"y":"2025","t":"AIP: Raise the gas target, min L2 base fee, & implement improvements to..."},{"id":22970,"y":"2024","t":"AIP: Activate Stylus and Enable Next-Gen WebAssembly Smart Contracts (A..."},{"id":23298,"y":"2024","t":"AIP: Support RIP-7212 for Account Abstraction Wallets (ArbOS 30)"},{"id":20957,"y":"2024","t":"AIP: ArbOS Version 20 \"Atlas\""},{"id":23310,"y":"2024","t":"AIP: Nova Fee Router Proposal (ArbOS 30)"},{"id":25904,"y":"2024","t":"AIP: ArbOS 31 “Bianca” - Activation of Arbitrum Stylus, RIP-7212 Suppor..."},{"id":19696,"y":"2023","t":"AIP: ArbOS Version 11"}]},"agv-gcp":{"total":52,"items":[{"id":31012,"y":"2026","t":"AGV Wind-Down: Structured Transition & Return of Capital to the DAO Tre..."},{"id":30884,"y":"2026","t":"[Final Report] - Fatal X Arbitrum Gaming"},{"id":30463,"y":"2026","t":"Wayfinders × Arbitrum Gaming · Final Grant Report"},{"id":30488,"y":"2026","t":"AGV Monthly Update (January 2026)"},{"id":30636,"y":"2026","t":"[FINAL REPORT] DePIN, RWA & Gaming Education Hub in Brazil by FECOXA"},{"id":30640,"y":"2026","t":"AGV Transparency Report #3 (H2 2025)"},{"id":30641,"y":"2026","t":"AGV Monthly Update (February 2026)"},{"id":30735,"y":"2026","t":"AGV Monthly Update (March '26)"},{"id":30859,"y":"2026","t":"AGV Monthly Update (April 2026)"},{"id":30881,"y":"2026","t":"Final Report · P2ECREW / Matheus Celtic Arbitrum Gaming Content Campaign"},{"id":31025,"y":"2026","t":"[Final Report] - Pavelski X Arbitrum Gaming"},{"id":28809,"y":"2025","t":"[Non-Constitutional] GCP Clawback"},{"id":29424,"y":"2025","t":"Proposal: AGV Council Compensation Calibration: Benchmark for Next Term..."},{"id":28362,"y":"2025","t":"GCP Council Salary Updates, Ops Improvements, and Transparency Cadence"},{"id":29425,"y":"2025","t":"Proposal: Extend AGV Council Term and Align Future Elections with Opera..."}]},"opco":{"total":61,"items":[{"id":30736,"y":"2026","t":"RAD Update #3 - March 2026"},{"id":30872,"y":"2026","t":"Oversight and Transparency Committee (OAT) - June 2026 Elections Overview"},{"id":30797,"y":"2026","t":"Firestarters Quarterly Retrospective Report"},{"id":30964,"y":"2026","t":"RAD Bi-annual Transparency Report - June 2026"},{"id":30855,"y":"2026","t":"Rewarding Active Delegates - April 2026 Results"},{"id":30865,"y":"2026","t":"OpCo Update May 2026"},{"id":31031,"y":"2026","t":"RAD Budget - Quarterly Review (2Q2026)"},{"id":30395,"y":"2026","t":"OpCo January 2026 Update"},{"id":30485,"y":"2026","t":"Firestarters - January Monthly Update"},{"id":30487,"y":"2026","t":"RAD Kick-off Update"},{"id":30558,"y":"2026","t":"OpCo February 2026 update"},{"id":30586,"y":"2026","t":"Firestarters - February Monthly Update"},{"id":30592,"y":"2026","t":"RAD Update #2 - February 2026"},{"id":30610,"y":"2026","t":"OpCo Update March 2026"},{"id":30649,"y":"2026","t":"OAT Term & Next Elections"}]}};
+const OWNER_MAP={"Arbitrum Foundation":"foundation","Offchain":"offchain","OpCo":"opco","Entropy Advisors":"entropy","Gaming · GCP → AGV":"agv-gcp","Security Council":"security-council","Delegate Pay · DIP → RAD":"seedgov","Questbook Grants (DDA)":"questbook","ADPC":"adpc","Research · Coalition → ARDC":"ardc","ArbitrumDAO":"community"};
+document.querySelectorAll(".ent").forEach(el=>{
+  const name=el.querySelector("h2").childNodes[0].textContent.trim();
+  const key=OWNER_MAP[name]; if(!key||!PLISTS[key])return;
+  const d=el.querySelector(".drawer"); if(!d)return;
+  const keys=(key==="community")?["community","seedgov"]:[key];
+  keys.forEach(kk=>{
+  const pl=PLISTS[kk];
+  const sec=document.createElement("div");
+  const show=pl.items.slice(0,5);
+  sec.innerHTML=`<div class="colh">${kk==="seedgov"?"Recent delegate-pay threads":"Recent forum threads"} <small style="text-transform:none;letter-spacing:0;color:var(--muted)">· ${pl.total} indexed</small></div>
+   <ul class="plist allprops">${show.map(i=>`<li><span style="color:var(--ice);font-family:var(--mono);font-size:11px">${i.y}</span> <a href="https://forum.arbitrum.foundation/t/${i.id}" target="_blank">${i.t}</a></li>`).join("")}</ul>`;
+  d.appendChild(sec);
+  });
+});
+(function(){ var ENT={"Arbitrum Foundation":"foundation","Offchain":"offchain","OpCo":"opco","Entropy Advisors":"entropy","Gaming · GCP → AGV":"agv","ArbitrumDAO":"dao","Security Council":"securitycouncil","ATMC":"atmc"};
+  document.querySelectorAll(".ent").forEach(function(el){ var h2=el.querySelector("h2"); if(!h2)return; var k=ENT[h2.childNodes[0].textContent.trim()]; var dr=el.querySelector(".drawer"); if(!k||!dr)return;
+    var fp=document.createElement("div"); fp.style.cssText="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08)";
+    fp.innerHTML='<a href="entity.html?e='+k+'" style="color:var(--bright);font-weight:600;font-size:12.5px">Full profile, budget &amp; people →</a>'; dr.appendChild(fp);
+  });
+})();
+
+  const io=new IntersectionObserver(es=>es.forEach(x=>{ if(x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target);} }),{threshold:.12});
+  ents.forEach(el=>io.observe(el));
+})();
+</script>
+<script>
+/* FRESHNESS */
+(function(){
+  var now=new Date();
+  document.querySelectorAll('[data-close]').forEach(function(el){
+    var cd=new Date(el.getAttribute('data-close')+'T23:59:59Z');
+    if(now>cd){ el.textContent='closed'; el.classList.remove('live');
+      var li=el.closest('li'); if(li) li.classList.remove('live'); }
+  });
+  var TREASURY_ARB=2426958656;
+  fetch('https://api.coingecko.com/api/v3/simple/price?ids=arbitrum&vs_currencies=usd')
+    .then(function(r){return r.json();})
+    .then(function(j){
+      var p=j&&j.arbitrum&&j.arbitrum.usd; if(!p) return;
+      var usd=TREASURY_ARB*p;
+      var t=document.getElementById('treasuryUsd'); if(t) t.textContent='≈$'+(usd/1e6).toFixed(0)+'M';
+      var a=document.getElementById('arbPrice'); if(a) a.textContent='ARB ≈ $'+p.toFixed(4)+' (live)';
+    }).catch(function(){});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+{
+  "foundation": [
+    ["Network infrastructure", "runs the sequencer, RPCs and hosting that keep the chain live"],
+    ["Legal & licensing", "the Cayman wrapper; AEP licensor for Orbit chains"],
+    ["Business development", "TradFi, capital markets and regional partnerships"],
+    ["Ecosystem & grants", "grant programs, founder programs, the Developer Guild"],
+    ["Governance operations", "Security Council elections, Nova committee, treasury custody"]
+  ],
+  "offchain": [
+    ["Protocol development", "Nitro, Stylus and the ArbOS upgrades that run Arbitrum"],
+    ["Fraud proofs & security", "BoLD permissionless validation and the $2M bug bounty"],
+    ["Network operations", "runs the sequencer, the bridge and arbitrum.io"],
+    ["Business development", "Orbit chain deployments, enterprise and infra partners"],
+    ["Ethereum infrastructure", "maintains Prysm, which runs ~25% of Ethereum nodes"]
+  ],
+  "opco": [
+    ["Operations", "staffs and executes what governance decides"],
+    ["Delegate incentives", "runs the RAD program that pays active voters"],
+    ["Portfolio & wind-downs", "manages the AGV gaming wind-down"],
+    ["AAE coordination", "the accountability bridge across the Aligned Entities"],
+    ["Research grants", "funds early ideas via Firestarters"]
+  ],
+  "entropy": [
+    ["Strategy & execution", "the DAO's exclusive strategy firm, turns direction into proposals"],
+    ["Treasury execution", "holds the ATMC execution seat and proposes allocations"],
+    ["DeFi incentives", "runs DRIP, 63.7M ARB extended to 2027"],
+    ["Data & reporting", "public monthly updates and arbdata.com"],
+    ["Program handoffs", "sunsets its own programs and hands them to OpCo"]
+  ],
+  "atmc": [
+    ["Treasury allocation", "decides how the DAO's treasury is invested"],
+    ["RWA portfolios", "tokenized US Treasuries via the STEP program"],
+    ["ETH strategies", "16,000 ETH in yield and staking strategies"],
+    ["Stablecoin yield", "idle stablecoins lent out for return"],
+    ["Active managers", "KPK and others run slices of the treasury"]
+  ],
+  "agv": [
+    ["Winding down", "the gaming fund is closing; 143.7M ARB back to the treasury"],
+    ["Portfolio runoff", "about $10M across 15 positions, now managed by OpCo"]
+  ],
+  "securitycouncil": [
+    ["Emergency response", "12 elected signers ready to act on protocol emergencies in hours"],
+    ["Break-glass safeguard", "9-of-12 threshold to act; discloses after the fact"]
+  ],
+  "oat": [
+    ["AAE coordination", "coordinates with the other Aligned Entities"]
+  ],
+  "dao": [
+    ["Stay alert on proposals", "delegates watch everything hitting Snapshot + Tally, and vote it through"],
+    ["Guide the DAO", "set direction, fund the entities, and hold them accountable"]
+  ]
+}

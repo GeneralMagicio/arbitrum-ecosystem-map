@@ -1,0 +1,19 @@
+# working junk — never publish
+*.bak*
+.bak-*
+*.log
+*.out
+mockups/
+raw/
+rcpt.json
+index_A.html
+index_B.html
+index_C.html
+index_prewin.bak.html
+# research: only the 5 data files the site loads
+research/*
+!research/active_initiatives.json
+!research/layout.json
+!research/people.json
+!research/proposals_history.json
+!research/what_they_do.json

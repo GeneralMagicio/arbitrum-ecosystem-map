@@ -1,0 +1,228 @@
+[
+  {
+    "name": "Arbitrum Audit Program (AAP)",
+    "owner": "Foundation",
+    "oneliner": "Subsidized security audits for Arbitrum projects from a $10M fund",
+    "status": "active",
+    "evidence": "30976"
+  },
+  {
+    "name": "Open House founder program",
+    "owner": "Foundation",
+    "oneliner": "In-person program recruiting startup founders; London edition next",
+    "status": "active",
+    "evidence": "30975"
+  },
+  {
+    "name": "alt.gov election portal",
+    "owner": "Foundation",
+    "oneliner": "Official portal that puts DAO election results on-chain",
+    "status": "active",
+    "evidence": ""
+  },
+  {
+    "name": "MSS payment custody",
+    "owner": "Foundation",
+    "oneliner": "Runs the shared wallet paying DAO program participants",
+    "status": "active",
+    "evidence": ""
+  },
+  {
+    "name": "Foundation grants",
+    "owner": "Foundation",
+    "oneliner": "Direct builder and ecosystem grants from the Foundation budget",
+    "status": "active",
+    "evidence": "30908"
+  },
+  {
+    "name": "Timeboost proceeds-split AIP",
+    "owner": "Foundation",
+    "oneliner": "Automates splitting auction revenue between treasury and developer guild",
+    "status": "starting",
+    "evidence": "30920"
+  },
+  {
+    "name": "Arbitrum Developer Guild (ADG)",
+    "owner": "Foundation",
+    "oneliner": "A Foundation + Offchain guild that funds core Arbitrum devs, paid by 2% of AEP revenue + 3% of Timeboost proceeds. Ramping up, not yet fully active",
+    "status": "starting",
+    "evidence": "20722"
+  },
+  {
+    "name": "Offchain services contract",
+    "owner": "Foundation",
+    "oneliner": "Pays Offchain for core protocol development through January 2027",
+    "status": "active",
+    "evidence": "30908"
+  },
+  {
+    "name": "AGV portfolio management",
+    "owner": "OpCo",
+    "oneliner": "Manages AGV's remaining game investments as the fund winds down",
+    "status": "active",
+    "evidence": "31012"
+  },
+  {
+    "name": "RAD delegate-pay administration",
+    "owner": "OpCo",
+    "oneliner": "Runs the program paying active DAO voters each month",
+    "status": "active",
+    "evidence": "31031"
+  },
+  {
+    "name": "Watchdog program ops",
+    "owner": "OpCo",
+    "oneliner": "Bounty program rewarding reports of grant misuse",
+    "status": "active",
+    "evidence": "30968"
+  },
+  {
+    "name": "Firestarters",
+    "owner": "OpCo",
+    "oneliner": "Small research projects testing ideas before full DAO proposals",
+    "status": "active",
+    "evidence": "30797"
+  },
+  {
+    "name": "OAT 2026 election administration",
+    "owner": "OpCo",
+    "oneliner": "Running the oversight-committee election; voting opens July 9",
+    "status": "starting",
+    "evidence": "30872",
+    "close": "2026-07-16"
+  },
+  {
+    "name": "OpCo staffing",
+    "owner": "OpCo",
+    "oneliner": "Hiring leadership and negotiating Entropy's 10M ARB performance milestones",
+    "status": "active",
+    "evidence": "30865"
+  },
+  {
+    "name": "Code of Conduct AI amendment",
+    "owner": "OpCo",
+    "oneliner": "Proposed forum rules for responsible AI-generated participation",
+    "status": "starting",
+    "evidence": "31038"
+  },
+  {
+    "name": "DRIP incentive program",
+    "owner": "Entropy",
+    "oneliner": "DeFi rewards program extended to July 2027; 63.7M ARB left",
+    "status": "active",
+    "evidence": "30985"
+  },
+  {
+    "name": "Treasury execution (ATMC seat)",
+    "owner": "Entropy",
+    "oneliner": "Executes the DAO's treasury investments on the council's behalf",
+    "status": "active",
+    "evidence": "30970"
+  },
+  {
+    "name": "arbdata.com",
+    "owner": "Entropy",
+    "oneliner": "Public data site tracking delegates, elections and proposals",
+    "status": "active",
+    "evidence": "30970"
+  },
+  {
+    "name": "Watchdog handover support",
+    "owner": "Entropy",
+    "oneliner": "Finishing transfer of the misuse-bounty program to OpCo",
+    "status": "winding-down",
+    "evidence": "30968"
+  },
+  {
+    "name": "Monthly reporting",
+    "owner": "Entropy",
+    "oneliner": "Public monthly updates covering all its DAO workstreams",
+    "status": "active",
+    "evidence": "30970"
+  },
+  {
+    "name": "Stylus Sprint closeout",
+    "owner": "Entropy",
+    "oneliner": "Final payments and retrospective for a developer grant sprint",
+    "status": "winding-down",
+    "evidence": "30970"
+  },
+  {
+    "name": "Fast Feed AIP",
+    "owner": "Offchain",
+    "oneliner": "Paid early transaction feed sending 97% of revenue to DAO",
+    "status": "live vote",
+    "evidence": "31003",
+    "close": "2026-07-09"
+  },
+  {
+    "name": "PGA ordering AIP",
+    "owner": "Offchain",
+    "oneliner": "Replace auction-based transaction ordering with priority gas fees",
+    "status": "starting",
+    "evidence": "30942"
+  },
+  {
+    "name": "ArbOS 61 Elara rollout",
+    "owner": "Offchain",
+    "oneliner": "Next protocol upgrade shipping after testnet bug fixes",
+    "status": "active",
+    "evidence": "30601"
+  },
+  {
+    "name": "Wind-down in progress",
+    "owner": "AGV",
+    "oneliner": "The gaming fund is closing; 143.7M ARB returns to the treasury",
+    "status": "winding-down",
+    "evidence": "31012"
+  },
+  {
+    "name": "STEP treasury portfolios",
+    "owner": "ATMC",
+    "oneliner": "About $47M of treasury invested in real-world assets",
+    "status": "active",
+    "evidence": "26819"
+  },
+  {
+    "name": "ETH treasury strategies",
+    "owner": "ATMC",
+    "oneliner": "16,000 ETH earning yield; 12,750 ETH staking move pending",
+    "status": "active",
+    "evidence": "30970"
+  },
+  {
+    "name": "Idle-stablecoin deployments",
+    "owner": "ATMC",
+    "oneliner": "Spare stablecoins lent out for yield, ~$14M deployed June",
+    "status": "active",
+    "evidence": "30970"
+  },
+  {
+    "name": "KPK active management",
+    "owner": "ATMC",
+    "oneliner": "Outside firm actively managing part of the treasury",
+    "status": "active",
+    "evidence": "30667"
+  },
+  {
+    "name": "OpCo oversight & budget ratification",
+    "owner": "OAT",
+    "oneliner": "Elected committee reviewing and approving OpCo spending and hires",
+    "status": "active",
+    "evidence": "30649"
+  },
+  {
+    "name": "ATMC treasury voting",
+    "owner": "OAT",
+    "oneliner": "The voting body on treasury allocations: approves or denies what the execution body proposes",
+    "status": "active",
+    "evidence": "29334"
+  },
+  {
+    "name": "Standing emergency mandate",
+    "owner": "SecurityCouncil",
+    "oneliner": "Twelve elected signers ready to patch protocol emergencies fast",
+    "status": "active",
+    "evidence": "30910"
+  }
+]

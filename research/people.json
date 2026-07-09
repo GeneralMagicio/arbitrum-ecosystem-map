@@ -1,0 +1,396 @@
+{
+  "_note": "One entry per real person/org. roles = the entity nodes they attach to on the map. 'dao' means a top-25 delegate. Multi-role people appear ONCE with a line to each role. Compiled from the same verified dataset as the entity pages.",
+  "people": [
+    {
+      "n": "Griff Green",
+      "h": "griffgreen",
+      "roles": [
+        "securitycouncil",
+        "dao"
+      ],
+      "vp": "9.2M ARB"
+    },
+    {
+      "n": "Gauntlet",
+      "h": "gauntlet_xyz",
+      "roles": [
+        "securitycouncil",
+        "dao"
+      ],
+      "vp": "15.0M ARB"
+    },
+    {
+      "n": "Daniel Goldman · DZack23",
+      "h": "DZack23",
+      "roles": [
+        "securitycouncil",
+        "dao"
+      ],
+      "vp": "13.6M ARB"
+    },
+    {
+      "n": "Yoav Weiss · yoav.eth",
+      "h": "yoavw",
+      "roles": [
+        "securitycouncil",
+        "dao"
+      ],
+      "vp": "12.3M ARB"
+    },
+    {
+      "n": "Frisson · Tyler Bench",
+      "h": "tylerisfrisson",
+      "roles": [
+        "oat",
+        "dao"
+      ],
+      "vp": "12.3M ARB"
+    },
+    {
+      "n": "A.J. Warner",
+      "h": "ajwarner90",
+      "roles": [
+        "offchain",
+        "oat"
+      ]
+    },
+    {
+      "n": "Patrick McCorry",
+      "h": "stonecoldpat0",
+      "roles": [
+        "foundation",
+        "oat"
+      ]
+    },
+    {
+      "n": "Entropy Advisors",
+      "h": "EntropyAdvisors",
+      "roles": [
+        "entropy",
+        "atmc",
+        "dao"
+      ],
+      "vp": "33.0M ARB"
+    },
+    {
+      "n": "Brendan Ma",
+      "h": "itsbrendanma",
+      "roles": [
+        "foundation"
+      ]
+    },
+    {
+      "n": "raam",
+      "h": "raamcc",
+      "roles": [
+        "foundation"
+      ]
+    },
+    {
+      "n": "Mateusz",
+      "h": "matrzeszowski",
+      "roles": [
+        "foundation"
+      ]
+    },
+    {
+      "n": "Tamara Benetti",
+      "h": "TaBenetti",
+      "roles": [
+        "opco"
+      ]
+    },
+    {
+      "n": "Sinkas",
+      "h": "Sinkas_",
+      "roles": [
+        "opco"
+      ]
+    },
+    {
+      "n": "Armin",
+      "h": "armin_0x",
+      "roles": [
+        "opco"
+      ]
+    },
+    {
+      "n": "Matt Fiebach",
+      "h": "MattFiebach",
+      "roles": [
+        "entropy"
+      ]
+    },
+    {
+      "n": "Sam Martin",
+      "h": "swmartin19",
+      "roles": [
+        "entropy"
+      ]
+    },
+    {
+      "n": "Steven Goldfeder",
+      "h": "sgoldfed",
+      "roles": [
+        "offchain"
+      ]
+    },
+    {
+      "n": "Ed Felten",
+      "h": "EdFelten",
+      "roles": [
+        "offchain"
+      ]
+    },
+    {
+      "n": "Harry Kalodner",
+      "h": "hkalodner",
+      "roles": [
+        "offchain"
+      ]
+    },
+    {
+      "n": "David Bolger",
+      "h": null,
+      "roles": [
+        "agv"
+      ]
+    },
+    {
+      "n": "Greg Canessa",
+      "h": null,
+      "roles": [
+        "agv"
+      ]
+    },
+    {
+      "n": "JoJo",
+      "h": "jojo",
+      "roles": [
+        "agv",
+        "dao"
+      ]
+    },
+    {
+      "n": "Tim Chang",
+      "h": null,
+      "roles": [
+        "agv"
+      ]
+    },
+    {
+      "n": "John Kennedy",
+      "h": null,
+      "roles": [
+        "agv"
+      ]
+    },
+    {
+      "n": "zachxbt",
+      "h": "zachxbt",
+      "roles": [
+        "securitycouncil"
+      ]
+    },
+    {
+      "n": "Emiliano Bonassi",
+      "h": "emilianobonassi",
+      "roles": [
+        "securitycouncil"
+      ]
+    },
+    {
+      "n": "gzeon",
+      "h": "gzeon",
+      "roles": [
+        "securitycouncil"
+      ]
+    },
+    {
+      "n": "Immunefi",
+      "h": "immunefi",
+      "roles": [
+        "securitycouncil"
+      ]
+    },
+    {
+      "n": "Michael Lewellen",
+      "h": "LewellenMichael",
+      "roles": [
+        "securitycouncil"
+      ]
+    },
+    {
+      "n": "Certora",
+      "h": "Certora",
+      "roles": [
+        "securitycouncil"
+      ]
+    },
+    {
+      "n": "Bartek Kiepuszewski",
+      "h": "bkiepuszewski",
+      "roles": [
+        "securitycouncil"
+      ]
+    },
+    {
+      "n": "Pablo Sabbatella",
+      "h": "pablosabbatella",
+      "roles": [
+        "securitycouncil"
+      ]
+    },
+    {
+      "n": "Pedro Breuer",
+      "h": "pedro_breuer",
+      "roles": [
+        "oat"
+      ]
+    },
+    {
+      "n": "Gavin Wang",
+      "h": null,
+      "roles": [
+        "oat"
+      ]
+    },
+    {
+      "n": "Blockworks",
+      "h": "blockworksres",
+      "roles": [
+        "dao"
+      ],
+      "vp": "16.8M ARB"
+    },
+    {
+      "n": "Camelot",
+      "h": "CamelotDEX",
+      "roles": [
+        "dao"
+      ],
+      "vp": "12.5M ARB"
+    },
+    {
+      "n": "L2BEAT",
+      "h": "l2beat",
+      "roles": [
+        "dao"
+      ],
+      "vp": "10.1M ARB"
+    },
+    {
+      "n": "Wintermute",
+      "h": "wintermute_t",
+      "roles": [
+        "dao"
+      ],
+      "vp": "10.0M ARB"
+    },
+    {
+      "n": "Pantera Capital",
+      "h": "PanteraCapital",
+      "roles": [
+        "dao"
+      ],
+      "vp": "10.0M ARB"
+    },
+    {
+      "n": "Reverie",
+      "h": "hi_Reverie",
+      "roles": [
+        "dao"
+      ],
+      "vp": "10.0M ARB"
+    },
+    {
+      "n": "MUX Protocol",
+      "h": "muxprotocol",
+      "roles": [
+        "dao"
+      ],
+      "vp": "9.3M ARB"
+    },
+    {
+      "n": "coinflipcanda",
+      "h": "coinflipcanda",
+      "roles": [
+        "opco",
+        "dao"
+      ],
+      "vp": "9.1M ARB"
+    },
+    {
+      "n": "GFX Labs",
+      "h": "labsGFX",
+      "roles": [
+        "dao"
+      ],
+      "vp": "8.8M ARB"
+    },
+    {
+      "n": "olimpio",
+      "h": "OlimpioCrypto",
+      "roles": [
+        "dao"
+      ],
+      "vp": "8.5M ARB"
+    },
+    {
+      "n": "GMX",
+      "h": "GMX_IO",
+      "roles": [
+        "dao"
+      ],
+      "vp": "8.0M ARB"
+    },
+    {
+      "n": "SEEDGov",
+      "h": "SEEDLatam",
+      "roles": [
+        "dao"
+      ],
+      "vp": "7.8M ARB"
+    },
+    {
+      "n": "LobbyFi",
+      "h": "lobbyfinance",
+      "roles": [
+        "dao"
+      ],
+      "vp": "7.2M ARB"
+    },
+    {
+      "n": "Arana Digital",
+      "h": "aranadigital",
+      "roles": [
+        "dao"
+      ],
+      "vp": "5.0M ARB"
+    },
+    {
+      "n": "Areta",
+      "h": "areta_io",
+      "roles": [
+        "dao"
+      ],
+      "vp": "5.0M ARB"
+    },
+    {
+      "n": "MaxLomu",
+      "h": "maxlomu",
+      "roles": [
+        "dao"
+      ],
+      "vp": "4.4M ARB"
+    },
+    {
+      "n": "StableLab",
+      "h": "StableLab",
+      "roles": [
+        "dao"
+      ],
+      "vp": "~3M ARB"
+    }
+  ]
+}
