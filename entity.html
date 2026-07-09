@@ -78,6 +78,8 @@ body{background:var(--bg);color:var(--text);font:400 14px/1.55 var(--sans)}
 .doeslist li:before{content:'▸';position:absolute;left:2px;color:var(--tc,#12aaff)}
 .foot{max-width:1080px;margin:14px auto 40px;color:var(--muted);font-size:11px;padding:0 20px}
 </style></head><body>
+<script>/* transient image-load failures: retry 3x with backoff before any fallback kicks in */
+window.addEventListener('error',function(e){var t=e.target;if(!t||t.tagName!=='IMG')return;var n=+(t.dataset.r||0);if(n<3){t.dataset.r=n+1;e.stopPropagation();setTimeout(function(){t.src=t.src.split('?')[0]+'?r='+n;},350*(n+1));}},true);</script>
 <nav class="topnav">
   <img src="assets/arbitrum.svg" alt="">
   <span class="ntitle">Arbitrum <span class="slash">//</span> <span id="nt">Entity</span></span>

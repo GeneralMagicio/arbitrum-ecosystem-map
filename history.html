@@ -237,6 +237,8 @@ footer b{color:var(--soft)}
 </style>
 </head>
 <body>
+<script>/* transient image-load failures: retry 3x with backoff before any fallback kicks in */
+window.addEventListener('error',function(e){var t=e.target;if(!t||t.tagName!=='IMG')return;var n=+(t.dataset.r||0);if(n<3){t.dataset.r=n+1;e.stopPropagation();setTimeout(function(){t.src=t.src.split('?')[0]+'?r='+n;},350*(n+1));}},true);</script>
 
 <nav class="topnav">
   <img class="nlogo" src="assets/arbitrum.svg" alt="">
