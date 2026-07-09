@@ -63,7 +63,7 @@ html{scroll-behavior:smooth}
   background:var(--blue);animation:drop 1.8s ease-in-out infinite}
 @keyframes drop{0%{transform:translateY(0);opacity:1}70%{transform:translateY(14px);opacity:0}100%{opacity:0}}
 
-.statbar{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:26px auto 0;max-width:1020px;position:relative;z-index:1;padding:0 18px}
+.statbar{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:26px auto 0;max-width:1020px;position:relative;z-index:1;padding:0 18px}
 @media(max-width:900px){.statbar{grid-template-columns:repeat(2,1fr)}}
 .stat{background:radial-gradient(130% 130% at 50% 0%,var(--panel2),var(--panel));border-radius:14px;
   padding:16px 22px;border:1px solid rgba(180,196,215,.16);border-top:2px solid var(--blue);
@@ -256,9 +256,8 @@ footer b{color:var(--soft)}
 
 <div class="statbar">
   <div class="stat"><div class="v">1B+ <em>ARB</em></div><div class="k">allocated by the DAO since 2023*</div></div>
-  <div class="stat"><div class="v">2.43B <em>ARB</em></div><div class="k">live in the treasury · <span id="treasuryUsd">≈$189M</span></div></div>
+  <div class="stat"><div class="v">2.51B <em>ARB</em></div><div class="k">live in the treasury · <span id="treasuryUsd">≈$212M</span></div></div>
   <div class="stat"><div class="v">$23.5M</div><div class="k">2025 gross profit</div></div>
-  <div class="stat"><div class="v">96 <em>delegates</em></div><div class="k">paid $1.57M + ARB since 2024</div></div>
 </div>
 
 <!-- ═══════════ THE OWNER ═══════════ -->
@@ -962,7 +961,7 @@ document.querySelectorAll(".ent").forEach(el=>{
     if(now>cd){ el.textContent='closed'; el.classList.remove('live');
       var li=el.closest('li'); if(li) li.classList.remove('live'); }
   });
-  var TREASURY_ARB=2426958656;
+  var TREASURY_ARB=2513141991;
   fetch('https://api.coingecko.com/api/v3/simple/price?ids=arbitrum&vs_currencies=usd')
     .then(function(r){return r.json();})
     .then(function(j){
