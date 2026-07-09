@@ -220,6 +220,17 @@ footer b{color:var(--soft)}
 .pnlx ul{list-style:none;margin:0;padding:0}
 .pnlx li{font:400 12.5px var(--sans);color:#c9d6e4;padding:3px 0;border-bottom:1px dashed rgba(255,255,255,.06)}
 .pnlx li b{font-family:var(--mono)}
+.mgrid{display:grid;grid-template-columns:44px 130px 90px 1fr;gap:1px 16px;font:400 12px var(--mono);margin-top:4px}
+.mgrid>span{padding:3.5px 0;border-bottom:1px dashed rgba(255,255,255,.05);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mgrid .mmo,.mgrid .mmo a{color:#8494ab;text-decoration:none}
+.mgrid .mmo a:hover{color:#12aaff}
+.mgrid .mout{color:#ffc554}
+.mgrid .min{color:var(--green)}
+.mgrid .mfee{color:#2fe08c;opacity:.85}
+.mgrid .mmu{color:#4a5a70}
+.mgrid .mnote{font-family:var(--sans);color:#8ea0b8;font-size:11.5px}
+.mgrid .mnote a{color:#12aaff;text-decoration:none}
+@media(max-width:760px){.mgrid{grid-template-columns:40px 90px 60px 1fr;gap:1px 8px}.mgrid .mnote{white-space:normal}}
 .pnltbl .totrow td{border-top:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.03);border-bottom:none}
 
 </style>
@@ -652,41 +663,63 @@ footer b{color:var(--soft)}
         <li><b>$1M</b> · Questbook pilot (USD-denominated)</li></ul></div>
       <div><div class="xh">In · revenue</div><ul>
         <li><b>~9,400 ETH</b> net sequencer fees · derived ±200, cross-checks within 44 ETH <a href="https://forum.arbitrum.foundation/t/23769" target="_blank">↗</a></li>
-        <li>Best fee year on record · pre-Atlas gas pricing</li></ul></div>
+        <li>Best fee year on record · pre-Atlas gas pricing</li>
+        <li style="color:#8494ab">No monthly series exists for 2023 · r3gen's monthly reports begin Jan 2024</li></ul></div>
     </div></td></tr>
     <tr class="yrrow" onclick="pnlTog(this)"><td class="yr2">2024</td>
       <td class="num o">601M</td><td class="num o">~$14.7M</td><td class="num g">~7,030</td><td class="mu">·</td><td><span class="chev">❯</span></td></tr>
-    <tr class="exprow"><td colspan="6"><div class="pnlx">
-      <div><div class="xh">Out · ARB programs</div><ul>
-        <li><b>250M</b> · Strategic Partnerships (held at an AF multisig, contract-bound · not for AF opex)</li>
-        <li><b>225M</b> · Gaming Catalyst Program</li>
-        <li><b>45.82M</b> · LTIPP <a href="https://forum.arbitrum.foundation/t/20223" target="_blank">↗</a> · <b>37.6M</b> · STIP Bridge <a href="https://forum.arbitrum.foundation/t/22353" target="_blank">↗</a></li>
-        <li><b>35.2M</b> · STEP + more · <b>~$14.7M</b> USD contracts</li></ul></div>
-      <div><div class="xh">In · revenue</div><ul>
-        <li><b>~7,030 ETH</b> net fees (derived from r3gen snapshots) <a href="https://forum.arbitrum.foundation/t/23769" target="_blank">↗</a> <a href="https://forum.arbitrum.foundation/t/24730" target="_blank">↗</a></li>
-        <li>The Atlas upgrade (Mar 2024) cut fees <b>−77%</b>, 3 months pre vs 3 months post <a href="https://forum.arbitrum.foundation/t/26434" target="_blank">↗</a></li></ul></div>
+    <tr class="exprow"><td colspan="6"><div class="pnlx" style="display:block">
+      <div class="xh">Month by month · actual token flow (r3gen reports)</div>
+      <div class="mgrid">
+        <span class="mmo"><a href="https://forum.arbitrum.foundation/t/26434" target="_blank">Jan</a></span><span class="mout">22.6M ARB out</span><span class="mfee">1,100 ETH</span><span class="mnote">STIP-era incentive payouts</span>
+        <span class="mmo"><a href="https://forum.arbitrum.foundation/t/26434" target="_blank">Feb</a></span><span class="mout">12.9M</span><span class="mfee">783</span><span class="mnote"></span>
+        <span class="mmo"><a href="https://forum.arbitrum.foundation/t/26434" target="_blank">Mar</a></span><span class="mout">5.8M</span><span class="mfee">692</span><span class="mnote">Atlas upgrade lands · fees start falling</span>
+        <span class="mmo"><a href="https://forum.arbitrum.foundation/t/26434" target="_blank">Apr</a></span><span class="min">+0.2M net in</span><span class="mfee">600</span><span class="mnote">STIP protocols returned funds</span>
+        <span class="mmo"><a href="https://forum.arbitrum.foundation/t/26434" target="_blank">May</a></span><span class="mout">1.5M</span><span class="mfee">233</span><span class="mnote"></span>
+        <span class="mmo"><a href="https://forum.arbitrum.foundation/t/26434" target="_blank">Jun</a></span><span class="mout">47.6M</span><span class="mfee">1,100</span><span class="mnote">LTIPP incentive spike</span>
+        <span class="mmo"><a href="https://forum.arbitrum.foundation/t/26434" target="_blank">Jul</a></span><span class="mout">21.6M</span><span class="mfee">280</span><span class="mnote"></span>
+        <span class="mmo"><a href="https://forum.arbitrum.foundation/t/arbitrum-dao-monthly-token-flow-report-august-2024/26777" target="_blank">Aug</a></span><span class="mout">27.4M</span><span class="mfee">806</span><span class="mnote">STIP Bridge + LTIPP payouts</span>
+        <span class="mmo"><a href="https://forum.arbitrum.foundation/t/arbitrum-dao-monthly-token-flow-report-september-2024/27138" target="_blank">Sep</a></span><span class="mout">2.2M</span><span class="mfee">188</span><span class="mnote">~5M returned by STIP Bridge/LTIPP</span>
+        <span class="mmo"><a href="https://forum.arbitrum.foundation/t/arbitrum-dao-monthly-token-flow-report-october-2024/27530" target="_blank">Oct</a></span><span class="mout">251.1M</span><span class="mfee">195</span><span class="mnote">250M → Foundation Strategic Partnerships</span>
+        <span class="mmo"><a href="https://forum.arbitrum.foundation/t/arbitrum-dao-monthly-token-flow-report-november-2024/27849" target="_blank">Nov</a></span><span class="mout">0.2M</span><span class="mfee">339</span><span class="mnote">quietest month · LTIPP returned 490K</span>
+        <span class="mmo"><a href="https://forum.arbitrum.foundation/t/arbitrum-token-flow-report-december-2024/28090" target="_blank">Dec</a></span><span class="mout">71.9M</span><span class="mfee">685</span><span class="mnote">44.9M GCP + 26M Entropy · partly restated in Jan</span>
+      </div>
+      <div class="fnote" style="margin-top:8px">Jan–Jul from the rounded chart labels in r3gen's genesis-to-July report; Aug–Dec from the monthly reports. Fees = net ETH to the DAO. The Atlas upgrade (Mar) cut fees −77%.</div>
     </div></td></tr>
     <tr class="yrrow" onclick="pnlTog(this)"><td class="yr2">2025</td>
       <td class="num o">191M+</td><td class="num o">$7.5M</td><td class="num g">3,303*</td><td class="num g">$23.49M</td><td><span class="chev">❯</span></td></tr>
-    <tr class="exprow"><td colspan="6"><div class="pnlx">
-      <div><div class="xh">Out · ARB programs</div><ul>
-        <li><b>80M</b> · DRIP · <b>35.1M</b> · STEP 2 · <b>30M</b> · OpCo · <b>30M</b> · Audit + more</li>
-        <li><b>$7.5M</b> · Questbook (USD)</li>
-        <li><b>16,000 ETH</b> moved under ATMC management (7,500 Mar + 8,500 Oct) · deployments, not spend <a href="https://forum.arbitrum.foundation/t/29983" target="_blank">↗</a></li></ul></div>
-      <div><div class="xh">In · revenue</div><ul>
-        <li><b>3,303 ETH</b> net fees Jan–Jul, exact · r3gen reporting ended Aug 2025</li>
-        <li style="font-family:var(--mono);font-size:11.5px;color:#8494ab">by month: Jan 415 · Feb 761 · Mar 509 · Apr 624 · May 386 · Jun 300 · Jul 308</li>
-        <li><b>$23.49M</b> gross profit (fees + Timeboost + AEP) · Foundation-reported, the one official annual figure <a href="https://forum.arbitrum.foundation/t/proposal-continued-funding-for-the-arbitrum-foundation/30908" target="_blank">↗</a></li></ul></div>
+    <tr class="exprow"><td colspan="6"><div class="pnlx" style="display:block">
+      <div class="xh">Month by month · actual token flow</div>
+      <div class="mgrid">
+        <span class="mmo"><a href="https://forum.arbitrum.foundation/t/arbitrum-token-flow-report-january-2025/28410" target="_blank">Jan</a></span><span class="mout">1.1M ARB out</span><span class="mfee">415 ETH</span><span class="mnote">LTIPP multisig returned 31M</span>
+        <span class="mmo"><a href="https://forum.arbitrum.foundation/t/arbitrum-token-flow-report-february-2025/28660" target="_blank">Feb</a></span><span class="mout">4.4M</span><span class="mfee">761</span><span class="mnote">AIPs deployed 88.5M: STEP 2 · OpCo · Season 3 grants</span>
+        <span class="mmo"><a href="https://forum.arbitrum.foundation/t/arbitrum-token-flow-report-march-2025/28985" target="_blank">Mar</a></span><span class="mout">4.5M</span><span class="mfee">509</span><span class="mnote">GCP 3.1M + delegate incentives</span>
+        <span class="mmo"><a href="https://forum.arbitrum.foundation/t/arbitrum-token-flow-report-april-2025/29204" target="_blank">Apr</a></span><span class="mout">1.3M</span><span class="mfee">624</span><span class="mnote">30M allocated to the Audit Program</span>
+        <span class="mmo"><a href="https://forum.arbitrum.foundation/t/arbitrum-token-flow-report-may-2025/29435" target="_blank">May</a></span><span class="mout">1.3M</span><span class="mfee">386</span><span class="mnote">first material Nova inflow</span>
+        <span class="mmo"><a href="https://forum.arbitrum.foundation/t/arbitrum-token-flow-report-june-2025/29593" target="_blank">Jun</a></span><span class="mout">1.6M</span><span class="mfee">300</span><span class="mnote">80M allocated to DRIP · MSS wound down</span>
+        <span class="mmo"><a href="https://forum.arbitrum.foundation/t/arbitrum-token-flow-report-july-2025/29795" target="_blank">Jul</a></span><span class="mout">36M</span><span class="mfee">308</span><span class="mnote">STEP 2 deployment · r3gen's last report</span>
+        <span class="mmo">Aug</span><span class="mout">39M</span><span class="mfee">·</span><span class="mnote">Entropy Y2-Y3 funding → Foundation custody ($12M op + 15M alignment)</span>
+        <span class="mmo">Sep</span><span class="mmu">·</span><span class="mfee">·</span><span class="mnote">no treasury-proxy movement</span>
+        <span class="mmo">Oct</span><span class="mmu">·</span><span class="mfee">·</span><span class="mnote">8,500 ETH → ATMC strategies (deployment, not spend)</span>
+        <span class="mmo">Nov</span><span class="mmu">·</span><span class="mfee">·</span><span class="mnote"></span>
+        <span class="mmo">Dec</span><span class="min">+4.9M in</span><span class="mfee">·</span><span class="mnote">program funds returned to the treasury</span>
+      </div>
+      <div class="fnote" style="margin-top:8px">Jan–Jul from r3gen's monthly reports (they stopped publishing Aug 2025); Aug on reconstructed on-chain, treasury-proxy movements only · fees unreported after Jul. Year gross profit <b>$23.49M</b> (fees + Timeboost + AEP), Foundation-reported <a href="https://forum.arbitrum.foundation/t/proposal-continued-funding-for-the-arbitrum-foundation/30908" target="_blank">↗</a></div>
     </div></td></tr>
     <tr class="yrrow" onclick="pnlTog(this)"><td class="yr2">2026</td>
       <td class="num o">230M</td><td class="num o">$16M + 1,740 ETH</td><td class="mu">·</td><td class="mu">·</td><td><span class="chev">❯</span></td></tr>
-    <tr class="exprow"><td colspan="6"><div class="pnlx">
-      <div><div class="xh">Out</div><ul>
-        <li><b>230M ARB + $16M + 1,740 ETH</b> · Foundation renewal <a href="https://forum.arbitrum.foundation/t/proposal-continued-funding-for-the-arbitrum-foundation/30908" target="_blank">↗</a></li>
-        <li style="color:var(--green)"><b>+143.7M ARB returning</b> · AGV wind-down, voted Jul 2 (95.9% For)</li></ul></div>
-      <div><div class="xh">In · anchors so far (no official total yet)</div><ul>
-        <li>Sequencer fees ≈<b>$127k/wk</b> ≈ $6.6M/yr pace (delegate research, not official) · a modeled stress scenario cuts that to ≈$4.7M/yr</li>
-        <li>Timeboost &gt;<b>$3M</b> annualized on YTD pace (recent months slower) · AEP license fees continue</li></ul></div>
+    <tr class="exprow"><td colspan="6"><div class="pnlx" style="display:block">
+      <div class="xh">Month by month · on-chain treasury movements</div>
+      <div class="mgrid">
+        <span class="mmo">Jan</span><span class="mmu">·</span><span class="mfee">·</span><span class="mnote">no treasury-proxy movement</span>
+        <span class="mmo">Feb</span><span class="mmu">·</span><span class="mfee">·</span><span class="mnote"></span>
+        <span class="mmo">Mar</span><span class="mmu">·</span><span class="mfee">·</span><span class="mnote"></span>
+        <span class="mmo">Apr</span><span class="mmu">·</span><span class="mfee">·</span><span class="mnote"></span>
+        <span class="mmo">May</span><span class="mmu">·</span><span class="mfee">·</span><span class="mnote"></span>
+        <span class="mmo">Jun</span><span class="mout">230M ARB out</span><span class="mfee">·</span><span class="mnote">Foundation Continued Funding renewal <a href="https://forum.arbitrum.foundation/t/proposal-continued-funding-for-the-arbitrum-foundation/30908" target="_blank">↗</a></span>
+        <span class="mmo">Jul</span><span class="min">+86.2M in</span><span class="mfee">·</span><span class="mnote">AGV wind-down capital returned (Jul 7) · rest of the 143.7M pending</span>
+      </div>
+      <div class="fnote" style="margin-top:8px">Reconstructed on-chain (Arbiscan), treasury-proxy ARB movements only. No monthly fee series exists for 2026; running anchors: sequencer fees ≈$127K/wk pace, Timeboost &gt;$3M annualized (delegate research, not official).</div>
     </div></td></tr>
     <tr class="totrow"><td class="yr2">Σ</td>
       <td class="num o">1.09B+<small>gross authorizations</small></td>
