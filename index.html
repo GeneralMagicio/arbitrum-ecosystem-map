@@ -154,7 +154,6 @@ window.addEventListener('error',function(e){var t=e.target;if(!t||t.tagName!=='I
   <img src="assets/arbitrum.svg" alt="">
   <span class="ntitle">Arbitrum <span class="slash">//</span> Ecosystem</span>
   <button class="viewtog" id="viewtog" type="button">Show people</button>
-  <button class="viewtog" id="saveview" type="button" title="Drag things how you want, then save this as the default view">Save view</button>
   <a class="back" href="history.html">Full data ↗</a>
 </nav>
 <div class="hero">
@@ -528,10 +527,6 @@ Promise.all([fetch('research/active_initiatives.json').then(r=>r.json()),fetch('
     EDGES.forEach(redrawEdge); if(L.view){ scale=L.view.s; tx=L.view.tx; ty=L.view.ty; applyT(); } }
   function applyMode(m){ const L=SAVED_LAYOUT&&SAVED_LAYOUT[m]; if(L) applySnap(L); }
   function saveLayout(){}
-  {const sb=document.getElementById('saveview'); if(sb) sb.onclick=async()=>{ const j=JSON.stringify({...collectSnap(), mode:curMode()});
-     try{ const blob=new Blob([j],{type:'application/json'}); const u=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=u; a.download='aae-layout-'+curMode()+'.json'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),1500); }catch(e){}
-     try{ await navigator.clipboard.writeText(j); }catch(e){}
-     sb.textContent='Saved ✓ ('+curMode()+')'; setTimeout(()=>sb.textContent='Save view',2800); }; }
   // default view = PEOPLE (Zep, 2026-07-09), applied after the relaxation frame.
   // Same path as a manual toggle so button label + saved layout stay in sync.
   requestAnimationFrame(()=>{ const tb=document.getElementById('viewtog'); map.classList.add('people'); tb.classList.add('on'); tb.textContent='Show tasks'; applyMode('people'); });
