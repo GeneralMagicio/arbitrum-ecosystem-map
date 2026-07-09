@@ -186,7 +186,7 @@ footer b{color:var(--soft)}
 
 /* P&L: treasury-first + ledger table (Zep pick, Jul 6) */
 .pnlsec{max-width:1160px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
-.tre{display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr;gap:12px;margin:0 0 18px}
+.tre{display:grid;grid-template-columns:1.35fr .8fr 1.2fr;gap:12px;margin:0 0 18px}
 @media(max-width:960px){.tre{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.tre{grid-template-columns:1fr}}
 .tcard{background:radial-gradient(130% 130% at 50% 0%,rgba(18,170,255,.10),rgba(18,170,255,.04));
@@ -624,7 +624,6 @@ footer b{color:var(--soft)}
   <div class="tcard"><div class="tk">DAO Treasury · live</div><div class="tv">2.51B <em>ARB</em></div><div id="daodonut"></div></div>
   <div class="tcard"><div class="tk">Timelock ETH</div><div class="tv">78.9 <em>ETH</em></div></div>
   <div class="tcard"><div class="tk">Managed by ATMC</div><div class="tv">70M <em>ARB</em> + 16K <em>ETH</em></div><div id="atmcdonut"></div></div>
-  <div class="tcard"><div class="tk">Came back</div><div class="tv" style="color:var(--green)">86.18M <em>ARB</em></div><div class="td">AGV wind-down · returned Jul 7, 2026 · rest of the 143.7M pending</div></div>
 </div>
 <script>
 (function(){
@@ -641,7 +640,7 @@ footer b{color:var(--soft)}
     {l:'ARB · treasury proxy',v:212.4,c:'#12aaff'},
     {l:'ETH · ATMC strategies + timelock',v:28.2,c:'#b78cff'},
     {l:'RWAs · STEP treasuries',v:47,c:'#9dcced'},
-    {l:'Stablecoins',v:18,c:'#2fe08c'}],'CONTROLLED');
+    {l:'Stablecoins',v:17,c:'#2fe08c'}],'CONTROLLED');
   document.getElementById('atmcdonut').innerHTML=donut([
     {l:'STEP RWAs',v:47,c:'#12aaff'},
     {l:'ETH yield strategies',v:28.1,c:'#b78cff'},
