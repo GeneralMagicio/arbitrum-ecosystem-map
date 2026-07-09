@@ -511,22 +511,22 @@ Promise.all([fetch('research/active_initiatives.json').then(r=>r.json()),fetch('
      const end=ev=>{ if(!drag||drag.el!==el) return;
        try{el.releasePointerCapture(ev.pointerId);}catch(e){}
        el.style.cursor='grab';
-       if(drag.moved){ el._justDragged=true; saveLayout(); }   // suppress the click + persist the new position
+       if(drag.moved){ el._justDragged=true; }   // suppress the click; drags are exploration-only, refresh restores the curated layout
        drag=null; };
      el.addEventListener('pointerup',end); el.addEventListener('pointercancel',end);
    });}
 
-  // ---- layout persistence (PER MODE): tasks and people each have their own saved arrangement + zoom ----
-  const LKEY='aae-layout-v3';
+  // ---- layout (PER MODE): the curated research/layout.json is the ONLY source.
+  // No localStorage override: drags are exploration-only, refresh always returns
+  // to the drafted layout (Zep, 2026-07-09). collectSnap/saveLayout stay for the
+  // temporary Save-view button workflow (saveLayout is a no-op between cycles).
   const curMode=()=>map.classList.contains('people')?'people':'tasks';
   function collectSnap(){ const p={}; document.querySelectorAll('#map [data-lid]').forEach(el=>{ p[el.dataset.lid]=[Math.round(parseFloat(el.style.left)),Math.round(parseFloat(el.style.top))]; });
     return {pos:p, view:{s:+scale.toFixed(4),tx:Math.round(tx),ty:Math.round(ty)}}; }
   function applySnap(L){ if(!L||!L.pos) return; document.querySelectorAll('#map [data-lid]').forEach(el=>{ const q=L.pos[el.dataset.lid]; if(q){ el.style.left=q[0]+'px'; el.style.top=q[1]+'px'; } });
     EDGES.forEach(redrawEdge); if(L.view){ scale=L.view.s; tx=L.view.tx; ty=L.view.ty; applyT(); } }
-  function localLayout(){ try{ return JSON.parse(localStorage.getItem(LKEY))||{}; }catch(e){ return {}; } }
-  function layoutFor(m){ const loc=localLayout(); return loc[m] || (SAVED_LAYOUT&&SAVED_LAYOUT[m]) || null; }   // this browser's tweaks override the shared default
-  function applyMode(m){ const L=layoutFor(m); if(L) applySnap(L); }
-  function saveLayout(){ try{ const loc=localLayout(); loc[curMode()]=collectSnap(); localStorage.setItem(LKEY, JSON.stringify(loc)); }catch(e){} }
+  function applyMode(m){ const L=SAVED_LAYOUT&&SAVED_LAYOUT[m]; if(L) applySnap(L); }
+  function saveLayout(){}
   // default view = PEOPLE (Zep, 2026-07-09), applied after the relaxation frame.
   // Same path as a manual toggle so button label + saved layout stay in sync.
   requestAnimationFrame(()=>{ const tb=document.getElementById('viewtog'); map.classList.add('people'); tb.classList.add('on'); tb.textContent='Show tasks'; applyMode('people'); });
