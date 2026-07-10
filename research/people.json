@@ -193,7 +193,8 @@
    "n": "gzeon",
    "h": "gzeon",
    "roles": [
-    "securitycouncil"
+    "securitycouncil",
+    "offchain"
    ]
   },
   {
