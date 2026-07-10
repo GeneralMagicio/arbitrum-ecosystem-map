@@ -260,7 +260,7 @@ Promise.all([fetch('research/active_initiatives.json').then(r=>r.json()),fetch('
   // angular slice sized by how much it's doing, so busy entities get room and quiet ones stay tight.
   // Order places OpCo upper-right + ATMC lower-right so OAT (right, near the hub) sits between them.
   const ring=['SecurityCouncil','OpCo','ATMC','Entropy','Foundation','Offchain'];
-  const wt=n=>(((WTD[NKEY[n]]||[]).length||1)+1.5);   // slice sized by how many "what they do" bubbles the entity has
+  const wt=n=>(((WTD[NKEY[n]]||[]).filter(e=>e[2]!=='page').length||1)+1.5);   // slice sized by how many "what they do" BUBBLES (page-only entries excluded)
   const wTot=ring.reduce((s,n)=>s+wt(n),0);
   let acc=-Math.PI/2;                                   // sweep clockwise from the top
   ring.forEach(n=>{
@@ -316,7 +316,9 @@ Promise.all([fetch('research/active_initiatives.json').then(r=>r.json()),fetch('
   const STEP=110, RINGS=[168,280,392];              // min arc px, ring radii (tighter so all "what they do" bubbles fit)
   names.concat(['SecurityCouncil','OAT']).forEach(n=>{
     // bubbles = the entity's "what they do" (same shared source the entity pages read, so they never drift)
-    const items=(WTD[NKEY[n]]||[]).map(([t,o])=>({name:t,oneliner:o,owner:n,wtd:true}));
+    // entries flagged 'page' render on the entity PAGE only, not as map bubbles
+    // (e.g. OAT's OpCo/ATMC duties — the dashed lines already show them here)
+    const items=(WTD[NKEY[n]]||[]).filter(e=>e[2]!=='page').map(([t,o])=>({name:t,oneliner:o,owner:n,wtd:true}));
     const {x,y,a}=pos[n];
     const cone=pos[n].cone||Math.min(2.5, 1.15+items.length*0.18);  // use the node's allocated slice; fan bubbles within it
     let placed=0;
